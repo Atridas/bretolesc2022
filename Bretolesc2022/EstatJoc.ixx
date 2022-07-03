@@ -8,6 +8,7 @@ module;
 export module EstatJoc;
 
 import Comú;
+import Mapa;
 
 export namespace bretolesc
 {
@@ -22,6 +23,7 @@ export namespace bretolesc
 
 	struct Estat
 	{
+		Mapa mapa;
 		IdEntitat jugador, npc;
 		std::vector<Entitat> entitats;
 

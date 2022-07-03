@@ -12,9 +12,20 @@ export namespace bretolesc
 		estat.tancar = true;
 	}
 
+	void processar(Estat& estat, MoureEntitat const& moure)
+	{
+		int next_x = estat.entitats[moure.entitat].x + moure.dx;
+		int next_y = estat.entitats[moure.entitat].y + moure.dy;
+
+		if (estat.mapa.és_caminable(next_x, next_y))
+		{
+			estat.entitats[moure.entitat].x = next_x;
+			estat.entitats[moure.entitat].y = next_y;
+		}
+	}
+
 	void processar(Estat& estat, MoureJugador const& moure)
 	{
-		estat.entitats[estat.jugador].x += moure.dx;
-		estat.entitats[estat.jugador].y += moure.dy;
+		processar(estat, MoureEntitat{ estat.jugador, moure.dx, moure.dy });
 	}
 }

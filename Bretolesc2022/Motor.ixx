@@ -28,11 +28,11 @@ export namespace bretolesc::motor
         }
 	}
 
-	void pintar(tcod::Console &console, tcod::ContextPtr const& context, Mapa const& mapa, Estat const& estat)
+	void pintar(tcod::Console &console, tcod::ContextPtr const& context, Estat const& estat)
 	{
         TCOD_console_clear(console.get());
 
-        mapa.pintar(console);
+        estat.mapa.pintar(console);
 
         for (bretolesc::Entitat const& entitat : estat.entitats)
         {

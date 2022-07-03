@@ -3,12 +3,14 @@ import Accions;
 import Comú;
 import EntradaSDL;
 import EstatJoc;
+import GeneradorProcedural;
 import Mapa;
 import Motor;
 import ProcessadorAccions;
 
 // std
 #include <optional>
+#include <random>
 #include <variant>
 #include <vector>
 
@@ -49,12 +51,17 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     // Initialització de l'estat del joc
     // ------------------------------------------------------------------------
-    bretolesc::Mapa mapa(map_width, map_height);
-    bretolesc::Estat estat = {};
+    bretolesc::GeneradorDeMapaProcedural generador{};
+
+    generador.set_llavor(std::random_device{}());
+
+    generador.set_num_habitacions(5, 15);
+
+    bretolesc::Estat estat = { bretolesc::Mapa(map_width, map_height, generador) };
     {
         bretolesc::Entitat jugador = {};
-        jugador.x = screen_width / 2;
-        jugador.y = screen_height / 2;
+        jugador.x = estat.mapa.get_spawn_x();
+        jugador.y = estat.mapa.get_spawn_y();
         jugador.caracter = '@';
         jugador.color = bretolesc::Color::Blanc;
 
@@ -82,7 +89,7 @@ int main(int argc, char* argv[])
         bretolesc::motor::executar_accions(accions, estat);
         accions.clear();
 
-        bretolesc::motor::pintar(console, context, mapa, estat);
+        bretolesc::motor::pintar(console, context, estat);
 
         entrada_sdl::ProcessarEvents(context, accions);
     }
