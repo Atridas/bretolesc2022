@@ -145,8 +145,11 @@
   <ItemGroup>
     <ClCompile Include="Accions.ixx" />
     <ClCompile Include="Bretolesc2022.cpp" />
+    <ClCompile Include="Comú.ixx" />
     <ClCompile Include="EntradaSDL.ixx" />
     <ClCompile Include="EstatJoc.ixx" />
+    <ClCompile Include="Mapa.ixx" />
+    <ClCompile Include="Motor.ixx" />
     <ClCompile Include="ProcessadorAccions.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

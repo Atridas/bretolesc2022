@@ -1,7 +1,10 @@
 // imports
 import Accions;
+import Comú;
 import EntradaSDL;
 import EstatJoc;
+import Mapa;
+import Motor;
 import ProcessadorAccions;
 
 // std
@@ -17,11 +20,11 @@ import ProcessadorAccions;
 
 int main(int argc, char* argv[])
 {
-    // constants
-    using namespace acció;
-
     int const screen_width = 80;
     int const screen_height = 50;
+    
+    int const map_width = 80;
+    int const map_height = 45;
 
     // ------------------------------------------------------------------------
     // Inicialització de les llibreries
@@ -32,7 +35,7 @@ int main(int argc, char* argv[])
     TCOD_ContextParams params = {};
     params.tcod_version = TCOD_COMPILEDVERSION;  // This is required.
     params.console = console.get();  // Derive the window size from the console size.
-    params.window_title = (char const*)u8"Brètolesc";
+    params.window_title = (char const*)u8"Bretolesc";
     params.sdl_window_flags = SDL_WINDOW_RESIZABLE;
     params.vsync = true;
     params.argc = argc;  // This allows some user-control of the context.
@@ -46,58 +49,42 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     // Initialització de l'estat del joc
     // ------------------------------------------------------------------------
+    bretolesc::Mapa mapa(map_width, map_height);
     bretolesc::Estat estat = {};
-    estat.player_x = screen_width / 2;
-    estat.player_y = screen_height / 2;
+    {
+        bretolesc::Entitat jugador = {};
+        jugador.x = screen_width / 2;
+        jugador.y = screen_height / 2;
+        jugador.caracter = '@';
+        jugador.color = bretolesc::Color::Blanc;
 
-    std::vector<Acció> accions;
+        estat.jugador = (int)estat.entitats.size();
+        estat.entitats.push_back(jugador);
+    }
+    {
+        bretolesc::Entitat npc = {};
+        npc.x = screen_width / 2 - 5;
+        npc.y = screen_height / 2;
+        npc.caracter = '@';
+        npc.color = bretolesc::Color::Groc;
+
+        estat.npc = (int)estat.entitats.size();
+        estat.entitats.push_back(npc);
+    }
+
+    std::vector<bretolesc::Acció> accions;
 
     // ------------------------------------------------------------------------
     // Game loop.
     // ------------------------------------------------------------------------
     while (!estat.tancar) 
     {
-        // --------------------------------------------------------------------
-        // update
-        // --------------------------------------------------------------------
-        for (Acció acció : accions)
-        {
-            std::visit([&estat](auto &acció)
-                {
-                    processar(estat, acció);
-                }, acció);
-        }
+        bretolesc::motor::executar_accions(accions, estat);
         accions.clear();
 
-        // --------------------------------------------------------------------
-        // render
-        // --------------------------------------------------------------------
-        TCOD_console_clear(console.get());
-        tcod::print(console, { estat.player_x, estat.player_y }, "@", std::nullopt, std::nullopt);
-        context->present(console);  // Updates the visible display.
+        bretolesc::motor::pintar(console, context, mapa, estat);
 
-        // --------------------------------------------------------------------
-        // sdl events
-        // --------------------------------------------------------------------
-        SDL_Event evnt;
-        SDL_WaitEvent(nullptr);  // Optional, sleep until events are available.
-        while (SDL_PollEvent(&evnt))
-        {
-            context->convert_event_coordinates(evnt);  // Optional, converts pixel coordinates into tile coordinates.
-            switch (evnt.type)
-            {
-            case SDL_QUIT:
-                accions.push_back(entrada_sdl::processar(evnt.quit));
-                break;
-            case SDL_KEYDOWN:
-            case SDL_KEYUP:
-                if (std::optional<Acció> acció = entrada_sdl::processar(evnt.key))
-                {
-                    accions.push_back(*acció);
-                }
-                break;
-            }
-        }
+        entrada_sdl::ProcessarEvents(context, accions);
     }
 
     return 0;

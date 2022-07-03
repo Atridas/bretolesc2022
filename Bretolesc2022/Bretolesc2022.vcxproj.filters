@@ -29,5 +29,14 @@
     <ClCompile Include="EstatJoc.ixx">
       <Filter>Module Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Comú.ixx">
+      <Filter>Module Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Motor.ixx">
+      <Filter>Module Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.ixx">
+      <Filter>Module Interface</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

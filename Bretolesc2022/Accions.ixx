@@ -1,18 +1,24 @@
 module;
 
+// std
 #include <variant>
 
 export module Accions;
 
-export namespace acció
+export namespace bretolesc
 {
-	struct Finalitzar {};
 
-	struct Moure
+	namespace acció
 	{
-		int dx, dy;
-	};
+		struct Finalitzar {};
+
+		struct MoureJugador
+		{
+			int dx, dy;
+		};
+	}
+
+	using Acció = std::variant<acció::Finalitzar, acció::MoureJugador>;
 
 
-	using Acció = std::variant<Finalitzar, Moure>;
 }
