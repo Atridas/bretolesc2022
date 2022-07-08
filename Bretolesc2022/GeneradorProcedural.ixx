@@ -14,23 +14,16 @@ namespace bretolesc
 {
 	struct Habitació
 	{
-		int x1, y1, x2, y2;
+		Punt2D v1, v2;
 
-		Habitació(int x, int y, int w, int h)
-			: x1(x)
-			, y1(y)
-			, x2(x + w + 1)
-			, y2(y + h + 1)
+		Habitació(Punt2D orígen, Vector2D mida)
+			: v1{ orígen.x, orígen.y }
+			, v2{ orígen.x + mida.x + 1, orígen.y + mida.y + 1 }
 		{}
 
-		int centre_x() const
+		Punt2D centre() const
 		{
-			return (x1 + x2) / 2;
-		}
-
-		int centre_y() const
-		{
-			return (y1 + y2) / 2;
+			return { (v1.x + v2.x) / 2, (v1.y + v2.y) / 2 };
 		}
 	};
 
@@ -84,23 +77,23 @@ namespace bretolesc
 				int w = tamany(rng);
 				int h = tamany(rng);
 
-				Habitació habitació(x, y, w, h);
+				Habitació habitació({ x, y }, { w, h });
 
 				bool solapada = false;
 				for (Habitació const& altra_habitació : habitacions)
 				{
 					if (
-						habitació.x2 >= altra_habitació.x1 &&
-						altra_habitació.x2 >= habitació.x1 &&
-						habitació.y2 >= altra_habitació.y1 &&
-						altra_habitació.y2 >= habitació.y1)
+						habitació.v2.x >= altra_habitació.v1.x &&
+						altra_habitació.v2.x >= habitació.v1.x &&
+						habitació.v2.y >= altra_habitació.v1.y &&
+						altra_habitació.v2.y >= habitació.v1.y)
 					{
 						solapada = true;
 						break;
 					}
 				}
 
-				if (!solapada && mapa.és_dins_del_límit(habitació.x2, habitació.y2))
+				if (!solapada && mapa.és_dins_del_límit(habitació.v2))
 				{
 					habitacions.push_back(habitació);
 				}
@@ -128,16 +121,16 @@ namespace bretolesc
 			for (int y = 0; y < mapa.obtenir_alçada(); ++y)
 				for (int x = 0; x < mapa.obtenir_amplada(); ++x)
 				{
-					mapa.establir_rajola(x, y, TipusRajola::Paret);
+					mapa.establir_rajola({ x, y }, TipusRajola::Paret);
 				}
 
 			// pintar habitacions
 			for (Habitació habitació : habitacions)
 			{
-				for (int y = habitació.y1 + 1; y < habitació.y2; ++y)
-					for (int x = habitació.x1; x < habitació.x2; ++x)
+				for (int y = habitació.v1.y + 1; y < habitació.v2.y; ++y)
+					for (int x = habitació.v1.x; x < habitació.v2.x; ++x)
 					{
-						mapa.establir_rajola(x, y, TipusRajola::Terra);
+						mapa.establir_rajola({ x, y }, TipusRajola::Terra);
 					}
 			}
 
@@ -147,33 +140,30 @@ namespace bretolesc
 				Habitació const &h1 = habitacions[passadís.h1];
 				Habitació const &h2 = habitacions[passadís.h2];
 
-				int const origen_x = h1.centre_x();
-				int const destí_x = h2.centre_x();
-				
-				int const origen_y = h1.centre_y();
-				int const destí_y = h2.centre_y();
+				Punt2D const origen = h1.centre();
+				Punt2D const destí = h2.centre();
 
 				// passadís horitzontal
-				int const ox = origen_x < destí_x ? origen_x : destí_x;
-				int const dx = origen_x < destí_x ? destí_x : origen_x;
+				int const ox = origen.x < destí.x ? origen.x : destí.x;
+				int const dx = origen.x < destí.x ? destí.x : origen.x;
 
 				for (int x = ox; x <= dx; ++x)
 				{
-					mapa.establir_rajola(x, origen_y, TipusRajola::Terra);
+					mapa.establir_rajola({ x, origen.y }, TipusRajola::Terra);
 				}
 
 				// passadís vertical
-				int oy = origen_y < destí_y ? origen_y : destí_y;
-				int dy = origen_y < destí_y ? destí_y : origen_y;
+				int oy = origen.y < destí.y ? origen.y : destí.y;
+				int dy = origen.y < destí.y ? destí.y : origen.y;
 
 				for (int y = oy; y <= dy; ++y)
 				{
-					mapa.establir_rajola(destí_x, y, TipusRajola::Terra);
+					mapa.establir_rajola({ destí.x, y }, TipusRajola::Terra);
 				}
 			}
 
 			// inici del jugador
-			mapa.establir_orígen_jugador({ habitacions[0].centre_x(), habitacions[0].centre_y() });
+			mapa.establir_orígen_jugador(habitacions[0].centre());
 		}
 
 	private:

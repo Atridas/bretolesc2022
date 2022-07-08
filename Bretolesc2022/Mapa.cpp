@@ -68,7 +68,7 @@ void bretolesc::Mapa::actualitzar_camp_de_visió(Punt2D orígen, int profunditat_m
 			rajoles_a_la_vista[idx] = true;
 			rajoles_explorades[idx] = true;
 
-			if (rajola.profunditat > 0 && !obtenir_rajola(rajola.r.x, rajola.r.y).bloqueja_la_vista)
+			if (rajola.profunditat > 0 && !obtenir_rajola(rajola.r).bloqueja_la_vista)
 			{
 				rajoles_per_actualitzar.emplace_back(Punt2D{rajola.r.x + 1, rajola.r.y}, rajola.profunditat - 1);
 				rajoles_per_actualitzar.emplace_back(Punt2D{rajola.r.x - 1, rajola.r.y}, rajola.profunditat - 1);
@@ -85,9 +85,9 @@ void bretolesc::Mapa::pintar(tcod::Console& console) const
 	for (int y = 0; y < alçada; ++y)
 		for (int x = 0; x < amplada; ++x)
 		{
-			int idx = y * amplada + x;
+			int idx = a_índex({ x, y });
 
-			Rajola const& rajola = obtenir_rajola(x, y);
+			Rajola const& rajola = obtenir_rajola({ x, y });
 			Gràfic gràfic;
 			if (rajoles_a_la_vista[idx])
 			{
@@ -115,15 +115,15 @@ void bretolesc::GeneradorDeMapaDExemple::generar(Mapa& mapa) const
 	for (int y = 0; y < mapa.obtenir_alçada(); ++y)
 		for (int x = 0; x < mapa.obtenir_amplada(); ++x)
 		{
-			mapa.establir_rajola(x, y, TipusRajola::Terra);
+			mapa.establir_rajola({ x, y }, TipusRajola::Terra);
 		}
 
 
 
-	mapa.establir_rajola(30, 22, TipusRajola::Paret);
-	mapa.establir_rajola(31, 22, TipusRajola::Paret);
-	mapa.establir_rajola(32, 22, TipusRajola::Paret);
-	mapa.establir_rajola(33, 22, TipusRajola::Paret);
+	mapa.establir_rajola({ 30, 22 }, TipusRajola::Paret);
+	mapa.establir_rajola({ 31, 22 }, TipusRajola::Paret);
+	mapa.establir_rajola({ 32, 22 }, TipusRajola::Paret);
+	mapa.establir_rajola({ 33, 22 }, TipusRajola::Paret);
 }
 
 

@@ -53,26 +53,26 @@ export namespace bretolesc
 	public:
 		Mapa(int _amplada, int _alçada, GeneradorDeMapa const& generador);
 
-		bool és_dins_del_límit(int x, int y) const
+		int a_índex(Punt2D r) const
 		{
-			return x >= 0 && x < amplada&& y >= 0 && y < alçada;
+			return r.y * amplada + r.x;
 		}
 
-		bool és_transitable(int x, int y) const
+		bool és_dins_del_límit(Punt2D r) const
 		{
-			return és_dins_del_límit(x, y) && obtenir_rajola(x, y).transitable;
+			return r.x >= 0 && r.x < amplada&& r.y >= 0 && r.y < alçada;
 		}
 
-		bool és_transitable(Punt2D posició) const
+		bool és_transitable(Punt2D r) const
 		{
-			return és_dins_del_límit(posició.x, posició.y) && obtenir_rajola(posició.x, posició.y).transitable;
+			return és_dins_del_límit(r) && obtenir_rajola(r).transitable;
 		}
 
-		void establir_rajola(int x, int y, TipusRajola tipus)
+		void establir_rajola(Punt2D r, TipusRajola tipus)
 		{
-			assert(és_dins_del_límit(x, y));
+			assert(és_dins_del_límit(r));
 
-			rajoles[y * amplada + x] = tipus;
+			rajoles[a_índex(r)] = tipus;
 		}
 
 		void establir_orígen_jugador(Punt2D orígen)
@@ -85,21 +85,21 @@ export namespace bretolesc
 			return orígen_jugador;
 		}
 
-		Rajola const& obtenir_rajola(int x, int y) const
+		Rajola const& obtenir_rajola(Punt2D r) const
 		{
-			assert(és_dins_del_límit(x, y));
+			assert(és_dins_del_límit(r));
 
-			return info_rajoles[(int)rajoles[y * amplada + x]];
+			return info_rajoles[(int)rajoles[a_índex(r)]];
 		}
 
 		bool és_a_la_vista(Punt2D r) const
 		{
-			return rajoles_a_la_vista[r.y * amplada + r.x];
+			return rajoles_a_la_vista[a_índex(r)];
 		}
 
 		bool està_explorat(Punt2D r) const
 		{
-			return rajoles_explorades[r.y * amplada + r.x];
+			return rajoles_explorades[a_índex(r)];
 		}
 
 		int obtenir_amplada() const
