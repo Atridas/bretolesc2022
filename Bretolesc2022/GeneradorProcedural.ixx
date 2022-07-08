@@ -43,18 +43,18 @@ namespace bretolesc
 	{
 	public:
 
-		void set_num_habitacions(uint32_t _min_num_habitacions, uint32_t _max_num_habitacions = 0)
+		void establir_num_habitacions(uint32_t _min_num_habitacions, uint32_t _max_num_habitacions = 0)
 		{
 			min_num_habitacions = _min_num_habitacions;
 			max_num_habitacions = _max_num_habitacions < _min_num_habitacions ? _min_num_habitacions : _max_num_habitacions;
 		}
-		void set_num_extra_passadissos(uint32_t _min_num_extra_passadissos, uint32_t _max_num_extra_passadissos = 0)
+		void establir_num_extra_passadissos(uint32_t _min_num_extra_passadissos, uint32_t _max_num_extra_passadissos = 0)
 		{
 			min_num_extra_passadissos = _min_num_extra_passadissos;
 			max_num_extra_passadissos = _max_num_extra_passadissos < _min_num_extra_passadissos ? _min_num_extra_passadissos : _max_num_extra_passadissos;
 		}
 
-		void set_llavor(uint32_t _llavor)
+		void establir_llavor(uint32_t _llavor)
 		{
 			llavor = _llavor;
 		}
@@ -67,8 +67,8 @@ namespace bretolesc
 			std::vector<Habitació> habitacions;
 			std::vector<Passadís> passadissos;
 
-			std::uniform_int_distribution<> amplada_qualsevol(0, mapa.get_amplada());
-			std::uniform_int_distribution<> alçada_qualsevol(0, mapa.get_alçada());
+			std::uniform_int_distribution<> amplada_qualsevol(0, mapa.obtenir_amplada());
+			std::uniform_int_distribution<> alçada_qualsevol(0, mapa.obtenir_alçada());
 
 			std::uniform_int_distribution<> tamany(3, 15);
 
@@ -86,7 +86,7 @@ namespace bretolesc
 
 				Habitació habitació(x, y, w, h);
 
-				if (mapa.in_bounds(habitació.x2, habitació.y2))
+				if (mapa.és_dins_del_límit(habitació.x2, habitació.y2))
 				{
 					habitacions.push_back(habitació);
 				}
@@ -111,10 +111,10 @@ namespace bretolesc
 			}
 
 			// inicialitzar tot a parets
-			for (int y = 0; y < mapa.get_alçada(); ++y)
-				for (int x = 0; x < mapa.get_amplada(); ++x)
+			for (int y = 0; y < mapa.obtenir_alçada(); ++y)
+				for (int x = 0; x < mapa.obtenir_amplada(); ++x)
 				{
-					mapa.set_rajola(x, y, TipusRajola::Paret);
+					mapa.establir_rajola(x, y, TipusRajola::Paret);
 				}
 
 			// pintar habitacions
@@ -123,7 +123,7 @@ namespace bretolesc
 				for (int y = habitació.y1 + 1; y < habitació.y2; ++y)
 					for (int x = habitació.x1; x < habitació.x2; ++x)
 					{
-						mapa.set_rajola(x, y, TipusRajola::Terra);
+						mapa.establir_rajola(x, y, TipusRajola::Terra);
 					}
 			}
 
@@ -145,7 +145,7 @@ namespace bretolesc
 
 				for (int x = ox; x <= dx; ++x)
 				{
-					mapa.set_rajola(x, origen_y, TipusRajola::Terra);
+					mapa.establir_rajola(x, origen_y, TipusRajola::Terra);
 				}
 
 				// passadís vertical
@@ -154,12 +154,12 @@ namespace bretolesc
 
 				for (int y = oy; y <= dy; ++y)
 				{
-					mapa.set_rajola(destí_x, y, TipusRajola::Terra);
+					mapa.establir_rajola(destí_x, y, TipusRajola::Terra);
 				}
 			}
 
 			// inici del jugador
-			mapa.set_spawn(habitacions[0].centre_x(), habitacions[0].centre_y());
+			mapa.establir_orígen_jugador(habitacions[0].centre_x(), habitacions[0].centre_y());
 		}
 
 	private:

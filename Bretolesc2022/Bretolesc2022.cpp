@@ -20,6 +20,38 @@ import ProcessadorAccions;
 #include <libtcod.hpp>
 
 
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// 
+// TODO
+// 
+// - set -> establir
+// - get -> obtenir
+// - caminable -> transitable
+// 
+// 4ª PART
+// - fer que les habitacions no es solapin
+// - fov
+//   - crear la mortalla (shroud) - zona coberta amb la boira de guerra (' ', blanc, negre)
+//   - crear gràfic_a_la_vista -> terra (blanc, {200, 180, 50}), paret (blanc, {130, 110, 50})
+//   - afegir array de rajoles visibles i rajoles explorades. Una rajola visible es pinta amb 
+//         el seu gràfic_a_la_vista, una explorada amb el grafic_fosc i si cap de les dues amb
+//         la mortalla
+//   - només pintar les entitats en caselles visibles
+//   - fer l'algoritme d'actualitzar la visibilitat i cridar-lo
+//     - a l'inicialitzar
+//     - al moure el jugador
+// 
+// 
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+
+
+
 int main(int argc, char* argv[])
 {
     int const screen_width = 80;
@@ -53,15 +85,15 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     bretolesc::GeneradorDeMapaProcedural generador{};
 
-    generador.set_llavor(std::random_device{}());
+    generador.establir_llavor(std::random_device{}());
 
-    generador.set_num_habitacions(5, 15);
+    generador.establir_num_habitacions(5, 15);
 
     bretolesc::Estat estat = { bretolesc::Mapa(map_width, map_height, generador) };
     {
         bretolesc::Entitat jugador = {};
-        jugador.x = estat.mapa.get_spawn_x();
-        jugador.y = estat.mapa.get_spawn_y();
+        jugador.x = estat.mapa.obtenir_orígen_jugador_x();
+        jugador.y = estat.mapa.obtenir_orígen_jugador_y();
         jugador.caracter = '@';
         jugador.color = bretolesc::Color::Blanc;
 

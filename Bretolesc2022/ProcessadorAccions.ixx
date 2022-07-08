@@ -17,7 +17,7 @@ export namespace bretolesc
 		int next_x = estat.entitats[moure.entitat].x + moure.dx;
 		int next_y = estat.entitats[moure.entitat].y + moure.dy;
 
-		if (estat.mapa.és_caminable(next_x, next_y))
+		if (estat.mapa.és_transitable(next_x, next_y))
 		{
 			estat.entitats[moure.entitat].x = next_x;
 			estat.entitats[moure.entitat].y = next_y;

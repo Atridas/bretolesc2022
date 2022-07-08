@@ -31,9 +31,9 @@ export namespace bretolesc
 
 	struct Rajola
 	{
-		bool caminable; // s'hi pot caminar
+		bool transitable; // s'hi pot caminar
 		bool transparent; // no bloqueja la vista
-		Grafic grafic_fosc; // no és a la vista
+		Grafic gràfic_fosc; // no és a la vista
 	};
 
 	enum class TipusRajola
@@ -65,52 +65,52 @@ export namespace bretolesc
 			generador.generar(*this);
 		}
 
-		bool in_bounds(int x, int y) const
+		bool és_dins_del_límit(int x, int y) const
 		{
 			return x >= 0 && x < amplada&& y >= 0 && y < alçada;
 		}
 
-		bool és_caminable(int x, int y) const
+		bool és_transitable(int x, int y) const
 		{
-			return in_bounds(x, y) && get_rajola(x, y).caminable;
+			return és_dins_del_límit(x, y) && obtenir_rajola(x, y).transitable;
 		}
 
-		void set_rajola(int x, int y, TipusRajola tipus)
+		void establir_rajola(int x, int y, TipusRajola tipus)
 		{
-			assert(in_bounds(x, y));
+			assert(és_dins_del_límit(x, y));
 
 			rajoles[y * amplada + x] = tipus;
 		}
 
-		void set_spawn(int x, int y)
+		void establir_orígen_jugador(int x, int y)
 		{
-			spawn_x = x;
-			spawn_y = y;
+			orígen_jugador_x = x;
+			orígen_jugador_y = y;
 		}
 
-		int get_spawn_x() const
+		int obtenir_orígen_jugador_x() const
 		{
-			return spawn_x;
+			return orígen_jugador_x;
 		}
 
-		int get_spawn_y() const
+		int obtenir_orígen_jugador_y() const
 		{
-			return spawn_y;
+			return orígen_jugador_y;
 		}
 
-		Rajola get_rajola(int x, int y) const
+		Rajola obtenir_rajola(int x, int y) const
 		{
-			assert(in_bounds(x, y));
+			assert(és_dins_del_límit(x, y));
 
 			return info_rajoles[(int)rajoles[y * amplada + x]];
 		}
 
-		int get_amplada() const
+		int obtenir_amplada() const
 		{
 			return amplada;
 		}
 
-		int get_alçada() const
+		int obtenir_alçada() const
 		{
 			return alçada;
 		}
@@ -120,7 +120,7 @@ export namespace bretolesc
 			for(int y = 0; y < alçada; ++y)
 				for (int x = 0; x < amplada; ++x)
 				{
-					console[{x, y}] = get_rajola(x, y).grafic_fosc;
+					console[{x, y}] = obtenir_rajola(x, y).gràfic_fosc;
 				}
 		}
 
@@ -130,7 +130,7 @@ export namespace bretolesc
 
 		std::array<Rajola, 2> info_rajoles;
 
-		int spawn_x, spawn_y;
+		int orígen_jugador_x, orígen_jugador_y;
 	};
 
 
@@ -140,18 +140,18 @@ export namespace bretolesc
 	public:
 		void generar(Mapa& mapa) const override
 		{
-			for (int y = 0; y < mapa.get_alçada(); ++y)
-				for (int x = 0; x < mapa.get_amplada(); ++x)
+			for (int y = 0; y < mapa.obtenir_alçada(); ++y)
+				for (int x = 0; x < mapa.obtenir_amplada(); ++x)
 				{
-					mapa.set_rajola(x, y, TipusRajola::Terra );
+					mapa.establir_rajola(x, y, TipusRajola::Terra );
 				}
 
 
 
-			mapa.set_rajola(30, 22, TipusRajola::Paret);
-			mapa.set_rajola(31, 22, TipusRajola::Paret);
-			mapa.set_rajola(32, 22, TipusRajola::Paret);
-			mapa.set_rajola(33, 22, TipusRajola::Paret);
+			mapa.establir_rajola(30, 22, TipusRajola::Paret);
+			mapa.establir_rajola(31, 22, TipusRajola::Paret);
+			mapa.establir_rajola(32, 22, TipusRajola::Paret);
+			mapa.establir_rajola(33, 22, TipusRajola::Paret);
 		}
 	};
 
