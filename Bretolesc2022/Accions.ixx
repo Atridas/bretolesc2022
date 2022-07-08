@@ -5,6 +5,7 @@ module;
 
 export module Accions;
 
+import Comú;
 import EstatJoc;
 
 export namespace bretolesc
@@ -16,17 +17,15 @@ export namespace bretolesc
 
 		struct MoureJugador
 		{
-			int dx, dy;
+			Vector2D direcció;
 		};
 
 		struct MoureEntitat
 		{
 			IdEntitat entitat;
-			int dx, dy;
+			Vector2D direcció;
 		};
 	}
 
 	using Acció = std::variant<acció::Finalitzar, acció::MoureJugador, acció::MoureEntitat>;
-
-
 }

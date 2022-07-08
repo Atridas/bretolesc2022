@@ -25,19 +25,10 @@ import ProcessadorAccions;
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // 
-// TODO
+// PERFER
 // 
-// 4ª PART
-// - fov
-//   - crear la mortalla (shroud) - zona coberta amb la boira de guerra (' ', blanc, negre)
-//   - crear gràfic_a_la_vista -> terra (blanc, {200, 180, 50}), paret (blanc, {130, 110, 50})
-//   - afegir array de rajoles visibles i rajoles explorades. Una rajola visible es pinta amb 
-//         el seu gràfic_a_la_vista, una explorada amb el grafic_fosc i si cap de les dues amb
-//         la mortalla
-//   - només pintar les entitats en caselles visibles
-//   - fer l'algoritme d'actualitzar la visibilitat i cridar-lo
-//     - a l'inicialitzar
-//     - al moure el jugador
+// 5ª PART
+// 
 // 
 // 
 // ----------------------------------------------------------------------------
@@ -87,8 +78,7 @@ int main(int argc, char* argv[])
     bretolesc::Estat estat = { bretolesc::Mapa(map_width, map_height, generador) };
     {
         bretolesc::Entitat jugador = {};
-        jugador.x = estat.mapa.obtenir_orígen_jugador_x();
-        jugador.y = estat.mapa.obtenir_orígen_jugador_y();
+        jugador.posició = estat.mapa.obtenir_orígen_jugador();
         jugador.caracter = '@';
         jugador.color = bretolesc::Color::Blanc;
 
@@ -97,14 +87,15 @@ int main(int argc, char* argv[])
     }
     {
         bretolesc::Entitat npc = {};
-        npc.x = screen_width / 2 - 5;
-        npc.y = screen_height / 2;
+        npc.posició.x = screen_width / 2 - 5;
+        npc.posició.y = screen_height / 2;
         npc.caracter = '@';
         npc.color = bretolesc::Color::Groc;
 
         estat.npc = (int)estat.entitats.size();
         estat.entitats.push_back(npc);
     }
+    estat.actualitzar_visió();
 
     std::vector<bretolesc::Acció> accions;
 

@@ -14,7 +14,7 @@ export namespace bretolesc
 {
 	struct Entitat
 	{
-		int x, y;
+		Punt2D posició;
 		char caracter;
 		Color color;
 	};
@@ -28,6 +28,10 @@ export namespace bretolesc
 		std::vector<Entitat> entitats;
 
 		bool tancar;
+
+		static const int profunditat_de_visió = 8;
+
+		void actualitzar_visió();
 	};
 }
 

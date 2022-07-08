@@ -14,18 +14,17 @@ export namespace bretolesc
 
 	void processar(Estat& estat, MoureEntitat const& moure)
 	{
-		int next_x = estat.entitats[moure.entitat].x + moure.dx;
-		int next_y = estat.entitats[moure.entitat].y + moure.dy;
+		Punt2D posició_segünet = estat.entitats[moure.entitat].posició + moure.direcció;
 
-		if (estat.mapa.és_transitable(next_x, next_y))
+		if (estat.mapa.és_transitable(posició_segünet))
 		{
-			estat.entitats[moure.entitat].x = next_x;
-			estat.entitats[moure.entitat].y = next_y;
+			estat.entitats[moure.entitat].posició = posició_segünet;
 		}
 	}
 
 	void processar(Estat& estat, MoureJugador const& moure)
 	{
-		processar(estat, MoureEntitat{ estat.jugador, moure.dx, moure.dy });
+		processar(estat, MoureEntitat{ estat.jugador, moure.direcció });
+		estat.actualitzar_visió();
 	}
 }

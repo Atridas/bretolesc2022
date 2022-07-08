@@ -173,7 +173,7 @@ namespace bretolesc
 			}
 
 			// inici del jugador
-			mapa.establir_orígen_jugador(habitacions[0].centre_x(), habitacions[0].centre_y());
+			mapa.establir_orígen_jugador({ habitacions[0].centre_x(), habitacions[0].centre_y() });
 		}
 
 	private:

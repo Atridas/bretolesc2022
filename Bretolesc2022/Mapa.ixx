@@ -14,7 +14,7 @@ import Comú;
 
 export namespace bretolesc
 {
-	struct Grafic
+	struct Gràfic
 	{
 		int caracter;
 		Color color_principal, color_de_fons;
@@ -32,8 +32,9 @@ export namespace bretolesc
 	struct Rajola
 	{
 		bool transitable; // s'hi pot caminar
-		bool transparent; // no bloqueja la vista
-		Grafic gràfic_fosc; // no és a la vista
+		bool bloqueja_la_vista; // bloqueja la vista
+		Gràfic gràfic_a_la_vista; // no és a la vista
+		Gràfic gràfic_fora_de_vista; // no és a la vista
 	};
 
 	enum class TipusRajola
@@ -50,20 +51,7 @@ export namespace bretolesc
 	class Mapa
 	{
 	public:
-		Mapa(int _amplada, int _alçada, GeneradorDeMapa const& generador)
-			: amplada(_amplada)
-			, alçada(_alçada)
-		{
-			assert(amplada > 0);
-			assert(alçada > 0);
-
-			rajoles.resize(amplada * alçada);
-
-			info_rajoles[(int)TipusRajola::Terra] = { true, true, {' ', Color::Blanc, {50, 50, 150}}};
-			info_rajoles[(int)TipusRajola::Paret] = { false, false, { ' ', Color::Blanc, {0, 0, 150} } };
-
-			generador.generar(*this);
-		}
+		Mapa(int _amplada, int _alçada, GeneradorDeMapa const& generador);
 
 		bool és_dins_del_límit(int x, int y) const
 		{
@@ -75,6 +63,11 @@ export namespace bretolesc
 			return és_dins_del_límit(x, y) && obtenir_rajola(x, y).transitable;
 		}
 
+		bool és_transitable(Punt2D posició) const
+		{
+			return és_dins_del_límit(posició.x, posició.y) && obtenir_rajola(posició.x, posició.y).transitable;
+		}
+
 		void establir_rajola(int x, int y, TipusRajola tipus)
 		{
 			assert(és_dins_del_límit(x, y));
@@ -82,27 +75,31 @@ export namespace bretolesc
 			rajoles[y * amplada + x] = tipus;
 		}
 
-		void establir_orígen_jugador(int x, int y)
+		void establir_orígen_jugador(Punt2D orígen)
 		{
-			orígen_jugador_x = x;
-			orígen_jugador_y = y;
+			orígen_jugador = orígen;
 		}
 
-		int obtenir_orígen_jugador_x() const
+		Punt2D obtenir_orígen_jugador() const
 		{
-			return orígen_jugador_x;
+			return orígen_jugador;
 		}
 
-		int obtenir_orígen_jugador_y() const
-		{
-			return orígen_jugador_y;
-		}
-
-		Rajola obtenir_rajola(int x, int y) const
+		Rajola const& obtenir_rajola(int x, int y) const
 		{
 			assert(és_dins_del_límit(x, y));
 
 			return info_rajoles[(int)rajoles[y * amplada + x]];
+		}
+
+		bool és_a_la_vista(Punt2D r) const
+		{
+			return rajoles_a_la_vista[r.y * amplada + r.x];
+		}
+
+		bool està_explorat(Punt2D r) const
+		{
+			return rajoles_explorades[r.y * amplada + r.x];
 		}
 
 		int obtenir_amplada() const
@@ -115,22 +112,21 @@ export namespace bretolesc
 			return alçada;
 		}
 
-		void pintar(tcod::Console& console) const
-		{
-			for(int y = 0; y < alçada; ++y)
-				for (int x = 0; x < amplada; ++x)
-				{
-					console[{x, y}] = obtenir_rajola(x, y).gràfic_fosc;
-				}
-		}
+		void actualitzar_camp_de_visió(Punt2D orígen, int profunditat_màxima);
+
+		void pintar(tcod::Console& console) const;
 
 	private:
 		int const amplada, alçada;
 		std::vector<TipusRajola> rajoles;
 
 		std::array<Rajola, 2> info_rajoles;
+		Gràfic mortalla; // rajola mai vista
 
-		int orígen_jugador_x, orígen_jugador_y;
+		Punt2D orígen_jugador;
+
+		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visió del jugador
+		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist
 	};
 
 
@@ -138,21 +134,7 @@ export namespace bretolesc
 	class GeneradorDeMapaDExemple : public GeneradorDeMapa
 	{
 	public:
-		void generar(Mapa& mapa) const override
-		{
-			for (int y = 0; y < mapa.obtenir_alçada(); ++y)
-				for (int x = 0; x < mapa.obtenir_amplada(); ++x)
-				{
-					mapa.establir_rajola(x, y, TipusRajola::Terra );
-				}
-
-
-
-			mapa.establir_rajola(30, 22, TipusRajola::Paret);
-			mapa.establir_rajola(31, 22, TipusRajola::Paret);
-			mapa.establir_rajola(32, 22, TipusRajola::Paret);
-			mapa.establir_rajola(33, 22, TipusRajola::Paret);
-		}
+		void generar(Mapa& mapa) const override;
 	};
 
 }

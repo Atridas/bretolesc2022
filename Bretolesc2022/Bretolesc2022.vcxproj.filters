@@ -44,5 +44,11 @@
     <ClCompile Include="NoiseRNG.ixx">
       <Filter>Module Interface</Filter>
     </ClCompile>
+    <ClCompile Include="EstatJoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

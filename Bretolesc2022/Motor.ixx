@@ -36,14 +36,17 @@ export namespace bretolesc::motor
 
         for (bretolesc::Entitat const& entitat : estat.entitats)
         {
-            char const txt[2] = { entitat.caracter , '\0' };
+            if (estat.mapa.és_a_la_vista(entitat.posició))
+            {
+                char const txt[2] = { entitat.caracter , '\0' };
 
-            tcod::print(
-                console,
-                { entitat.x, entitat.y },
-                txt,
-                TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
-                std::nullopt);
+                tcod::print(
+                    console,
+                    { entitat.posició.x, entitat.posició.y },
+                    txt,
+                    TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
+                    std::nullopt);
+            }
         }
         context->present(console);  // Updates the visible display.
 	}

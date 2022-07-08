@@ -147,8 +147,10 @@
     <ClCompile Include="Bretolesc2022.cpp" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="EntradaSDL.ixx" />
+    <ClCompile Include="EstatJoc.cpp" />
     <ClCompile Include="EstatJoc.ixx" />
     <ClCompile Include="GeneradorProcedural.ixx" />
+    <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Mapa.ixx" />
     <ClCompile Include="Motor.ixx" />
     <ClCompile Include="NoiseRNG.ixx" />
