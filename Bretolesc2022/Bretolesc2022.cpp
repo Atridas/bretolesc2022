@@ -27,12 +27,7 @@ import ProcessadorAccions;
 // 
 // TODO
 // 
-// - set -> establir
-// - get -> obtenir
-// - caminable -> transitable
-// 
 // 4ª PART
-// - fer que les habitacions no es solapin
 // - fov
 //   - crear la mortalla (shroud) - zona coberta amb la boira de guerra (' ', blanc, negre)
 //   - crear gràfic_a_la_vista -> terra (blanc, {200, 180, 50}), paret (blanc, {130, 110, 50})

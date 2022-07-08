@@ -86,7 +86,21 @@ namespace bretolesc
 
 				Habitació habitació(x, y, w, h);
 
-				if (mapa.és_dins_del_límit(habitació.x2, habitació.y2))
+				bool solapada = false;
+				for (Habitació const& altra_habitació : habitacions)
+				{
+					if (
+						habitació.x2 >= altra_habitació.x1 &&
+						altra_habitació.x2 >= habitació.x1 &&
+						habitació.y2 >= altra_habitació.y1 &&
+						altra_habitació.y2 >= habitació.y1)
+					{
+						solapada = true;
+						break;
+					}
+				}
+
+				if (!solapada && mapa.és_dins_del_límit(habitació.x2, habitació.y2))
 				{
 					habitacions.push_back(habitació);
 				}
