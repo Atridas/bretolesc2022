@@ -1,6 +1,7 @@
 // imports
 import Accions;
 import Comú;
+import Entitats;
 import EntradaSDL;
 import EstatJoc;
 import GeneradorProcedural;
@@ -28,8 +29,7 @@ import ProcessadorAccions;
 // PERFER
 // 
 // 5ª PART
-// 
-// 
+//  - Preparar el bucle d'acció dels enemics després de cada acció del jugador
 // 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -71,30 +71,15 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     bretolesc::GeneradorDeMapaProcedural generador{};
 
-    generador.establir_llavor(std::random_device{}());
+    uint32_t llavor = std::random_device{}();
+    printf("Generant amb llavor 0x%x\n", llavor);
+    generador.establir_llavor(llavor);
 
     generador.establir_num_habitacions(5, 15);
 
-    bretolesc::Estat estat = { bretolesc::Mapa(map_width, map_height, generador) };
-    {
-        bretolesc::Entitat jugador = {};
-        jugador.posició = estat.mapa.obtenir_orígen_jugador();
-        jugador.caracter = '@';
-        jugador.color = bretolesc::Color::Blanc;
+    bretolesc::generar_motlles();
+    bretolesc::Estat estat(map_width, map_height, generador);
 
-        estat.jugador = (int)estat.entitats.size();
-        estat.entitats.push_back(jugador);
-    }
-    {
-        bretolesc::Entitat npc = {};
-        npc.posició.x = screen_width / 2 - 5;
-        npc.posició.y = screen_height / 2;
-        npc.caracter = '@';
-        npc.color = bretolesc::Color::Groc;
-
-        estat.npc = (int)estat.entitats.size();
-        estat.entitats.push_back(npc);
-    }
     estat.actualitzar_visió();
 
     std::vector<bretolesc::Acció> accions;
@@ -102,7 +87,7 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     // Game loop.
     // ------------------------------------------------------------------------
-    while (!estat.tancar) 
+    while (!estat.vol_ser_tancat())
     {
         bretolesc::motor::executar_accions(accions, estat);
         accions.clear();

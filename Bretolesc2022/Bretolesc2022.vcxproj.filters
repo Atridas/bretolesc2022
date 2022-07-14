@@ -50,5 +50,11 @@
     <ClCompile Include="Mapa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entitats.ixx">
+      <Filter>Module Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Entitats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

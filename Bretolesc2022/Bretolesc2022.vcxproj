@@ -146,6 +146,8 @@
     <ClCompile Include="Accions.ixx" />
     <ClCompile Include="Bretolesc2022.cpp" />
     <ClCompile Include="Comú.ixx" />
+    <ClCompile Include="Entitats.cpp" />
+    <ClCompile Include="Entitats.ixx" />
     <ClCompile Include="EntradaSDL.ixx" />
     <ClCompile Include="EstatJoc.cpp" />
     <ClCompile Include="EstatJoc.ixx" />

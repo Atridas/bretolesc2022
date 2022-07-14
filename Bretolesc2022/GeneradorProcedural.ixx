@@ -16,9 +16,9 @@ namespace bretolesc
 	{
 		Punt2D v1, v2;
 
-		Habitació(Punt2D orígen, Vector2D mida)
-			: v1{ orígen.x, orígen.y }
-			, v2{ orígen.x + mida.x + 1, orígen.y + mida.y + 1 }
+		Habitació(Punt2D origen, Vector2D mida)
+			: v1{ origen.x, origen.y }
+			, v2{ origen.x + mida.x + 1, origen.y + mida.y + 1 }
 		{}
 
 		Punt2D centre() const
@@ -41,10 +41,17 @@ namespace bretolesc
 			min_num_habitacions = _min_num_habitacions;
 			max_num_habitacions = _max_num_habitacions < _min_num_habitacions ? _min_num_habitacions : _max_num_habitacions;
 		}
+
 		void establir_num_extra_passadissos(uint32_t _min_num_extra_passadissos, uint32_t _max_num_extra_passadissos = 0)
 		{
 			min_num_extra_passadissos = _min_num_extra_passadissos;
 			max_num_extra_passadissos = _max_num_extra_passadissos < _min_num_extra_passadissos ? _min_num_extra_passadissos : _max_num_extra_passadissos;
+		}
+
+		void establir_num_enemics_per_habitació(uint32_t _min_num_enemics_per_habitació, uint32_t _max_num_enemics_per_habitació = 0)
+		{
+			min_num_enemics_per_habitació = _min_num_enemics_per_habitació;
+			max_num_enemics_per_habitació = _max_num_enemics_per_habitació < _min_num_enemics_per_habitació ? _min_num_enemics_per_habitació : _max_num_enemics_per_habitació;
 		}
 
 		void establir_llavor(uint32_t _llavor)
@@ -68,7 +75,7 @@ namespace bretolesc
 			int num_habitacions = std::uniform_int_distribution<>(min_num_habitacions, max_num_habitacions)(rng);
 			int num_extra_passadissos = std::uniform_int_distribution<>(min_num_extra_passadissos, max_num_extra_passadissos)(rng);
 
-			int repeats = 0;
+			int intents = 0;
 			for(int i = 0; i < num_habitacions; ++i)
 			{
 				int x = amplada_qualsevol(rng);
@@ -97,9 +104,9 @@ namespace bretolesc
 				{
 					habitacions.push_back(habitació);
 				}
-				else if(repeats < 100)
+				else if(intents < 100)
 				{
-					++repeats;
+					++intents;
 					--i;
 				}
 			}
@@ -163,7 +170,43 @@ namespace bretolesc
 			}
 
 			// inici del jugador
-			mapa.establir_orígen_jugador(habitacions[0].centre());
+			mapa.establir_origen_jugador(habitacions[0].centre());
+
+			// enemics
+			for (int h = 1; h < habitacions.size(); ++h)
+			{
+				int num_enemics = std::uniform_int_distribution<>(min_num_enemics_per_habitació, max_num_enemics_per_habitació)(rng);
+
+				for (int e = 0; e < num_enemics; ++e)
+				{
+					float tipus_enemic_rnd = std::uniform_real_distribution<float>(0.0f, 1.0f)(rng);
+
+					TipusEntitat tipus_enemic;
+					if (tipus_enemic_rnd < 0.8f)
+					{
+						tipus_enemic = TipusEntitat::Orc;
+					}
+					else
+					{
+						tipus_enemic = TipusEntitat::Trol;
+					}
+
+					Entitat enemic = obtenir_motlle(tipus_enemic);
+					enemic.posició.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					enemic.posició.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+
+					if (!mapa.buscar_entitat(enemic.posició))
+					{
+						mapa.afegir_entitat(enemic);
+					}
+					else if (intents < 100)
+					{
+						++intents;
+						--e;
+					}
+				}
+
+			}
 		}
 
 	private:
@@ -172,6 +215,9 @@ namespace bretolesc
 
 		uint32_t min_num_extra_passadissos = 0;
 		uint32_t max_num_extra_passadissos = 3;
+
+		uint32_t min_num_enemics_per_habitació = 0;
+		uint32_t max_num_enemics_per_habitació = 2;
 
 		uint32_t llavor = 0;
 	};

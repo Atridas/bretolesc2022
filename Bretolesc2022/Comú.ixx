@@ -36,6 +36,11 @@ bretolesc::Color const bretolesc::Color::Negre = Color{ 0, 0, 0 };
 // operacions
 export namespace bretolesc
 {
+	bool operator==(Punt2D a, Punt2D b)
+	{
+		return (a.x == b.x) && (a.y == b.y);
+	}
+
 	Punt2D operator+(Punt2D p, Vector2D v)
 	{
 		return Punt2D{ p.x + v.x, p.y + v.y };

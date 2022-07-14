@@ -3,6 +3,7 @@ module;
 // std
 #include <cassert>
 #include <array>
+#include <optional>
 #include <vector>
 
 // 3rd party
@@ -11,6 +12,7 @@ module;
 export module Mapa;
 
 import Comú;
+import Entitats;
 
 export namespace bretolesc
 {
@@ -75,14 +77,14 @@ export namespace bretolesc
 			rajoles[a_índex(r)] = tipus;
 		}
 
-		void establir_orígen_jugador(Punt2D orígen)
+		void establir_origen_jugador(Punt2D origen)
 		{
-			orígen_jugador = orígen;
+			origen_jugador = origen;
 		}
 
-		Punt2D obtenir_orígen_jugador() const
+		Punt2D obtenir_origen_jugador() const
 		{
-			return orígen_jugador;
+			return origen_jugador;
 		}
 
 		Rajola const& obtenir_rajola(Punt2D r) const
@@ -112,9 +114,22 @@ export namespace bretolesc
 			return alçada;
 		}
 
-		void actualitzar_camp_de_visió(Punt2D orígen, int profunditat_màxima);
+		void actualitzar_camp_de_visió(Punt2D origen, int profunditat_màxima);
 
 		void pintar(tcod::Console& console) const;
+
+		IdEntitat afegir_entitat(Entitat const& entitat);
+
+		Entitat& obtenir_entitat(IdEntitat const& entitat);
+		Entitat const& obtenir_entitat(IdEntitat const& entitat) const;
+
+		Entitat& operator[](IdEntitat const& entitat) { return obtenir_entitat(entitat); }
+		Entitat const& operator[](IdEntitat const& entitat) const { return obtenir_entitat(entitat); }
+
+		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
+		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
+
+		void actualitzar_enemics();
 
 	private:
 		int const amplada, alçada;
@@ -123,10 +138,12 @@ export namespace bretolesc
 		std::array<Rajola, 2> info_rajoles;
 		Gràfic mortalla; // rajola mai vista
 
-		Punt2D orígen_jugador;
+		Punt2D origen_jugador;
 
 		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visió del jugador
 		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist
+
+		std::vector<Entitat> entitats;
 	};
 
 

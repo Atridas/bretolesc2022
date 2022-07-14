@@ -33,13 +33,13 @@ namespace entrada_sdl
 			switch (evnt.keysym.sym)
 			{
 			case SDLK_RIGHT:
-				return MoureJugador{ +1, 0};
+				return BatzegadaJugador{ +1, 0};
 			case SDLK_LEFT:
-				return MoureJugador{ -1, 0 };
+				return BatzegadaJugador{ -1, 0 };
 			case SDLK_DOWN:
-				return MoureJugador{ 0, +1 };
+				return BatzegadaJugador{ 0, +1 };
 			case SDLK_UP:
-				return MoureJugador{ 0, -1 };
+				return BatzegadaJugador{ 0, -1 };
 
 			case SDLK_ESCAPE:
 				return Finalitzar{};

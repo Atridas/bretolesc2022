@@ -25,29 +25,19 @@ export namespace bretolesc::motor
                 {
                     processar(estat, acció);
                 }, acció);
+
+            estat.actualitzar_visió();
+            estat.mapa().actualitzar_enemics();
         }
+
 	}
 
 	void pintar(tcod::Console &console, tcod::ContextPtr const& context, Estat const& estat)
 	{
         TCOD_console_clear(console.get());
 
-        estat.mapa.pintar(console);
+        estat.mapa().pintar(console);
 
-        for (bretolesc::Entitat const& entitat : estat.entitats)
-        {
-            if (estat.mapa.és_a_la_vista(entitat.posició))
-            {
-                char const txt[2] = { entitat.caracter , '\0' };
-
-                tcod::print(
-                    console,
-                    { entitat.posició.x, entitat.posició.y },
-                    txt,
-                    TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
-                    std::nullopt);
-            }
-        }
         context->present(console);  // Updates the visible display.
 	}
 }
