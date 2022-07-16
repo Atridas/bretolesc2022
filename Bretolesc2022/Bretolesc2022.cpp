@@ -1,13 +1,10 @@
 // imports
-import Accions;
 import Comú;
 import Entitats;
 import EntradaSDL;
-import EstatJoc;
+import EstructuresAccions;
 import GeneradorProcedural;
-import Mapa;
 import Motor;
-import ProcessadorAccions;
 
 // std
 #include <optional>
@@ -22,14 +19,51 @@ import ProcessadorAccions;
 
 
 
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // 
 // PERFER
 // 
-// 5ª PART
-//  - Preparar el bucle d'acció dels enemics després de cada acció del jugador
+// 6ª PART
+// - Crear marc entitat/components/sistemes
+// - Crear component "lluitador" amb atributs: salut, salut màxima, força i defensa
+//   - jugador { salut: 30, defensa: 2, força: 5 }
+//   - orc { salut: 10, defensa: 0, força: 3 }
+//   - trol { salut: 16, defensa: 1, força: 4 }
+// - Crear acció per a "passar" torn (espai?)
+// - Crear el component IAHostil amb un TCOD_path_t
+// - Crear funció d'enrutar (pathfinding)
+//   - Preparar mapa
+//     - TCOD_Map* TCOD_map_new(int width, int height);
+//     - void TCOD_map_clear(TCOD_Map * map, bool transparent, bool walkable);
+//     - TCOD_Error TCOD_map_copy(const TCOD_Map * __restrict source, TCOD_Map * __restrict dest);
+//     - void TCOD_map_set_properties(TCOD_Map * map, int x, int y, bool is_transparent, bool is_walkable);
+//     - void TCOD_map_delete(TCOD_Map * map);
+//     - bool TCOD_map_is_transparent(const TCOD_Map * map, int x, int y);
+//     - bool TCOD_map_is_walkable(TCOD_Map * map, int x, int y);
+//   - Preparar camins
+//     - TCOD_path_t TCOD_path_new_using_map(TCOD_map_t map, float diagonalCost);
+//     - bool TCOD_path_compute(TCOD_path_t path, int ox, int oy, int dx, int dy);
+//     - bool TCOD_path_walk(TCOD_path_t path, int* x, int* y, bool recalculate_when_needed);
+//     - void TCOD_path_delete(TCOD_path_t path);
+// - Crear sistema ActualitzarIAsHostils
+//   - l'objectiu és el jugador
+//   - si el jugador és a distància (manhattan) 1, atacar-lo
+//   - si tenim un camí definit, seguir-lo
+//   - si el jugador és visible (si nosaltres som visibles des del jugador), crear un camí fins a ell
+//   - en cas contrari no fer res
+// - Modificar l'acció de Melee tal que
+//   - dany = max(0, força - defensa)
+//   - restar hp, mostrar missatge
+// - Crear sistema que busqui morts
+//   - entitats amb salut < 0
+//   - canvia el char a "%", el color a {191,0,0} i no bloqueja el moviment
+//   - imprimeix un missage "ha mort un orc" / "has mort"
+// - Canviar les prioritats de render d'entitats: CADÀVER < OBJECTE < ACTOR
+// - Imprimim la vida del jugador després de pintar el mapa console.print(x=1 y=47 "Salut:%d/%d")
+// - Cobrir el game over
 // 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -69,7 +103,7 @@ int main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     // Initialització de l'estat del joc
     // ------------------------------------------------------------------------
-    bretolesc::GeneradorDeMapaProcedural generador{};
+    bretolesc::GeneradorProcedural generador{};
 
     uint32_t llavor = std::random_device{}();
     printf("Generant amb llavor 0x%x\n", llavor);

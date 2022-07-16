@@ -1,60 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Module Interface">
+    <Filter Include="Móduls">
       <UniqueIdentifier>{5299d7c5-d11e-4c1f-bbdc-c87420e35d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Móduls\Accions">
+      <UniqueIdentifier>{12fe4e9f-cc1a-4462-a02c-6daaa1c87f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Móduls\Entitats">
+      <UniqueIdentifier>{ed5bf8ec-1067-4acb-a03f-77491e9b4b57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Móduls\Motor">
+      <UniqueIdentifier>{79506d37-e28b-4d26-80d3-6e00e6c36ca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Móduls\Generadors">
+      <UniqueIdentifier>{a407cfac-87f6-4f81-8592-833cbfae542d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Móduls\Comú">
+      <UniqueIdentifier>{6a579896-b65f-48a4-847f-9138c747c614}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bretolesc2022.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Accions.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
     <ClCompile Include="EntradaSDL.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessadorAccions.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="EstatJoc.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Comú.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Motor.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Mapa.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneradorProcedural.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="NoiseRNG.ixx">
-      <Filter>Module Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="EstatJoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mapa.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Móduls</Filter>
     </ClCompile>
     <ClCompile Include="Entitats.ixx">
-      <Filter>Module Interface</Filter>
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="Motor.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Estat.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneradorProcedural.ixx">
+      <Filter>Móduls\Generadors</Filter>
+    </ClCompile>
+    <ClCompile Include="Bretolesc2022.cpp">
+      <Filter>Móduls</Filter>
+    </ClCompile>
+    <ClCompile Include="Estat.cpp">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.cpp">
+      <Filter>Móduls\Motor</Filter>
     </ClCompile>
     <ClCompile Include="Entitats.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="EstructuresAccions.ixx">
+      <Filter>Móduls\Accions</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessadorsAccions.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Generador.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneradorDExemple.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Comú.ixx">
+      <Filter>Móduls\Comú</Filter>
+    </ClCompile>
+    <ClCompile Include="NoiseRNG.ixx">
+      <Filter>Móduls\Comú</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

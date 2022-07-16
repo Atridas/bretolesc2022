@@ -5,6 +5,8 @@ module;
 
 export module Comú;
 
+export import :NoiseRNG;
+
 export namespace bretolesc
 {
 	struct Color

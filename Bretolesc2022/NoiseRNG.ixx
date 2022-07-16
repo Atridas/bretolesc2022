@@ -6,7 +6,7 @@ module;
 
 #include <bit>
 
-export module NoiseRNG;
+export module Comú:NoiseRNG;
 
 namespace bretolesc
 {

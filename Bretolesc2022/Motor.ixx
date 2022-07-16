@@ -9,11 +9,15 @@ module;
 
 export module Motor;
 
-import Accions;
+export import :Estat;
+export import :Generador;
+export import :GeneradorDExemple;
+export import :Mapa;
+export import :ProcessadorsAccions;
+
+import EstructuresAccions;
 import Comú;
-import EstatJoc;
-import Mapa;
-import ProcessadorAccions;
+
 
 export namespace bretolesc::motor
 {
@@ -27,7 +31,6 @@ export namespace bretolesc::motor
                 }, acció);
 
             estat.actualitzar_visió();
-            estat.mapa().actualitzar_enemics();
         }
 
 	}
@@ -36,7 +39,7 @@ export namespace bretolesc::motor
 	{
         TCOD_console_clear(console.get());
 
-        estat.mapa().pintar(console);
+        estat.pintar(console);
 
         context->present(console);  // Updates the visible display.
 	}

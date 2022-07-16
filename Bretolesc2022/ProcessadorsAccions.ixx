@@ -2,17 +2,18 @@ module;
 
 #include <cstdio>
 
-export module ProcessadorAccions;
+export module Motor:ProcessadorsAccions;
 
-import Accions;
+import :Estat;
+
+import EstructuresAccions;
 import Entitats;
-import EstatJoc;
 
 export namespace bretolesc
 {
 	using namespace acció;
 
-	void processar(Estat &estat, Finalitzar const &fin)
+	void processar(Estat& estat, Finalitzar const &fin)
 	{
 		estat.tanca();
 	}
@@ -40,7 +41,7 @@ export namespace bretolesc
 	void processar(Estat& estat, BatzegadaJugador const& batzegada)
 	{
 		Punt2D posició_següent = estat.obtenir_jugador().posició + batzegada.direcció;
-		if (auto enemic = estat.mapa().buscar_entitat_bloquejant(posició_següent))
+		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
 		{
 			processar(estat, AccióCosACos{ estat.obtenir_id_jugador() , *enemic });
 		}

@@ -12,7 +12,7 @@ module;
 
 export module EntradaSDL;
 
-import Accions;
+import EstructuresAccions;
 
 namespace entrada_sdl
 {

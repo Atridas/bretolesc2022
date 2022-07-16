@@ -143,20 +143,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Accions.ixx" />
     <ClCompile Include="Bretolesc2022.cpp" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="Entitats.cpp" />
     <ClCompile Include="Entitats.ixx" />
     <ClCompile Include="EntradaSDL.ixx" />
-    <ClCompile Include="EstatJoc.cpp" />
-    <ClCompile Include="EstatJoc.ixx" />
+    <ClCompile Include="Estat.cpp" />
+    <ClCompile Include="Estat.ixx" />
+    <ClCompile Include="EstructuresAccions.ixx" />
+    <ClCompile Include="Generador.ixx" />
+    <ClCompile Include="GeneradorDExemple.ixx" />
     <ClCompile Include="GeneradorProcedural.ixx" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Mapa.ixx" />
     <ClCompile Include="Motor.ixx" />
     <ClCompile Include="NoiseRNG.ixx" />
-    <ClCompile Include="ProcessadorAccions.ixx" />
+    <ClCompile Include="ProcessadorsAccions.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,10 +9,9 @@ module;
 // 3rd party
 #include <libtcod.hpp>
 
-export module Mapa;
+export module Motor:Mapa;
 
 import Comú;
-import Entitats;
 
 export namespace bretolesc
 {
@@ -44,16 +43,10 @@ export namespace bretolesc
 		Terra, Paret
 	};
 
-	class GeneradorDeMapa
-	{
-	public:
-		virtual void generar(class Mapa& mapa) const = 0;
-	};
-
 	class Mapa
 	{
 	public:
-		Mapa(int _amplada, int _alçada, GeneradorDeMapa const& generador);
+		Mapa(int _amplada, int _alçada);
 
 		int a_índex(Punt2D r) const
 		{
@@ -118,19 +111,6 @@ export namespace bretolesc
 
 		void pintar(tcod::Console& console) const;
 
-		IdEntitat afegir_entitat(Entitat const& entitat);
-
-		Entitat& obtenir_entitat(IdEntitat const& entitat);
-		Entitat const& obtenir_entitat(IdEntitat const& entitat) const;
-
-		Entitat& operator[](IdEntitat const& entitat) { return obtenir_entitat(entitat); }
-		Entitat const& operator[](IdEntitat const& entitat) const { return obtenir_entitat(entitat); }
-
-		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
-		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
-
-		void actualitzar_enemics();
-
 	private:
 		int const amplada, alçada;
 		std::vector<TipusRajola> rajoles;
@@ -142,16 +122,6 @@ export namespace bretolesc
 
 		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visió del jugador
 		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist
-
-		std::vector<Entitat> entitats;
-	};
-
-
-
-	class GeneradorDeMapaDExemple : public GeneradorDeMapa
-	{
-	public:
-		void generar(Mapa& mapa) const override;
 	};
 
 }

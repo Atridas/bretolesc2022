@@ -7,8 +7,8 @@ module;
 export module GeneradorProcedural;
 
 import Comú;
-import Mapa;
-import NoiseRNG;
+import Entitats;
+import Motor;
 
 namespace bretolesc
 {
@@ -32,7 +32,7 @@ namespace bretolesc
 		int h1, h2;
 	};
 
-	export class GeneradorDeMapaProcedural : public GeneradorDeMapa
+	export class GeneradorProcedural : public Generador
 	{
 	public:
 
@@ -59,7 +59,7 @@ namespace bretolesc
 			llavor = _llavor;
 		}
 
-		void generar(Mapa& mapa) const override
+		void generar(Estat& estat) const override
 		{
 			RNG rng(llavor);
 
@@ -67,8 +67,8 @@ namespace bretolesc
 			std::vector<Habitació> habitacions;
 			std::vector<Passadís> passadissos;
 
-			std::uniform_int_distribution<> amplada_qualsevol(0, mapa.obtenir_amplada());
-			std::uniform_int_distribution<> alçada_qualsevol(0, mapa.obtenir_alçada());
+			std::uniform_int_distribution<> amplada_qualsevol(0, estat.mapa().obtenir_amplada());
+			std::uniform_int_distribution<> alçada_qualsevol(0, estat.mapa().obtenir_alçada());
 
 			std::uniform_int_distribution<> tamany(3, 15);
 
@@ -100,7 +100,7 @@ namespace bretolesc
 					}
 				}
 
-				if (!solapada && mapa.és_dins_del_límit(habitació.v2))
+				if (!solapada && estat.mapa().és_dins_del_límit(habitació.v2))
 				{
 					habitacions.push_back(habitació);
 				}
@@ -125,10 +125,10 @@ namespace bretolesc
 			}
 
 			// inicialitzar tot a parets
-			for (int y = 0; y < mapa.obtenir_alçada(); ++y)
-				for (int x = 0; x < mapa.obtenir_amplada(); ++x)
+			for (int y = 0; y < estat.mapa().obtenir_alçada(); ++y)
+				for (int x = 0; x < estat.mapa().obtenir_amplada(); ++x)
 				{
-					mapa.establir_rajola({ x, y }, TipusRajola::Paret);
+					estat.mapa().establir_rajola({ x, y }, TipusRajola::Paret);
 				}
 
 			// pintar habitacions
@@ -137,7 +137,7 @@ namespace bretolesc
 				for (int y = habitació.v1.y + 1; y < habitació.v2.y; ++y)
 					for (int x = habitació.v1.x; x < habitació.v2.x; ++x)
 					{
-						mapa.establir_rajola({ x, y }, TipusRajola::Terra);
+						estat.mapa().establir_rajola({ x, y }, TipusRajola::Terra);
 					}
 			}
 
@@ -156,7 +156,7 @@ namespace bretolesc
 
 				for (int x = ox; x <= dx; ++x)
 				{
-					mapa.establir_rajola({ x, origen.y }, TipusRajola::Terra);
+					estat.mapa().establir_rajola({ x, origen.y }, TipusRajola::Terra);
 				}
 
 				// passadís vertical
@@ -165,12 +165,12 @@ namespace bretolesc
 
 				for (int y = oy; y <= dy; ++y)
 				{
-					mapa.establir_rajola({ destí.x, y }, TipusRajola::Terra);
+					estat.mapa().establir_rajola({destí.x, y}, TipusRajola::Terra);
 				}
 			}
 
 			// inici del jugador
-			mapa.establir_origen_jugador(habitacions[0].centre());
+			estat.mapa().establir_origen_jugador(habitacions[0].centre());
 
 			// enemics
 			for (int h = 1; h < habitacions.size(); ++h)
@@ -195,9 +195,9 @@ namespace bretolesc
 					enemic.posició.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
 					enemic.posició.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
 
-					if (!mapa.buscar_entitat(enemic.posició))
+					if (!estat.buscar_entitat(enemic.posició))
 					{
-						mapa.afegir_entitat(enemic);
+						estat.afegir_entitat(enemic);
 					}
 					else if (intents < 100)
 					{
