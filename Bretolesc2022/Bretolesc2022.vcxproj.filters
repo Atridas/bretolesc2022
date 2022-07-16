@@ -69,5 +69,14 @@
     <ClCompile Include="NoiseRNG.ixx">
       <Filter>Móduls\Comú</Filter>
     </ClCompile>
+    <ClCompile Include="Col·leccióComponents.ixx">
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="Components.ixx">
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="IdEntitat.ixx">
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

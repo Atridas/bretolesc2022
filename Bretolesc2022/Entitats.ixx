@@ -1,20 +1,17 @@
+module;
+
+#include <tuple>
+
 export module Entitats;
+
+export import :Col·leccióComponents;
+export import :Components;
+export import :IdEntitat;
 
 import Comú;
 
 export namespace bretolesc
 {
-	struct Entitat
-	{
-		Punt2D posició;
-		char caracter;
-		Color color;
-		bool bloqueja_el_pas;
-	};
-
-	using IdEntitat = int;
-
-
 	enum class TipusEntitat
 	{
 		Jugador,
@@ -25,5 +22,5 @@ export namespace bretolesc
 	};
 
 	void generar_motlles();
-	Entitat obtenir_motlle(TipusEntitat tipus);
+	std::tuple<component::Localització, component::Pintat> obtenir_motlle(TipusEntitat tipus);
 }

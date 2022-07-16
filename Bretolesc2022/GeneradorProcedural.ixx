@@ -191,13 +191,13 @@ namespace bretolesc
 						tipus_enemic = TipusEntitat::Trol;
 					}
 
-					Entitat enemic = obtenir_motlle(tipus_enemic);
-					enemic.posició.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
-					enemic.posició.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+					auto [enemic_loc, enemic_pintat] = obtenir_motlle(tipus_enemic);
+					enemic_loc.posició.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					enemic_loc.posició.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
 
-					if (!estat.buscar_entitat(enemic.posició))
+					if (!estat.buscar_entitat(enemic_loc.posició))
 					{
-						estat.afegir_entitat(enemic);
+						estat.afegir_entitat(enemic_loc, enemic_pintat);
 					}
 					else if (intents < 100)
 					{

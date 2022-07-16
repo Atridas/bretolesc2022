@@ -19,6 +19,8 @@ import Entitats;
 
 export namespace bretolesc
 {
+	using namespace component;
+
 	class Estat
 	{
 	public:
@@ -34,21 +36,27 @@ export namespace bretolesc
 		Mapa const& mapa() const { return m_mapa; }
 
 
-		IdEntitat afegir_entitat(Entitat entitat);
+		IdEntitat afegir_entitat(Localització const &loc, Pintat const &pintat);
 
 		IdEntitat const& obtenir_id_jugador() const { return id_jugador; }
 
-		Entitat& obtenir_jugador() { return entitats[id_jugador]; }
-		Entitat const& obtenir_jugador() const { return entitats[id_jugador]; }
+		template<typename Component>
+		Component& obtenir_component(IdEntitat id) { return {}; }
+		template<typename Component>
+		Component const& obtenir_component(IdEntitat id) const { return {}; }
 
-		Entitat& obtenir_entitat(IdEntitat id) { return entitats[id]; }
-		Entitat const& obtenir_entitat(IdEntitat id) const { return entitats[id]; }
+		template<>
+		Localització& obtenir_component<Localització>(IdEntitat id) { return localitzacions.obtenir(id); }
+		template<>
+		Localització const& obtenir_component<Localització>(IdEntitat id) const { return localitzacions.obtenir(id); }
+		
+		template<>
+		Pintat& obtenir_component<Pintat>(IdEntitat id) { return pintats.obtenir(id); }
+		template<>
+		Pintat const& obtenir_component<Pintat>(IdEntitat id) const { return pintats.obtenir(id); }
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
-
-		Entitat& operator[](IdEntitat entitat) { return obtenir_entitat(entitat); }
-		Entitat const& operator[](IdEntitat entitat) const { return obtenir_entitat(entitat); }
 
 		void actualitzar_visió();
 
@@ -59,7 +67,11 @@ export namespace bretolesc
 		bool tancar;
 		IdEntitat id_jugador;
 
-		std::vector<Entitat> entitats;
+		IdEntitat id_següent = 0;
+
+		// Col·leccions de components
+		Col·lecció<Localització> localitzacions;
+		Col·lecció<Pintat> pintats;
 	};
 }
 

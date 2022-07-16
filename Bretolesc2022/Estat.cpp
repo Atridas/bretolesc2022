@@ -13,6 +13,7 @@ module;
 module Motor:Estat;
 
 using namespace bretolesc;
+using namespace bretolesc::component;
 
 Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 	: m_mapa(_amplada, _alçada)
@@ -20,15 +21,15 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 {
 	generador.generar(*this);
 
-	bretolesc::Entitat jugador = obtenir_motlle(TipusEntitat::Jugador);
-	jugador.posició = m_mapa.obtenir_origen_jugador();
+	auto [jugador_loc, jugador_pin] = obtenir_motlle(TipusEntitat::Jugador);
+	jugador_loc.posició = m_mapa.obtenir_origen_jugador();
 
-	id_jugador = afegir_entitat(jugador);
+	id_jugador = afegir_entitat(jugador_loc, jugador_pin);
 }
 
 void Estat::actualitzar_visió()
 {
-	m_mapa.actualitzar_camp_de_visió(obtenir_jugador().posició, profunditat_de_visió);
+	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);
 }
 
 // ----------------------------------------------------------------------------
@@ -37,49 +38,41 @@ void Estat::actualitzar_visió()
 
 std::optional<IdEntitat> Estat::buscar_entitat(Punt2D coordenades) const
 {
-	for (int i = 0; i < (int)entitats.size(); ++i)
-	{
-		Entitat const& entitat = entitats[i];
-		if (entitat.posició == coordenades)
+	std::optional<IdEntitat> resultat;
+
+	localitzacions.per_cada([&resultat, coordenades](IdEntitat id, Localització const& loc)
 		{
-			return (IdEntitat)i;
-		}
-	}
-	return {};
+			if (loc.posició == coordenades)
+			{
+				resultat = id;
+			}
+		});
+
+
+	return resultat;
 }
 
 std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) const
 {
-	for (int i = 0; i < (int)entitats.size(); ++i)
-	{
-		Entitat const& entitat = entitats[i];
-		if (entitat.posició == coordenades && entitat.bloqueja_el_pas)
+	std::optional<IdEntitat> resultat;
+
+	localitzacions.per_cada([&resultat, coordenades](IdEntitat id, Localització const& loc)
 		{
-			return (IdEntitat)i;
-		}
-	}
-	return {};
+			if (loc.posició == coordenades && loc.bloqueja_el_pas)
+			{
+				resultat = id;
+			}
+		});
+
+
+	return resultat;
 }
 
-IdEntitat Estat::afegir_entitat(Entitat entitat)
+IdEntitat Estat::afegir_entitat(Localització const& loc, Pintat const& pintat)
 {
-	IdEntitat id = (int)entitats.size();
-	entitats.push_back(entitat);
-	return id;
-}
-
-Entitat& Estat::obtenir_entitat(IdEntitat entitat)
-{
-	assert(entitat >= 0);
-	assert(entitat < (int)entitats.size());
-	return entitats[entitat];
-}
-
-Entitat const& Estat::obtenir_entitat(IdEntitat entitat) const
-{
-	assert(entitat >= 0);
-	assert(entitat < (int)entitats.size());
-	return entitats[entitat];
+	localitzacions.afegir(id_següent, loc);
+	pintats.afegir(id_següent, pintat);
+	return id_següent++;
 }
 
 // ----------------------------------------------------------------------------
@@ -90,20 +83,21 @@ void Estat::pintar(tcod::Console& console) const
 {
 	m_mapa.pintar(console);
 
-	for (Entitat const& entitat : entitats)
-	{
-		if (m_mapa.és_a_la_vista(entitat.posició))
-		{
-			char const txt[2] = { entitat.caracter , '\0' };
+	// PERFER
+	//entitats.per_cada([this, &console](IdEntitat id, component::Entitat const& entitat)
+	//	{
+	//		if (m_mapa.és_a_la_vista(entitat.posició))
+	//		{
+	//			char const txt[2] = { entitat.caracter , '\0' };
 
-			tcod::print(
-				console,
-				{ entitat.posició.x, entitat.posició.y },
-				txt,
-				TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
-				std::nullopt);
-		}
-	}
+	//			tcod::print(
+	//				console,
+	//				{ entitat.posició.x, entitat.posició.y },
+	//				txt,
+	//				TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
+	//				std::nullopt);
+	//		}
+	//	});
 }
 
 // ----------------------------------------------------------------------------

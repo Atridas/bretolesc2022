@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bretolesc2022.cpp" />
+    <ClCompile Include="Col·leccióComponents.ixx" />
+    <ClCompile Include="Components.ixx" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="Entitats.cpp" />
     <ClCompile Include="Entitats.ixx" />
@@ -154,6 +156,7 @@
     <ClCompile Include="Generador.ixx" />
     <ClCompile Include="GeneradorDExemple.ixx" />
     <ClCompile Include="GeneradorProcedural.ixx" />
+    <ClCompile Include="IdEntitat.ixx" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Mapa.ixx" />
     <ClCompile Include="Motor.ixx" />
