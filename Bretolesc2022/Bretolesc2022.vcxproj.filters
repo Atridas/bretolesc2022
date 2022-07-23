@@ -19,13 +19,13 @@
     <Filter Include="Móduls\Comú">
       <UniqueIdentifier>{6a579896-b65f-48a4-847f-9138c747c614}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Móduls\Motlles">
+      <UniqueIdentifier>{ca298146-791b-455a-941f-b2cafba982eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntradaSDL.ixx">
       <Filter>Móduls</Filter>
-    </ClCompile>
-    <ClCompile Include="Entitats.ixx">
-      <Filter>Móduls\Entitats</Filter>
     </ClCompile>
     <ClCompile Include="Motor.ixx">
       <Filter>Móduls\Motor</Filter>
@@ -47,9 +47,6 @@
     </ClCompile>
     <ClCompile Include="Mapa.cpp">
       <Filter>Móduls\Motor</Filter>
-    </ClCompile>
-    <ClCompile Include="Entitats.cpp">
-      <Filter>Móduls\Entitats</Filter>
     </ClCompile>
     <ClCompile Include="EstructuresAccions.ixx">
       <Filter>Móduls\Accions</Filter>
@@ -76,6 +73,15 @@
       <Filter>Móduls\Entitats</Filter>
     </ClCompile>
     <ClCompile Include="IdEntitat.ixx">
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="Motlles.cpp">
+      <Filter>Móduls\Motlles</Filter>
+    </ClCompile>
+    <ClCompile Include="Motlles.ixx">
+      <Filter>Móduls\Motlles</Filter>
+    </ClCompile>
+    <ClCompile Include="Entitats.ixx">
       <Filter>Móduls\Entitats</Filter>
     </ClCompile>
   </ItemGroup>

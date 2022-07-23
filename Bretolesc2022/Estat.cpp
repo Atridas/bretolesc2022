@@ -19,12 +19,7 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 	: m_mapa(_amplada, _alçada)
 	, tancar(false)
 {
-	generador.generar(*this);
-
-	auto [jugador_loc, jugador_pin] = obtenir_motlle(TipusEntitat::Jugador);
-	jugador_loc.posició = m_mapa.obtenir_origen_jugador();
-
-	id_jugador = afegir_entitat(jugador_loc, jugador_pin);
+	id_jugador = generador.generar(*this);
 }
 
 void Estat::actualitzar_visió()
@@ -66,13 +61,6 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 
 
 	return resultat;
-}
-
-IdEntitat Estat::afegir_entitat(Localització const& loc, Pintat const& pintat)
-{
-	localitzacions.afegir(id_següent, loc);
-	pintats.afegir(id_següent, pintat);
-	return id_següent++;
 }
 
 // ----------------------------------------------------------------------------

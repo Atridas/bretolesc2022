@@ -241,7 +241,6 @@ export namespace bretolesc
 
 			ConstIterator begin() const { return ConstIterator( col·leccióA.begin(), col·leccióB.begin() ); }
 			ConstIterator end() const { return ConstIterator( col·leccióA.end(), col·leccióB.end() ); }
-
 		};
 
 		return Iterable{ col·leccióA, col·leccióB };
@@ -277,7 +276,6 @@ export namespace bretolesc
 				++itA;
 				++itB;
 			}
-
 		}
 	}
 

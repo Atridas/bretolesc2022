@@ -70,16 +70,6 @@ export namespace bretolesc
 			rajoles[a_índex(r)] = tipus;
 		}
 
-		void establir_origen_jugador(Punt2D origen)
-		{
-			origen_jugador = origen;
-		}
-
-		Punt2D obtenir_origen_jugador() const
-		{
-			return origen_jugador;
-		}
-
 		Rajola const& obtenir_rajola(Punt2D r) const
 		{
 			assert(és_dins_del_límit(r));
@@ -117,8 +107,6 @@ export namespace bretolesc
 
 		std::array<Rajola, 2> info_rajoles;
 		Gràfic mortalla; // rajola mai vista
-
-		Punt2D origen_jugador;
 
 		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visió del jugador
 		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist

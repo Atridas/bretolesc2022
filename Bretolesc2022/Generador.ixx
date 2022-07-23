@@ -1,10 +1,12 @@
 export module Motor:Generador;
 
+import Entitats;
+
 export namespace bretolesc
 {
 	class Generador
 	{
 	public:
-		virtual void generar(class Estat& estat) const = 0;
+		virtual IdEntitat generar(class Estat& estat) const = 0;
 	};
 }

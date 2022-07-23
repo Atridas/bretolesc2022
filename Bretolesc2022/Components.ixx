@@ -17,6 +17,12 @@ export namespace bretolesc::component
 		Color color;
 	};
 
+	struct Lluitador
+	{
+		int salut, salut_màxima;
+		int força, defensa;
+	};
+
 	// PERFER
 	//namespace etiqueta
 	//{

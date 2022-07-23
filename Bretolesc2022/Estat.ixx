@@ -36,24 +36,39 @@ export namespace bretolesc
 		Mapa const& mapa() const { return m_mapa; }
 
 
-		IdEntitat afegir_entitat(Localització const &loc, Pintat const &pintat);
+		IdEntitat crear_entitat() { return id_següent++; }
 
 		IdEntitat const& obtenir_id_jugador() const { return id_jugador; }
 
 		template<typename Component>
-		Component& obtenir_component(IdEntitat id) { return {}; }
+		Col·lecció<Component>& obtenir_col·lecció() { return {}; }
 		template<typename Component>
-		Component const& obtenir_component(IdEntitat id) const { return {}; }
+		Col·lecció<Component> const& obtenir_col·lecció() const { return {}; }
 
 		template<>
-		Localització& obtenir_component<Localització>(IdEntitat id) { return localitzacions.obtenir(id); }
+		Col·lecció<Localització>& obtenir_col·lecció<Localització>() { return localitzacions; }
 		template<>
-		Localització const& obtenir_component<Localització>(IdEntitat id) const { return localitzacions.obtenir(id); }
-		
+		Col·lecció<Localització> const& obtenir_col·lecció<Localització>() const { return localitzacions; }
+
 		template<>
-		Pintat& obtenir_component<Pintat>(IdEntitat id) { return pintats.obtenir(id); }
+		Col·lecció<Pintat>& obtenir_col·lecció<Pintat>() { return pintats; }
 		template<>
-		Pintat const& obtenir_component<Pintat>(IdEntitat id) const { return pintats.obtenir(id); }
+		Col·lecció<Pintat> const& obtenir_col·lecció<Pintat>() const { return pintats; }
+
+		template<>
+		Col·lecció<Lluitador>& obtenir_col·lecció<Lluitador>() { return lluitadors; }
+		template<>
+		Col·lecció<Lluitador> const& obtenir_col·lecció<Lluitador>() const { return lluitadors; }
+
+
+		template<typename Component>
+		Component& obtenir_component(IdEntitat id) { return obtenir_col·lecció<Component>().obtenir(id); }
+		template<typename Component>
+		Component const& obtenir_component(IdEntitat id) const { return obtenir_col·lecció<Component>().obtenir(id); }
+
+		template<typename Component>
+		void afegir_component(IdEntitat id, Component const& component) { return obtenir_col·lecció<Component>().afegir(id, component); }
+
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
@@ -72,6 +87,7 @@ export namespace bretolesc
 		// Col·leccions de components
 		Col·lecció<Localització> localitzacions;
 		Col·lecció<Pintat> pintats;
+		Col·lecció<Lluitador> lluitadors;
 	};
 }
 

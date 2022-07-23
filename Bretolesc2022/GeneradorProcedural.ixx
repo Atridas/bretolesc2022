@@ -8,6 +8,7 @@ export module GeneradorProcedural;
 
 import Comú;
 import Entitats;
+import Motlles;
 import Motor;
 
 namespace bretolesc
@@ -59,7 +60,7 @@ namespace bretolesc
 			llavor = _llavor;
 		}
 
-		void generar(Estat& estat) const override
+		IdEntitat generar(Estat& estat) const override
 		{
 			RNG rng(llavor);
 
@@ -169,9 +170,6 @@ namespace bretolesc
 				}
 			}
 
-			// inici del jugador
-			estat.mapa().establir_origen_jugador(habitacions[0].centre());
-
 			// enemics
 			for (int h = 1; h < habitacions.size(); ++h)
 			{
@@ -191,13 +189,14 @@ namespace bretolesc
 						tipus_enemic = TipusEntitat::Trol;
 					}
 
-					auto [enemic_loc, enemic_pintat] = obtenir_motlle(tipus_enemic);
-					enemic_loc.posició.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
-					enemic_loc.posició.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+					Punt2D posició_enemic;
 
-					if (!estat.buscar_entitat(enemic_loc.posició))
+					posició_enemic.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					posició_enemic.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+
+					if (!estat.buscar_entitat(posició_enemic))
 					{
-						estat.afegir_entitat(enemic_loc, enemic_pintat);
+						afegir_entitat(estat, tipus_enemic, posició_enemic);
 					}
 					else if (intents < 100)
 					{
@@ -207,6 +206,10 @@ namespace bretolesc
 				}
 
 			}
+
+			// inici del jugador
+			Punt2D posició_jugador = habitacions[0].centre();
+			return afegir_entitat(estat, TipusEntitat::Jugador, posició_jugador);
 		}
 
 	private:
