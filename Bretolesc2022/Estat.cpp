@@ -40,13 +40,13 @@ std::optional<IdEntitat> Estat::buscar_entitat(Punt2D coordenades) const
 {
 	std::optional<IdEntitat> resultat;
 
-	localitzacions.per_cada([&resultat, coordenades](IdEntitat id, Localització const& loc)
+	for (auto [id, loc] : localitzacions)
+	{
+		if (loc.posició == coordenades)
 		{
-			if (loc.posició == coordenades)
-			{
-				resultat = id;
-			}
-		});
+			resultat = id;
+		}
+	}
 
 
 	return resultat;
@@ -56,13 +56,13 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 {
 	std::optional<IdEntitat> resultat;
 
-	localitzacions.per_cada([&resultat, coordenades](IdEntitat id, Localització const& loc)
+	for (auto [id, loc] : localitzacions)
+	{
+		if (loc.posició == coordenades && loc.bloqueja_el_pas)
 		{
-			if (loc.posició == coordenades && loc.bloqueja_el_pas)
-			{
-				resultat = id;
-			}
-		});
+			resultat = id;
+		}
+	}
 
 
 	return resultat;
@@ -83,21 +83,20 @@ void Estat::pintar(tcod::Console& console) const
 {
 	m_mapa.pintar(console);
 
-	// PERFER
-	//entitats.per_cada([this, &console](IdEntitat id, component::Entitat const& entitat)
-	//	{
-	//		if (m_mapa.és_a_la_vista(entitat.posició))
-	//		{
-	//			char const txt[2] = { entitat.caracter , '\0' };
+	for(auto [id, loc, pintat] : per_cada(localitzacions, pintats))
+	{
+		if (m_mapa.és_a_la_vista(loc.posició))
+		{
+			char const txt[2] = { pintat.caracter , '\0' };
 
-	//			tcod::print(
-	//				console,
-	//				{ entitat.posició.x, entitat.posició.y },
-	//				txt,
-	//				TCOD_ColorRGB{ entitat.color.r, entitat.color.g, entitat.color.b },
-	//				std::nullopt);
-	//		}
-	//	});
+			tcod::print(
+				console,
+				{ loc.posició.x, loc.posició.y },
+				txt,
+				TCOD_ColorRGB{ pintat.color.r, pintat.color.g, pintat.color.b },
+				std::nullopt);
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------
