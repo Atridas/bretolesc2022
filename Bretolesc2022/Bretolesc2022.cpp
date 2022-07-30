@@ -13,7 +13,6 @@ import Motor;
 #include <vector>
 
 // 3rd party
-#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <libtcod.hpp>
 
@@ -26,6 +25,11 @@ import Motor;
 // 
 // PERFER
 // 
+// - vcpkg
+// Bugs
+// - Iteradors sincronitzats quan comencen
+//   - En comptes de fer un iterador per al final, fer una guardia(?)
+// - Limitar el dany a positiu
 // 6ª PART
 // ✔️ Crear marc entitat/components/sistemes 
 // ✔️ Crear component "lluitador" amb atributs: salut, salut màxima, força i defensa

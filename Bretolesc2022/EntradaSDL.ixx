@@ -6,7 +6,6 @@ module;
 #include <vector>
 
 // 3rd party
-#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <libtcod.hpp>
 
