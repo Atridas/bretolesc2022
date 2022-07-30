@@ -31,10 +31,10 @@ import Motor;
 //   ✔️ jugador { salut: 30, defensa: 2, força: 5 }
 //   ✔️ orc { salut: 10, defensa: 0, força: 3 }
 //   ✔️ trol { salut: 16, defensa: 1, força: 4 }
-// - Crear acció per a "passar" torn (espai?)
-// - Crear el component IAHostil amb un TCOD_path_t
-// - Crear funció d'enrutar (pathfinding)
-//   - Preparar mapa
+// ✔️ Crear acció per a "passar" torn (espai?)
+// ✔️ Crear el component IAHostil amb un TCOD_path_t
+// ✔️ Crear funció d'enrutar (pathfinding)
+//   ✔️ Preparar mapa
 //     ✔️ TCOD_Map* TCOD_map_new(int width, int height);
 //     ✔️ void TCOD_map_clear(TCOD_Map * map, bool transparent, bool walkable);
 //     ? TCOD_Error TCOD_map_copy(const TCOD_Map * __restrict source, TCOD_Map * __restrict dest);
@@ -42,19 +42,19 @@ import Motor;
 //     ✔️ void TCOD_map_delete(TCOD_Map * map);
 //     ? bool TCOD_map_is_transparent(const TCOD_Map * map, int x, int y);
 //     ? bool TCOD_map_is_walkable(TCOD_Map * map, int x, int y);
-//   - Preparar camins
+//   ✔️ Preparar camins
 //     ✔️ TCOD_path_t TCOD_path_new_using_map(TCOD_map_t map, float diagonalCost);
-//     - bool TCOD_path_compute(TCOD_path_t path, int ox, int oy, int dx, int dy);
-//     - bool TCOD_path_walk(TCOD_path_t path, int* x, int* y, bool recalculate_when_needed);
+//     ✔️ bool TCOD_path_compute(TCOD_path_t path, int ox, int oy, int dx, int dy);
+//     ✔️ bool TCOD_path_walk(TCOD_path_t path, int* x, int* y, bool recalculate_when_needed);
 //     ✔️ void TCOD_path_delete(TCOD_path_t path);
-// - Crear sistema ActualitzarIAsHostils
-//   - l'objectiu és el jugador
-//   - si el jugador és a distància (manhattan) 1, atacar-lo
-//   - si tenim un camí definit, seguir-lo
-//   - si el jugador és visible (si nosaltres som visibles des del jugador), crear un camí fins a ell
-//   - en cas contrari no fer res
+// ✔️ Crear sistema ActualitzarIAsHostils
+//   ✔️ l'objectiu és el jugador
+//   ✔️ si el jugador és a distància (manhattan) 1, atacar-lo
+//   ✔️ si tenim un camí definit, seguir-lo
+//   ✔️ si el jugador és visible (si nosaltres som visibles des del jugador), crear un camí fins a ell
+//   ✔️ en cas contrari no fer res
 // ✔️ Modificar l'acció de Melee tal que
-//   - dany = max(0, força - defensa)
+//   ✔️ dany = max(0, força - defensa)
 //   ✔️ restar hp, mostrar missatge
 // - Crear sistema que busqui morts
 //   - entitats amb salut < 0
@@ -121,11 +121,8 @@ int SDL_main(int argc, char* argv[])
     // ------------------------------------------------------------------------
     while (!estat.vol_ser_tancat())
     {
-        bretolesc::motor::executar_accions(accions, estat);
+        bretolesc::motor::executar_accions_jugador(accions, estat);
         accions.clear();
-
-        bretolesc::motor::actualitzar_enemics(estat);
-
 
         bretolesc::motor::pintar(console, context, estat);
 

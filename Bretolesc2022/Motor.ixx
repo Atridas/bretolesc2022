@@ -21,7 +21,7 @@ import Comú;
 
 export namespace bretolesc::motor
 {
-	void executar_accions(std::span<Acció> accions, Estat& estat)
+	void executar_accions_jugador(std::span<Acció> accions, Estat& estat)
 	{
         for (Acció acció : accions)
         {
@@ -29,14 +29,12 @@ export namespace bretolesc::motor
                 {
                     processar(estat, acció);
                 }, acció);
-        }
-        estat.actualitzar_visió();
-	}
 
-    void actualitzar_enemics(Estat& estat)
-    {
-        // PERFER
-    }
+            estat.actualitzar_visió();
+
+            estat.actualitzar_ias_hostils();
+        }
+	}
 
 	void pintar(tcod::Console &console, tcod::ContextPtr const& context, Estat const& estat)
 	{

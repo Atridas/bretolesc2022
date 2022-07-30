@@ -39,6 +39,8 @@ namespace entrada_sdl
 				return BatzegadaJugador{ 0, +1 };
 			case SDLK_UP:
 				return BatzegadaJugador{ 0, -1 };
+			case SDLK_SPACE:
+				return NoFerRes{ };
 
 			case SDLK_ESCAPE:
 				return Finalitzar{};

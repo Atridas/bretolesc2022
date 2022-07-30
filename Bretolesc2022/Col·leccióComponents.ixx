@@ -125,6 +125,11 @@ export namespace bretolesc
 				return idx == col·lecció.ids.size();
 			}
 
+			void moure_al_final()
+			{
+				idx = col·lecció.ids.size();
+			}
+
 		private:
 			Col·lecció<Component>& col·lecció;
 			size_t idx;
@@ -171,6 +176,11 @@ export namespace bretolesc
 			{
 				assert(idx <= col·lecció.ids.size());
 				return idx == col·lecció.ids.size();
+			}
+
+			void moure_al_final()
+			{
+				idx = col·lecció.ids.size();
 			}
 
 		private:
@@ -278,6 +288,9 @@ export namespace bretolesc
 						return;
 					}
 				}
+
+				itA.moure_al_final();
+				itB.moure_al_final();
 			}
 		};
 

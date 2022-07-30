@@ -53,6 +53,11 @@ export namespace bretolesc
 		return Punt2D{ p.x + v.x, p.y + v.y };
 	}
 
+	Vector2D operator-(Punt2D p1, Punt2D p2)
+	{
+		return Vector2D{ p1.x - p2.x, p1.y - p2.y };
+	}
+
 	int distància_manhattan(Punt2D a, Punt2D b)
 	{
 		return std::abs(a.x - b.x) + std::abs(a.y - b.y);

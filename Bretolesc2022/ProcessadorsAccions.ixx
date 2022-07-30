@@ -20,13 +20,17 @@ export namespace bretolesc
 		estat.tanca();
 	}
 
+	void processar(Estat& estat, NoFerRes const &fin)
+	{
+	}
+
 	void processar(Estat& estat, MoureEntitat const& moure)
 	{
-		Punt2D posició_segünet = estat.obtenir_component<Localització>(moure.entitat).posició + moure.direcció;
+		Punt2D posició_següent = estat.obtenir_component<Localització>(moure.entitat).posició + moure.direcció;
 
-		if (estat.mapa().és_transitable(posició_segünet))
+		if (estat.mapa().és_transitable(posició_següent) && !estat.buscar_entitat_bloquejant(posició_següent))
 		{
-			estat.obtenir_component<Localització>(moure.entitat).posició = posició_segünet;
+			estat.obtenir_component<Localització>(moure.entitat).posició = posició_següent;
 		}
 	}
 
@@ -35,7 +39,7 @@ export namespace bretolesc
 		processar(estat, MoureEntitat{ estat.obtenir_id_jugador(), moure.direcció});
 	}
 
-	void processar(Estat& estat, AccióCosACos const& cos_a_cos)
+	void processar(Estat& estat, AtacCosACos const& cos_a_cos)
 	{
 		Pintat const& p_atacant = estat.obtenir_component<Pintat>(cos_a_cos.entitat);
 		Pintat& p_defensor = estat.obtenir_component<Pintat>(cos_a_cos.objectiu);
@@ -65,7 +69,7 @@ export namespace bretolesc
 		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
 		{
 			// PERFER assegurar-se que l'enemic és Lluitador
-			processar(estat, AccióCosACos{ estat.obtenir_id_jugador() , *enemic });
+			processar(estat, AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
 		}
 		else
 		{

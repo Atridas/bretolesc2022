@@ -71,7 +71,6 @@ export namespace bretolesc
 		template<>
 		Col·lecció<IAHostil> const& obtenir_col·lecció<IAHostil>() const { return ias_hostils; }
 
-
 		template<typename Component>
 		Component& obtenir_component(IdEntitat id) { return obtenir_col·lecció<Component>().obtenir(id); }
 		template<typename Component>
@@ -83,6 +82,11 @@ export namespace bretolesc
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
+
+
+		// sistemes
+		void actualitzar_ias_hostils();
+		// -----------
 
 		void actualitzar_visió();
 

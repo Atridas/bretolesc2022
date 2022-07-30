@@ -56,7 +56,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.força = 3;
 
 		IAHostil ia_hostil;
-		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.414f);
+		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.75f);
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, localització);
@@ -81,7 +81,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.força = 4;
 
 		IAHostil ia_hostil;
-		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.414f);
+		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 3.f);
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, localització);

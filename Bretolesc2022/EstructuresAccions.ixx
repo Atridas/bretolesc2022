@@ -15,6 +15,8 @@ export namespace bretolesc
 	{
 		struct Finalitzar {};
 
+		struct NoFerRes {};
+
 		struct MoureJugador
 		{
 			Vector2D direcció;
@@ -27,10 +29,11 @@ export namespace bretolesc
 		};
 
 		// entitat ataca a objectiu
-		struct AccióCosACos
+		struct AtacCosACos
 		{
 			IdEntitat entitat, objectiu;
 		};
+
 
 		// el jugador o bé es mou en una direcció o bé ataca cos a cos si hi ha algú
 		struct BatzegadaJugador
@@ -40,10 +43,11 @@ export namespace bretolesc
 	}
 
 	using Acció = std::variant<
-		acció::Finalitzar,
+		acció::NoFerRes,
 		acció::MoureJugador,
 		acció::MoureEntitat,
-		acció::AccióCosACos,
-		acció::BatzegadaJugador
+		acció::AtacCosACos,
+		acció::BatzegadaJugador,
+		acció::Finalitzar
 	>;
 }
