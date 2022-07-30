@@ -47,6 +47,12 @@ export namespace bretolesc
 	{
 	public:
 		Mapa(int _amplada, int _alçada);
+		~Mapa();
+
+		Mapa(Mapa const&) = delete;
+		Mapa(Mapa&&) = delete;
+		Mapa& operator=(Mapa const&) = delete;
+		Mapa& operator=(Mapa&&) = delete;
 
 		int a_índex(Punt2D r) const
 		{
@@ -63,12 +69,7 @@ export namespace bretolesc
 			return és_dins_del_límit(r) && obtenir_rajola(r).transitable;
 		}
 
-		void establir_rajola(Punt2D r, TipusRajola tipus)
-		{
-			assert(és_dins_del_límit(r));
-
-			rajoles[a_índex(r)] = tipus;
-		}
+		void establir_rajola(Punt2D r, TipusRajola tipus);
 
 		Rajola const& obtenir_rajola(Punt2D r) const
 		{
@@ -97,6 +98,11 @@ export namespace bretolesc
 			return alçada;
 		}
 
+		TCOD_map_t obtenir_mapa_tcod() const
+		{
+			return mapa_TCOD;
+		}
+
 		void actualitzar_camp_de_visió(Punt2D origen, int profunditat_màxima);
 
 		void pintar(tcod::Console& console) const;
@@ -110,6 +116,8 @@ export namespace bretolesc
 
 		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visió del jugador
 		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist
+
+		TCOD_map_t mapa_TCOD;
 	};
 
 }

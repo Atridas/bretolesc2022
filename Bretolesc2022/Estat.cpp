@@ -22,6 +22,15 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 	id_jugador = generador.generar(*this);
 }
 
+
+Estat::~Estat()
+{
+	for (auto [id, ia_hostil] : ias_hostils)
+	{
+		TCOD_path_delete(ia_hostil.camí);
+	}
+}
+
 void Estat::actualitzar_visió()
 {
 	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);

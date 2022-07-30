@@ -26,8 +26,14 @@ export namespace bretolesc
 	public:
 		static const int profunditat_de_visió = 8;
 
-
 		Estat(int _amplada, int _alçada, Generador const& generador);
+		~Estat();
+
+		Estat(Estat const&) = delete;
+		Estat(Estat &&) = delete;
+		Estat& operator=(Estat const&) = delete;
+		Estat& operator=(Estat &&) = delete;
+
 
 		void tanca() { tancar = true; }
 		bool vol_ser_tancat() const { return tancar; }
@@ -60,6 +66,11 @@ export namespace bretolesc
 		template<>
 		Col·lecció<Lluitador> const& obtenir_col·lecció<Lluitador>() const { return lluitadors; }
 
+		template<>
+		Col·lecció<IAHostil>& obtenir_col·lecció<IAHostil>() { return ias_hostils; }
+		template<>
+		Col·lecció<IAHostil> const& obtenir_col·lecció<IAHostil>() const { return ias_hostils; }
+
 
 		template<typename Component>
 		Component& obtenir_component(IdEntitat id) { return obtenir_col·lecció<Component>().obtenir(id); }
@@ -88,6 +99,7 @@ export namespace bretolesc
 		Col·lecció<Localització> localitzacions;
 		Col·lecció<Pintat> pintats;
 		Col·lecció<Lluitador> lluitadors;
+		Col·lecció<IAHostil> ias_hostils; // VIGILA!!! cal un destructor per eliminar-ho bé
 	};
 }
 

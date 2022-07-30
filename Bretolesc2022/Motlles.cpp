@@ -5,6 +5,9 @@ module;
 
 #include <tuple>
 
+// 3rd party
+#include <libtcod.hpp>
+
 module Motlles;
 
 using namespace bretolesc;
@@ -52,10 +55,14 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.defensa = 0;
 		lluitador.força = 3;
 
+		IAHostil ia_hostil;
+		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.414f);
+
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
+		estat.afegir_component(id, ia_hostil);
 		return id;
 	}
 	case TipusEntitat::Trol:
@@ -73,10 +80,14 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.defensa = 1;
 		lluitador.força = 4;
 
+		IAHostil ia_hostil;
+		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.414f);
+
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
+		estat.afegir_component(id, ia_hostil);
 		return id;
 	}
 	default:

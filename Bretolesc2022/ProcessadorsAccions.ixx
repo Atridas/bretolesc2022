@@ -1,6 +1,7 @@
 module;
 
 #include <cstdio>
+#include <cmath>
 
 export module Motor:ProcessadorsAccions;
 
@@ -45,7 +46,7 @@ export namespace bretolesc
 		printf("L'entitat %c ataca a l'entitat %c\n", p_atacant.caracter, p_defensor.caracter);
 
 
-		int dany = atacant.força - defensor.defensa;
+		int dany = std::max(atacant.força - defensor.defensa, 0);
 		if (dany >= defensor.salut)
 		{
 			// PERFER morir

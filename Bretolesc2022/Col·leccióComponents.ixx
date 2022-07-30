@@ -13,6 +13,11 @@ export module Entitats:Col·leccióComponents;
 import :Components;
 import :IdEntitat;
 
+namespace bretolesc
+{
+	struct GuargiaFinalDeCol·lecció {};
+}
+
 export namespace bretolesc
 {
 	template<typename Component>
@@ -104,6 +109,22 @@ export namespace bretolesc
 				return &col·lecció != &it.col·lecció || idx != it.idx;
 			}
 
+			bool operator==(GuargiaFinalDeCol·lecció const&) const
+			{
+				return és_al_final();
+			}
+
+			bool operator!=(GuargiaFinalDeCol·lecció const&) const
+			{
+				return !és_al_final();
+			}
+
+			bool és_al_final() const
+			{
+				assert(idx <= col·lecció.ids.size());
+				return idx == col·lecció.ids.size();
+			}
+
 		private:
 			Col·lecció<Component>& col·lecció;
 			size_t idx;
@@ -136,6 +157,16 @@ export namespace bretolesc
 				return &col·lecció != &it.col·lecció || idx != it.idx;
 			}
 
+			bool operator==(GuargiaFinalDeCol·lecció const&) const
+			{
+				return és_al_final();
+			}
+
+			bool operator!=(GuargiaFinalDeCol·lecció const&) const
+			{
+				return !és_al_final();
+			}
+
 			bool és_al_final() const
 			{
 				assert(idx <= col·lecció.ids.size());
@@ -148,9 +179,9 @@ export namespace bretolesc
 		};
 
 		Iterator begin() { return Iterator{ *this, 0 }; }
-		Iterator end() { return Iterator{ *this, ids.size()}; }
+		GuargiaFinalDeCol·lecció end() { return {}; }
 		ConstIterator begin() const { return ConstIterator{ *this, 0 }; }
-		ConstIterator end() const { return ConstIterator{ *this, ids.size()}; }
+		GuargiaFinalDeCol·lecció end() const { return {}; }
 
 
 	private:
@@ -171,7 +202,9 @@ export namespace bretolesc
 				Col·lecció<ComponentB>::ConstIterator const& _itB)
 				: itA(_itA)
 				, itB(_itB)
-			{}
+			{
+				sincronitzar();
+			}
 
 			std::tuple<IdEntitat, ComponentA const&, ComponentB const&> operator*() const
 			{
@@ -190,6 +223,42 @@ export namespace bretolesc
 				++itA;
 				++itB;
 
+				sincronitzar();
+			}
+
+			bool operator==(ConstIterator const& it) const
+			{
+				return itA == it.itA && itB == it.itB;
+			}
+
+			bool operator!=(ConstIterator const& it)
+			{
+				return itA != it.itA || itB != it.itB;
+			}
+
+			bool operator==(GuargiaFinalDeCol·lecció const&) const
+			{
+				return és_al_final();
+			}
+
+			bool operator!=(GuargiaFinalDeCol·lecció const&)
+			{
+				return !és_al_final();
+			}
+
+			bool és_al_final() const
+			{
+				assert(itA.és_al_final() == itB.és_al_final());
+
+				return itA.és_al_final();
+			}
+
+		private:
+			typename Col·lecció<ComponentA>::ConstIterator itA;
+			typename Col·lecció<ComponentB>::ConstIterator itB;
+
+			void sincronitzar()
+			{
 				while (!itA.és_al_final() && !itB.és_al_final())
 				{
 					IdEntitat idA = std::get<IdEntitat>(*itA);
@@ -209,29 +278,7 @@ export namespace bretolesc
 						return;
 					}
 				}
-
 			}
-
-			bool operator==(ConstIterator const& it) const
-			{
-				return itA == it.itA && itB == it.itB;
-			}
-
-			bool operator!=(ConstIterator const& it)
-			{
-				return itA != it.itA || itB != it.itB;
-			}
-
-			bool és_al_final() const
-			{
-				assert(itA.és_al_final() == itB.és_al_final());
-
-				return itA.és_al_final();
-			}
-
-		private:
-			typename Col·lecció<ComponentA>::ConstIterator itA;
-			typename Col·lecció<ComponentB>::ConstIterator itB;
 		};
 
 		struct Iterable
@@ -240,7 +287,7 @@ export namespace bretolesc
 			Col·lecció<ComponentB> const& col·leccióB;
 
 			ConstIterator begin() const { return ConstIterator( col·leccióA.begin(), col·leccióB.begin() ); }
-			ConstIterator end() const { return ConstIterator( col·leccióA.end(), col·leccióB.end() ); }
+			GuargiaFinalDeCol·lecció end() const { return {}; }
 		};
 
 		return Iterable{ col·leccióA, col·leccióB };

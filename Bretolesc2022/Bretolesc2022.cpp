@@ -25,11 +25,6 @@ import Motor;
 // 
 // PERFER
 // 
-// - vcpkg
-// Bugs
-// - Iteradors sincronitzats quan comencen
-//   - En comptes de fer un iterador per al final, fer una guardia(?)
-// - Limitar el dany a positiu
 // 6ª PART
 // ✔️ Crear marc entitat/components/sistemes 
 // ✔️ Crear component "lluitador" amb atributs: salut, salut màxima, força i defensa
@@ -40,18 +35,18 @@ import Motor;
 // - Crear el component IAHostil amb un TCOD_path_t
 // - Crear funció d'enrutar (pathfinding)
 //   - Preparar mapa
-//     - TCOD_Map* TCOD_map_new(int width, int height);
-//     - void TCOD_map_clear(TCOD_Map * map, bool transparent, bool walkable);
-//     - TCOD_Error TCOD_map_copy(const TCOD_Map * __restrict source, TCOD_Map * __restrict dest);
-//     - void TCOD_map_set_properties(TCOD_Map * map, int x, int y, bool is_transparent, bool is_walkable);
-//     - void TCOD_map_delete(TCOD_Map * map);
-//     - bool TCOD_map_is_transparent(const TCOD_Map * map, int x, int y);
-//     - bool TCOD_map_is_walkable(TCOD_Map * map, int x, int y);
+//     ✔️ TCOD_Map* TCOD_map_new(int width, int height);
+//     ✔️ void TCOD_map_clear(TCOD_Map * map, bool transparent, bool walkable);
+//     ? TCOD_Error TCOD_map_copy(const TCOD_Map * __restrict source, TCOD_Map * __restrict dest);
+//     ✔️ void TCOD_map_set_properties(TCOD_Map * map, int x, int y, bool is_transparent, bool is_walkable);
+//     ✔️ void TCOD_map_delete(TCOD_Map * map);
+//     ? bool TCOD_map_is_transparent(const TCOD_Map * map, int x, int y);
+//     ? bool TCOD_map_is_walkable(TCOD_Map * map, int x, int y);
 //   - Preparar camins
-//     - TCOD_path_t TCOD_path_new_using_map(TCOD_map_t map, float diagonalCost);
+//     ✔️ TCOD_path_t TCOD_path_new_using_map(TCOD_map_t map, float diagonalCost);
 //     - bool TCOD_path_compute(TCOD_path_t path, int ox, int oy, int dx, int dy);
 //     - bool TCOD_path_walk(TCOD_path_t path, int* x, int* y, bool recalculate_when_needed);
-//     - void TCOD_path_delete(TCOD_path_t path);
+//     ✔️ void TCOD_path_delete(TCOD_path_t path);
 // - Crear sistema ActualitzarIAsHostils
 //   - l'objectiu és el jugador
 //   - si el jugador és a distància (manhattan) 1, atacar-lo
@@ -76,7 +71,7 @@ import Motor;
 
 
 
-int main(int argc, char* argv[])
+int SDL_main(int argc, char* argv[])
 {
     int const screen_width = 80;
     int const screen_height = 50;
@@ -128,6 +123,9 @@ int main(int argc, char* argv[])
     {
         bretolesc::motor::executar_accions(accions, estat);
         accions.clear();
+
+        bretolesc::motor::actualitzar_enemics(estat);
+
 
         bretolesc::motor::pintar(console, context, estat);
 

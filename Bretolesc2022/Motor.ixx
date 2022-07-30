@@ -29,11 +29,14 @@ export namespace bretolesc::motor
                 {
                     processar(estat, acció);
                 }, acció);
-
-            estat.actualitzar_visió();
         }
-
+        estat.actualitzar_visió();
 	}
+
+    void actualitzar_enemics(Estat& estat)
+    {
+        // PERFER
+    }
 
 	void pintar(tcod::Console &console, tcod::ContextPtr const& context, Estat const& estat)
 	{

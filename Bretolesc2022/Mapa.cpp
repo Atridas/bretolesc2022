@@ -38,6 +38,26 @@ Mapa::Mapa(int _amplada, int _alçada)
 	};
 
 	mortalla = { ' ', Color::Blanc, Color::Negre };
+
+	mapa_TCOD = TCOD_map_new(amplada, alçada);
+
+	TCOD_map_clear(mapa_TCOD, false, false);
+}
+
+Mapa::~Mapa()
+{
+	TCOD_map_delete(mapa_TCOD);
+}
+
+void Mapa::establir_rajola(Punt2D r, TipusRajola tipus)
+{
+	assert(és_dins_del_límit(r));
+
+	rajoles[a_índex(r)] = tipus;
+
+	Rajola info = info_rajoles[(int)tipus];
+
+	TCOD_map_set_properties(mapa_TCOD, r.x, r.y, !info.bloqueja_la_vista, info.transitable);
 }
 
 void Mapa::actualitzar_camp_de_visió(Punt2D origen, int profunditat_màxima)

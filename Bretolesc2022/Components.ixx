@@ -1,3 +1,8 @@
+module;
+
+// 3rd party
+#include <libtcod.hpp>
+
 export module Entitats:Components;
 
 import Comú;
@@ -21,6 +26,11 @@ export namespace bretolesc::component
 	{
 		int salut, salut_màxima;
 		int força, defensa;
+	};
+
+	struct IAHostil
+	{
+		TCOD_path_t camí;
 	};
 
 	// PERFER
