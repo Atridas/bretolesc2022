@@ -32,7 +32,11 @@ export namespace bretolesc::motor
 
             estat.actualitzar_visió();
 
-            estat.actualitzar_ias_hostils();
+            if (!estat.vol_ser_tancat() && !estat.vol_ser_reiniciat())
+            {
+                estat.actualitzar_ias_hostils();
+                estat.buscar_morts();
+            }
         }
 	}
 

@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <concepts>
+#include <optional>
 #include <tuple>
 #include <vector>
 
@@ -24,9 +25,17 @@ export namespace bretolesc
 	class Col·lecció
 	{
 	public:
+
+		void reinicia()
+		{
+			ids.clear();
+			components.clear();
+		}
+
 		void afegir(IdEntitat id, Component const& component)
 		{
 			assert(ids.size() == components.size());
+			assert(!std::binary_search(ids.begin(), ids.end(), id));
 
 			// inserir id ordenadament
 			auto it = ids.insert(std::upper_bound(ids.begin(), ids.end(), id), id);
@@ -35,6 +44,36 @@ export namespace bretolesc
 
 			// inserir el component a la mateixa posició
 			components.insert(components.begin() + pos, component);
+		}
+
+		void treure(IdEntitat id)
+		{
+			auto it = std::lower_bound(ids.begin(), ids.end(), id);
+			assert(it != ids.end() && *it == id);
+
+			size_t idx = it - ids.begin();
+
+			ids.erase(it);
+			components.erase(components.begin() + idx);
+		}
+
+		std::optional<Component> treure_si_hi_és(IdEntitat id)
+		{
+			auto it = std::lower_bound(ids.begin(), ids.end(), id);
+			if (it != ids.end() && *it == id)
+			{
+				size_t idx = it - ids.begin();
+
+				Component resultat = components[idx];
+
+				ids.erase(it);
+				components.erase(components.begin() + idx);
+				return resultat;
+			}
+			else
+			{
+				return {};
+			}
 		}
 
 		Component& obtenir(IdEntitat id)
@@ -57,6 +96,23 @@ export namespace bretolesc
 			size_t pos = it - ids.begin();
 
 			return components[pos];
+		}
+
+		std::optional<Component> potser_obtenir(IdEntitat id)const
+		{
+			assert(ids.size() == components.size());
+			auto it = std::find(ids.begin(), ids.end(), id);
+
+			if (it != ids.end())
+			{
+				size_t pos = it - ids.begin();
+
+				return components[pos];
+			}
+			else
+			{
+				return {};
+			}
 		}
 
 		// PERFER funció amb 1 o 2 arguments

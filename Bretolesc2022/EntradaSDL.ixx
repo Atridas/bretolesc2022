@@ -25,7 +25,7 @@ namespace entrada_sdl
 	};
 
 
-	std::optional<Acció> processar(SDL_KeyboardEvent const& evnt)
+	std::optional<Acció> processar_viu(SDL_KeyboardEvent const& evnt)
 	{
 		if (evnt.type == SDL_KEYDOWN)
 		{
@@ -55,7 +55,29 @@ namespace entrada_sdl
 		}
 	};
 
-	export void ProcessarEvents(tcod::ContextPtr const& context, std::vector<Acció>& accions_)
+	std::optional<Acció> processar_mort(SDL_KeyboardEvent const& evnt)
+	{
+		if (evnt.type == SDL_KEYDOWN)
+		{
+			switch (evnt.keysym.sym)
+			{
+			case SDLK_SPACE:
+				return Reiniciar{ };
+
+			case SDLK_ESCAPE:
+				return Finalitzar{};
+			default:
+				return {};
+			}
+		}
+		else
+		{
+			assert(evnt.type == SDL_KEYUP);
+			return {};
+		}
+	};
+
+	export void ProcessarEvents(tcod::ContextPtr const& context, bool jugador_és_viu, std::vector<Acció>& accions_)
 	{
 		SDL_Event evnt;
 		SDL_WaitEvent(nullptr);  // Optional, sleep until events are available.
@@ -69,7 +91,7 @@ namespace entrada_sdl
 				break;
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
-				if (std::optional<Acció> acció = processar(evnt.key))
+				if (std::optional<Acció> acció = jugador_és_viu ? processar_viu(evnt.key) : processar_mort(evnt.key))
 				{
 					accions_.push_back(*acció);
 				}

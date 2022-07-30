@@ -22,7 +22,6 @@ using namespace bretolesc::component;
 
 Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 	: m_mapa(_amplada, _alçada)
-	, tancar(false)
 {
 	id_jugador = generador.generar(*this);
 }
@@ -36,9 +35,36 @@ Estat::~Estat()
 	}
 }
 
+
+void Estat::reinicia(Generador const& generador)
+{
+	for (auto [id, ia_hostil] : ias_hostils)
+	{
+		TCOD_path_delete(ia_hostil.camí);
+	}
+
+
+	localitzacions.reinicia();
+	pintats.reinicia();
+	lluitadors.reinicia();
+	ias_hostils.reinicia();
+
+	m_mapa.reinicia();
+
+	id_jugador = generador.generar(*this);
+	actualitzar_visió();
+
+	reiniciar = false;
+}
+
 void Estat::actualitzar_visió()
 {
 	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);
+}
+
+bool Estat::jugador_és_viu() const
+{
+	return potser_obtenir_component<Lluitador>(id_jugador).has_value();
 }
 
 // ----------------------------------------------------------------------------
@@ -133,8 +159,35 @@ void Estat::actualitzar_ias_hostils()
 				processar(*this, acció);
 			}, acció);
 	}
+}
 
+void Estat::buscar_morts()
+{
+	std::vector<IdEntitat> morts;
+	for (auto [id, lluitador] : lluitadors)
+	{
+		if (lluitador.salut <= 0)
+		{
+			morts.push_back(id);
+		}
+	}
 
+	for (IdEntitat id : morts)
+	{
+		obtenir_component<Localització>(id).bloqueja_el_pas = false;
+
+		Pintat& pintat = obtenir_component<Pintat>(id);
+		printf("L'entitat %c ha mort!\n", pintat.caràcter);
+		pintat.caràcter = '%';
+		pintat.color = { 191,0,0 };
+		pintat.prioritat = PrioritatPintar::Cadàver;
+
+		lluitadors.treure(id);
+		if (auto ia = ias_hostils.treure_si_hi_és(id))
+		{
+			TCOD_path_delete(ia->camí);
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -145,20 +198,46 @@ void Estat::pintar(tcod::Console& console) const
 {
 	m_mapa.pintar(console);
 
-	for(auto [id, loc, pintat] : per_cada(localitzacions, pintats))
+	auto pintar_tipus = [this, &console](PrioritatPintar prioritat)
 	{
-		if (m_mapa.és_a_la_vista(loc.posició))
+		for (auto [id, loc, pintat] : per_cada(localitzacions, pintats))
 		{
-			char const txt[2] = { pintat.caracter , '\0' };
+			if (pintat.prioritat == prioritat && m_mapa.és_a_la_vista(loc.posició))
+			{
+				char const txt[2] = { pintat.caràcter , '\0' };
 
-			tcod::print(
-				console,
-				{ loc.posició.x, loc.posició.y },
-				txt,
-				TCOD_ColorRGB{ pintat.color.r, pintat.color.g, pintat.color.b },
-				std::nullopt);
+				tcod::print(
+					console,
+					{ loc.posició.x, loc.posició.y },
+					txt,
+					TCOD_ColorRGB{ pintat.color.r, pintat.color.g, pintat.color.b },
+					std::nullopt);
+			}
 		}
+	};
+
+	pintar_tipus(PrioritatPintar::Cadàver);
+	pintar_tipus(PrioritatPintar::Objecte);
+	pintar_tipus(PrioritatPintar::Actor);
+
+
+	char buffer[2048];
+
+	if (auto jugador = potser_obtenir_component<Lluitador>(id_jugador))
+	{
+		sprintf_s(buffer, 2048, "Salut:%d/%d", jugador->salut, jugador->salut_màxima);
 	}
+	else
+	{
+		sprintf_s(buffer, 2048, "Salut:0");
+	}
+
+	tcod::print(
+		console,
+		{ 1, 47 },
+		buffer,
+		TCOD_ColorRGB{ 255, 255, 255 },
+		std::nullopt);
 }
 
 // ----------------------------------------------------------------------------

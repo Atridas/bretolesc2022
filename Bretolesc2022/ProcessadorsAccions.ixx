@@ -20,6 +20,11 @@ export namespace bretolesc
 		estat.tanca();
 	}
 
+	void processar(Estat& estat, Reiniciar const &fin)
+	{
+		estat.reinicia();
+	}
+
 	void processar(Estat& estat, NoFerRes const &fin)
 	{
 	}
@@ -47,19 +52,18 @@ export namespace bretolesc
 		Lluitador const& atacant = estat.obtenir_component<Lluitador>(cos_a_cos.entitat);
 		Lluitador& defensor = estat.obtenir_component<Lluitador>(cos_a_cos.objectiu);
 
-		printf("L'entitat %c ataca a l'entitat %c\n", p_atacant.caracter, p_defensor.caracter);
+		printf("L'entitat %c ataca a l'entitat %c\n", p_atacant.caràcter, p_defensor.caràcter);
 
 
 		int dany = std::max(atacant.força - defensor.defensa, 0);
 		if (dany >= defensor.salut)
 		{
-			// PERFER morir
-			printf("L'entitat %c ha mort!\n", p_defensor.caracter);
+			defensor.salut = 0;
 		}
 		else
 		{
 			defensor.salut -= dany;
-			printf("L'entitat %c ha rebut %d de dany!\n", p_defensor.caracter, dany);
+			printf("L'entitat %c ha rebut %d de dany!\n", p_defensor.caràcter, dany);
 		}
 	}
 

@@ -16,10 +16,18 @@ export namespace bretolesc::component
 		bool bloqueja_el_pas;
 	};
 
+	enum class PrioritatPintar
+	{
+		Cadàver,
+		Objecte,
+		Actor
+	};
+
 	struct Pintat
 	{
-		char caracter;
+		char caràcter;
 		Color color;
+		PrioritatPintar prioritat;
 	};
 
 	struct Lluitador

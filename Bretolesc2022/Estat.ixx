@@ -36,7 +36,12 @@ export namespace bretolesc
 
 
 		void tanca() { tancar = true; }
+		void reinicia() { reiniciar = true; }
+		void reinicia(Generador const& generador);
+
 		bool vol_ser_tancat() const { return tancar; }
+		bool vol_ser_reiniciat() const { return reiniciar; }
+		bool jugador_és_viu() const;
 
 		Mapa& mapa() { return m_mapa; }
 		Mapa const& mapa() const { return m_mapa; }
@@ -75,6 +80,8 @@ export namespace bretolesc
 		Component& obtenir_component(IdEntitat id) { return obtenir_col·lecció<Component>().obtenir(id); }
 		template<typename Component>
 		Component const& obtenir_component(IdEntitat id) const { return obtenir_col·lecció<Component>().obtenir(id); }
+		template<typename Component>
+		std::optional<Component> potser_obtenir_component(IdEntitat id) const { return obtenir_col·lecció<Component>().potser_obtenir(id); }
 
 		template<typename Component>
 		void afegir_component(IdEntitat id, Component const& component) { return obtenir_col·lecció<Component>().afegir(id, component); }
@@ -86,6 +93,7 @@ export namespace bretolesc
 
 		// sistemes
 		void actualitzar_ias_hostils();
+		void buscar_morts();
 		// -----------
 
 		void actualitzar_visió();
@@ -94,7 +102,7 @@ export namespace bretolesc
 
 	private:
 		Mapa m_mapa;
-		bool tancar;
+		bool tancar = false, reiniciar = false;
 		IdEntitat id_jugador;
 
 		IdEntitat id_següent = 0;
@@ -104,6 +112,7 @@ export namespace bretolesc
 		Col·lecció<Pintat> pintats;
 		Col·lecció<Lluitador> lluitadors;
 		Col·lecció<IAHostil> ias_hostils; // VIGILA!!! cal un destructor per eliminar-ho bé
+		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
 	};
 }
 

@@ -54,6 +54,8 @@ export namespace bretolesc
 		Mapa& operator=(Mapa const&) = delete;
 		Mapa& operator=(Mapa&&) = delete;
 
+		void reinicia();
+
 		int a_índex(Punt2D r) const
 		{
 			return r.y * amplada + r.x;

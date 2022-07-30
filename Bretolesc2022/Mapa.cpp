@@ -49,6 +49,17 @@ Mapa::~Mapa()
 	TCOD_map_delete(mapa_TCOD);
 }
 
+void Mapa::reinicia()
+{
+	for (int i = 0; i < amplada * alçada; ++i)
+	{
+		rajoles_a_la_vista[i] = false;
+		rajoles_explorades[i] = false;
+	}
+
+	TCOD_map_clear(mapa_TCOD, false, false);
+}
+
 void Mapa::establir_rajola(Punt2D r, TipusRajola tipus)
 {
 	assert(és_dins_del_límit(r));

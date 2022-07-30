@@ -17,6 +17,8 @@ export namespace bretolesc
 
 		struct NoFerRes {};
 
+		struct Reiniciar {};
+
 		struct MoureJugador
 		{
 			Vector2D direcció;
@@ -48,6 +50,7 @@ export namespace bretolesc
 		acció::MoureEntitat,
 		acció::AtacCosACos,
 		acció::BatzegadaJugador,
-		acció::Finalitzar
+		acció::Finalitzar,
+		acció::Reiniciar
 	>;
 }

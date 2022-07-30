@@ -24,6 +24,10 @@ import Motor;
 // ----------------------------------------------------------------------------
 // 
 // PERFER
+// - Game Over de victòria!
+// 
+// 7ª PART
+// - ?????????
 // 
 // 6ª PART
 // ✔️ Crear marc entitat/components/sistemes 
@@ -56,13 +60,14 @@ import Motor;
 // ✔️ Modificar l'acció de Melee tal que
 //   ✔️ dany = max(0, força - defensa)
 //   ✔️ restar hp, mostrar missatge
-// - Crear sistema que busqui morts
-//   - entitats amb salut < 0
-//   - canvia el char a "%", el color a {191,0,0} i no bloqueja el moviment
-//   - imprimeix un missage "ha mort un orc" / "has mort"
-// - Canviar les prioritats de render d'entitats: CADÀVER < OBJECTE < ACTOR
-// - Imprimim la vida del jugador després de pintar el mapa console.print(x=1 y=47 "Salut:%d/%d")
-// - Cobrir el game over
+// ✔️ Crear sistema que busqui morts
+//   ✔️ entitats amb salut < 0
+//   ✔️ canvia el char a "%", el color a {191,0,0} i no bloqueja el moviment
+//   ✔️ imprimeix un missage "ha mort un orc" / "has mort"
+// ✔️ Canviar les prioritats de render d'entitats: CADÀVER < OBJECTE < ACTOR
+// ✔️ Imprimim la vida del jugador després de pintar el mapa console.print(x=1 y=47 "Salut:%d/%d")
+// ✔️ Cobrir el game over
+//   ✔️ Canviar el maping de tecles a només 2: ESC i "tornar a començar" (espai?)
 // 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -126,7 +131,18 @@ int SDL_main(int argc, char* argv[])
 
         bretolesc::motor::pintar(console, context, estat);
 
-        entrada_sdl::ProcessarEvents(context, accions);
+        if (estat.vol_ser_reiniciat())
+        {
+            uint32_t llavor = std::random_device{}();
+            printf("Generant amb llavor 0x%x\n", llavor);
+            generador.establir_llavor(llavor);
+
+            estat.reinicia(generador);
+        }
+
+        bool jugador_és_viu = estat.jugador_és_viu();
+
+        entrada_sdl::ProcessarEvents(context, jugador_és_viu, accions);
     }
 
     return 0;

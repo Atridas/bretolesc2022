@@ -26,8 +26,9 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		localització.bloqueja_el_pas = true;
 
 		Pintat pintat = {};
-		pintat.caracter = '@';
+		pintat.caràcter = '@';
 		pintat.color = bretolesc::Color::Blanc;
+		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
 		lluitador.salut = lluitador.salut_màxima = 30;
@@ -47,8 +48,9 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		localització.bloqueja_el_pas = true;
 
 		bretolesc::component::Pintat pintat = {};
-		pintat.caracter = 'o';
+		pintat.caràcter = 'o';
 		pintat.color = bretolesc::Color{ 63, 127, 63 };
+		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
 		lluitador.salut = lluitador.salut_màxima = 10;
@@ -72,8 +74,9 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		localització.bloqueja_el_pas = true;
 
 		bretolesc::component::Pintat pintat = {};
-		pintat.caracter = 'T';
+		pintat.caràcter = 'T';
 		pintat.color = bretolesc::Color{ 0, 127, 0 };
+		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
 		lluitador.salut = lluitador.salut_màxima = 16;
