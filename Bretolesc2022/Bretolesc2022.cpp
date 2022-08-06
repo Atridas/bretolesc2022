@@ -25,49 +25,40 @@ import Motor;
 // 
 // PERFER
 // - Game Over de victòria!
+// - TCOD::pring -> TCOD_console_printf
 // 
 // 7ª PART
-// - ?????????
+// - Crear fitxer de colors de la ui
+//   - player_atk = (0xE0, 0xE0, 0xE0)
+//   - enemy_atk = (0xFF, 0xC0, 0xC0)
+//   - player_die = (0xFF, 0x30, 0x30)
+//   - enemy_die = (0xFF, 0xA0, 0x30)
+//   - welcome_text = (0x20, 0xA0, 0xFF)
+//   - bar_text = white
+//   - bar_filled = (0x0, 0x60, 0x0)
+//   - bar_empty = (0x40, 0x10, 0x10)
+// - Pintar barra de vida sota el text de vida
+//   - console[std::array<int, 2>].bg = color
+//   - [0,45] -> [20,45]
+// - Crear el registre (log) de missatges
+//   - cada missatge conté text, un color i un contador, si el contador és >1, s'afegeix al missatge (L'orc ataca x3)
+//   - quan afegim un missatge aquest ha d'indicar si acumula o no
+//   - imprimir usant TCOD::get_height_rect i TCOD::print_rect
+//     - dibuixem el registre a [21+40, 45+5]
+//     - canviem l'alçada del mapa de 45 a 43 per deixar espai al registre
+// - Afegim els missatges a la consola
+//   - "Aventurer, sigui benvingut a un altre calabós"
+//   - els printfs a processar(Estat&, AtacCosACos const&)
+//   - el missatge de morir a buscar_morts + canviar el color depenent de si és el jugador
+// - Afegir accions que no avancen la lógica
+//   - moure el ratolí, per poder saber on és i...
+//   - imprimir el nom de les entitats sota el ratolí [21, 44]
+//   - Obrir el log de missatges sencer
+//     - "v" per obrir-lo
+//     - fletxes per moure't, pag up / pag down per moure 10 missatges a la vegada
 // 
-// 6ª PART
-// ✔️ Crear marc entitat/components/sistemes 
-// ✔️ Crear component "lluitador" amb atributs: salut, salut màxima, força i defensa
-//   ✔️ jugador { salut: 30, defensa: 2, força: 5 }
-//   ✔️ orc { salut: 10, defensa: 0, força: 3 }
-//   ✔️ trol { salut: 16, defensa: 1, força: 4 }
-// ✔️ Crear acció per a "passar" torn (espai?)
-// ✔️ Crear el component IAHostil amb un TCOD_path_t
-// ✔️ Crear funció d'enrutar (pathfinding)
-//   ✔️ Preparar mapa
-//     ✔️ TCOD_Map* TCOD_map_new(int width, int height);
-//     ✔️ void TCOD_map_clear(TCOD_Map * map, bool transparent, bool walkable);
-//     ? TCOD_Error TCOD_map_copy(const TCOD_Map * __restrict source, TCOD_Map * __restrict dest);
-//     ✔️ void TCOD_map_set_properties(TCOD_Map * map, int x, int y, bool is_transparent, bool is_walkable);
-//     ✔️ void TCOD_map_delete(TCOD_Map * map);
-//     ? bool TCOD_map_is_transparent(const TCOD_Map * map, int x, int y);
-//     ? bool TCOD_map_is_walkable(TCOD_Map * map, int x, int y);
-//   ✔️ Preparar camins
-//     ✔️ TCOD_path_t TCOD_path_new_using_map(TCOD_map_t map, float diagonalCost);
-//     ✔️ bool TCOD_path_compute(TCOD_path_t path, int ox, int oy, int dx, int dy);
-//     ✔️ bool TCOD_path_walk(TCOD_path_t path, int* x, int* y, bool recalculate_when_needed);
-//     ✔️ void TCOD_path_delete(TCOD_path_t path);
-// ✔️ Crear sistema ActualitzarIAsHostils
-//   ✔️ l'objectiu és el jugador
-//   ✔️ si el jugador és a distància (manhattan) 1, atacar-lo
-//   ✔️ si tenim un camí definit, seguir-lo
-//   ✔️ si el jugador és visible (si nosaltres som visibles des del jugador), crear un camí fins a ell
-//   ✔️ en cas contrari no fer res
-// ✔️ Modificar l'acció de Melee tal que
-//   ✔️ dany = max(0, força - defensa)
-//   ✔️ restar hp, mostrar missatge
-// ✔️ Crear sistema que busqui morts
-//   ✔️ entitats amb salut < 0
-//   ✔️ canvia el char a "%", el color a {191,0,0} i no bloqueja el moviment
-//   ✔️ imprimeix un missage "ha mort un orc" / "has mort"
-// ✔️ Canviar les prioritats de render d'entitats: CADÀVER < OBJECTE < ACTOR
-// ✔️ Imprimim la vida del jugador després de pintar el mapa console.print(x=1 y=47 "Salut:%d/%d")
-// ✔️ Cobrir el game over
-//   ✔️ Canviar el maping de tecles a només 2: ESC i "tornar a començar" (espai?)
+// ✔️ 6ª PART
+// 
 // 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
