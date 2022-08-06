@@ -13,6 +13,7 @@ export module Motor:Estat;
 
 import :Mapa;
 import :Generador;
+import :RegistreDeMissatges;
 
 import Comú;
 import Entitats;
@@ -46,6 +47,10 @@ export namespace bretolesc
 		Mapa& mapa() { return m_mapa; }
 		Mapa const& mapa() const { return m_mapa; }
 
+		void afegir_missatge(std::string_view missatge, Color color, bool acumular = false)
+		{
+			registre.afegir_missatge(missatge, color, acumular);
+		}
 
 		IdEntitat crear_entitat() { return id_següent++; }
 
@@ -60,6 +65,11 @@ export namespace bretolesc
 		Col·lecció<Localització>& obtenir_col·lecció<Localització>() { return localitzacions; }
 		template<>
 		Col·lecció<Localització> const& obtenir_col·lecció<Localització>() const { return localitzacions; }
+
+		template<>
+		Col·lecció<Nom>& obtenir_col·lecció<Nom>() { return noms; }
+		template<>
+		Col·lecció<Nom> const& obtenir_col·lecció<Nom>() const { return noms; }
 
 		template<>
 		Col·lecció<Pintat>& obtenir_col·lecció<Pintat>() { return pintats; }
@@ -102,12 +112,14 @@ export namespace bretolesc
 
 	private:
 		Mapa m_mapa;
+		RegistreDeMissatges registre;
 		bool tancar = false, reiniciar = false;
 		IdEntitat id_jugador;
 
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
+		Col·lecció<Nom> noms;
 		Col·lecció<Localització> localitzacions;
 		Col·lecció<Pintat> pintats;
 		Col·lecció<Lluitador> lluitadors;

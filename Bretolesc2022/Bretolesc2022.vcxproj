@@ -170,6 +170,7 @@
     <ClCompile Include="NoiseRNG.ixx" />
     <ClCompile Include="PaletaDeColors.ixx" />
     <ClCompile Include="ProcessadorsAccions.ixx" />
+    <ClCompile Include="RegistreDeMissatges.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />

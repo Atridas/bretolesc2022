@@ -90,6 +90,9 @@
     <ClCompile Include="InterfícieUsuari.ixx">
       <Filter>Móduls\Motor</Filter>
     </ClCompile>
+    <ClCompile Include="RegistreDeMissatges.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />

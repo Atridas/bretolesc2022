@@ -15,16 +15,25 @@ module Motor:Estat;
 
 import :ProcessadorsAccions;
 import :InterfícieUsuari;
+import :PaletaDeColors;
 
 import EstructuresAccions;
 
 using namespace bretolesc;
 using namespace bretolesc::component;
 
+// --------------------------------------------------------------------------------------
+
+static std::string MissatgeBenvinguda = "Aventurer, sigui benvingut a un altre calabos";
+
+// --------------------------------------------------------------------------------------
+
+
 Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 	: m_mapa(_amplada, _alçada)
 {
 	id_jugador = generador.generar(*this);
+	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
 }
 
 
@@ -44,15 +53,19 @@ void Estat::reinicia(Generador const& generador)
 		TCOD_path_delete(ia_hostil.camí);
 	}
 
-
+	noms.reinicia();
 	localitzacions.reinicia();
 	pintats.reinicia();
 	lluitadors.reinicia();
 	ias_hostils.reinicia();
 
 	m_mapa.reinicia();
+	registre.reinicia();
 
 	id_jugador = generador.generar(*this);
+	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
+	// 
+
 	actualitzar_visió();
 
 	reiniciar = false;
@@ -175,10 +188,17 @@ void Estat::buscar_morts()
 
 	for (IdEntitat id : morts)
 	{
+		char buffer[2048];
+		sprintf_s(buffer, 2048, "Un %s ha mort!", obtenir_component<Nom>(id).nom.c_str());
+
+		registre.afegir_missatge(
+			buffer,
+			id == obtenir_id_jugador() ? iu::Paleta::MortJugador : iu::Paleta::MortEnemic,
+			true);
+
 		obtenir_component<Localització>(id).bloqueja_el_pas = false;
 
 		Pintat& pintat = obtenir_component<Pintat>(id);
-		printf("L'entitat %c ha mort!\n", pintat.caràcter);
 		pintat.caràcter = '%';
 		pintat.color = { 191,0,0 };
 		pintat.prioritat = PrioritatPintar::Cadàver;
@@ -223,6 +243,7 @@ void Estat::pintar(tcod::Console& console) const
 
 	iu::pintar_barra_de_vida(*this, console);
 	
+	registre.pintar(console);
 }
 
 // ----------------------------------------------------------------------------

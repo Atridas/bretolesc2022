@@ -38,17 +38,17 @@ import Motor;
 //   ✔️ text_barra_vida = white
 //   ✔️ barra_vida_sencera = (0x0, 0x60, 0x0)
 //   ✔️ barra_vida_buida = (0x40, 0x10, 0x10)
-// - Pintar barra de vida sota el text de vida
-//   - console[std::array<int, 2>].bg = color
-//   - [0,45] -> [20,45]
-// - Crear el registre (log) de missatges
-//   - cada missatge conté text, un color i un contador, si el contador és >1, s'afegeix al missatge (L'orc ataca x3)
-//   - quan afegim un missatge aquest ha d'indicar si acumula o no
-//   - imprimir usant TCOD::get_height_rect i TCOD::print_rect
-//     - dibuixem el registre a [21+40, 45+5]
-//     - canviem l'alçada del mapa de 45 a 43 per deixar espai al registre
+// ✔️ Pintar barra de vida sota el text de vida
+//   ✔️ console[std::array<int, 2>].bg = color
+//   ✔️ [0,45] -> [20,45]
+// ✔️ Crear el registre (log) de missatges
+//   ✔️ cada missatge conté text, un color i un contador, si el contador és >1, s'afegeix al missatge (L'orc ataca x3)
+//   ✔️ quan afegim un missatge aquest ha d'indicar si acumula o no
+//   ✔️ imprimir usant TCOD::get_height_rect i TCOD::print_rect
+//     ✔️ dibuixem el registre a [21+40, 45+5]
+//     ✔️ canviem l'alçada del mapa de 45 a 43 per deixar espai al registre
 // - Afegim els missatges a la consola
-//   - "Aventurer, sigui benvingut a un altre calabós"
+//   ✔️ "Aventurer, sigui benvingut a un altre calabós"
 //   - els printfs a processar(Estat&, AtacCosACos const&)
 //   - el missatge de morir a buscar_morts + canviar el color depenent de si és el jugador
 // - Afegir accions que no avancen la lógica
@@ -74,7 +74,7 @@ int SDL_main(int argc, char* argv[])
     int const screen_height = 50;
     
     int const map_width = 80;
-    int const map_height = 45;
+    int const map_height = 43;
 
     // ------------------------------------------------------------------------
     // Inicialització de les llibreries

@@ -51,6 +51,11 @@ export namespace bretolesc
 		return (a.x == b.x) && (a.y == b.y);
 	}
 
+	bool operator==(Color a, Color b)
+	{
+		return (a.r == b.r) && (a.g == b.g) && (a.b == b.b);
+	}
+
 	Punt2D operator+(Punt2D p, Vector2D v)
 	{
 		return Punt2D{ p.x + v.x, p.y + v.y };

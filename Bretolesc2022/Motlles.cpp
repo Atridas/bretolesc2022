@@ -21,6 +21,8 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 	case TipusEntitat::Jugador:
 	{
+		Nom nom = { "Jugador" };
+
 		Localització localització = {};
 		localització.posició = posició;
 		localització.bloqueja_el_pas = true;
@@ -36,13 +38,16 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.força = 5;
 
 		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		return id;
 	}
 	case TipusEntitat::Orc:
-		{
+	{
+		Nom nom = { "Orc" };
+
 		bretolesc::component::Localització localització = {};
 		localització.posició = posició;
 		localització.bloqueja_el_pas = true;
@@ -61,6 +66,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.75f);
 
 		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
@@ -69,6 +75,8 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	}
 	case TipusEntitat::Trol:
 	{
+		Nom nom = { "Trol" };
+
 		bretolesc::component::Localització localització = {};
 		localització.posició = posició;
 		localització.bloqueja_el_pas = true;
@@ -87,6 +95,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		ia_hostil.camí = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 3.f);
 
 		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);

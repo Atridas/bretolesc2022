@@ -71,4 +71,7 @@ export namespace bretolesc::iu
 			Paleta::TextBarraVida,
 			std::nullopt);
 	}
+
+	
+
 }

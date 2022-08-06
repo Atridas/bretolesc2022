@@ -30,6 +30,11 @@ export namespace bretolesc::component
 		PrioritatPintar prioritat;
 	};
 
+	struct Nom
+	{
+		std::string nom;
+	};
+
 	struct Lluitador
 	{
 		int salut, salut_màxima;
