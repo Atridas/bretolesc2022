@@ -3,6 +3,9 @@ module;
 #include <cinttypes>
 #include <cmath>
 
+// 3rd party
+#include <libtcod.hpp>
+
 export module Comú;
 
 export import :NoiseRNG;
@@ -16,6 +19,11 @@ export namespace bretolesc
 		static Color const Blanc;
 		static Color const Groc;
 		static Color const Negre;
+
+		operator TCOD_ColorRGB() const
+		{
+			return TCOD_ColorRGB{ r,g,b };
+		}
 	};
 
 	struct Punt2D
@@ -30,9 +38,9 @@ export namespace bretolesc
 }
 
 // constants
-bretolesc::Color const bretolesc::Color::Blanc = Color{ 255, 255, 255 };
-bretolesc::Color const bretolesc::Color::Groc = Color{ 255, 255, 0 };
-bretolesc::Color const bretolesc::Color::Negre = Color{ 0, 0, 0 };
+bretolesc::Color const bretolesc::Color::Blanc = Color{ 0xff, 0xff, 0xff };
+bretolesc::Color const bretolesc::Color::Groc = Color{ 0xff, 0xff, 0x00 };
+bretolesc::Color const bretolesc::Color::Negre = Color{ 0x00, 0x00, 0x00 };
 
 
 // operacions
@@ -61,5 +69,11 @@ export namespace bretolesc
 	int distància_manhattan(Punt2D a, Punt2D b)
 	{
 		return std::abs(a.x - b.x) + std::abs(a.y - b.y);
+	}
+
+	Color mescla(Color a, Color b, float alpha)
+	{
+		float i = 1 - alpha;
+		return Color{ (uint8_t)(a.r * i + b.r * alpha), (uint8_t)(a.g * i + b.g * alpha), (uint8_t)(a.b * i + b.b * alpha) };
 	}
 }

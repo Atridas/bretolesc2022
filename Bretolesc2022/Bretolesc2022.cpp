@@ -26,17 +26,18 @@ import Motor;
 // PERFER
 // - Game Over de victòria!
 // - TCOD::pring -> TCOD_console_printf
+// - Reportar bug¿?
 // 
 // 7ª PART
-// - Crear fitxer de colors de la ui
-//   - player_atk = (0xE0, 0xE0, 0xE0)
-//   - enemy_atk = (0xFF, 0xC0, 0xC0)
-//   - player_die = (0xFF, 0x30, 0x30)
-//   - enemy_die = (0xFF, 0xA0, 0x30)
-//   - welcome_text = (0x20, 0xA0, 0xFF)
-//   - bar_text = white
-//   - bar_filled = (0x0, 0x60, 0x0)
-//   - bar_empty = (0x40, 0x10, 0x10)
+// ✔️ Crear fitxer de colors de la IU
+//   ✔️ atac_jugador = (0xE0, 0xE0, 0xE0)
+//   ✔️ atac_enemic = (0xFF, 0xC0, 0xC0)
+//   ✔️ mort_jugador = (0xFF, 0x30, 0x30)
+//   ✔️ mort_enemic = (0xFF, 0xA0, 0x30)
+//   ✔️ text_benvinguda = (0x20, 0xA0, 0xFF)
+//   ✔️ text_barra_vida = white
+//   ✔️ barra_vida_sencera = (0x0, 0x60, 0x0)
+//   ✔️ barra_vida_buida = (0x40, 0x10, 0x10)
 // - Pintar barra de vida sota el text de vida
 //   - console[std::array<int, 2>].bg = color
 //   - [0,45] -> [20,45]

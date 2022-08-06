@@ -153,6 +153,7 @@
     <ClCompile Include="Components.ixx" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="Entitats.ixx" />
+    <ClCompile Include="InterfícieUsuari.ixx" />
     <ClCompile Include="Motlles.cpp" />
     <ClCompile Include="Motlles.ixx" />
     <ClCompile Include="EntradaSDL.ixx" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Mapa.ixx" />
     <ClCompile Include="Motor.ixx" />
     <ClCompile Include="NoiseRNG.ixx" />
+    <ClCompile Include="PaletaDeColors.ixx" />
     <ClCompile Include="ProcessadorsAccions.ixx" />
   </ItemGroup>
   <ItemGroup>

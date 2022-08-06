@@ -84,6 +84,12 @@
     <ClCompile Include="Entitats.ixx">
       <Filter>Móduls\Entitats</Filter>
     </ClCompile>
+    <ClCompile Include="PaletaDeColors.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="InterfícieUsuari.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />

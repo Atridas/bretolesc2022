@@ -14,6 +14,7 @@ module;
 module Motor:Estat;
 
 import :ProcessadorsAccions;
+import :InterfícieUsuari;
 
 import EstructuresAccions;
 
@@ -220,24 +221,8 @@ void Estat::pintar(tcod::Console& console) const
 	pintar_tipus(PrioritatPintar::Objecte);
 	pintar_tipus(PrioritatPintar::Actor);
 
-
-	char buffer[2048];
-
-	if (auto jugador = potser_obtenir_component<Lluitador>(id_jugador))
-	{
-		sprintf_s(buffer, 2048, "Salut:%d/%d", jugador->salut, jugador->salut_màxima);
-	}
-	else
-	{
-		sprintf_s(buffer, 2048, "Salut:0");
-	}
-
-	tcod::print(
-		console,
-		{ 1, 47 },
-		buffer,
-		TCOD_ColorRGB{ 255, 255, 255 },
-		std::nullopt);
+	iu::pintar_barra_de_vida(*this, console);
+	
 }
 
 // ----------------------------------------------------------------------------
