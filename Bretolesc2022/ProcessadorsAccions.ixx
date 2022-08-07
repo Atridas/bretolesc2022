@@ -13,24 +13,11 @@ import Entitats;
 
 export namespace bretolesc
 {
-	using namespace acció;
 	using namespace component;
 
-	void processar(Estat& estat, Finalitzar const &fin)
-	{
-		estat.tanca();
-	}
+	// accions entitats -----------------------------------------------------------------------------
 
-	void processar(Estat& estat, Reiniciar const &fin)
-	{
-		estat.reinicia();
-	}
-
-	void processar(Estat& estat, NoFerRes const &fin)
-	{
-	}
-
-	void processar(Estat& estat, MoureEntitat const& moure)
+	void processar(Estat& estat, acció_entitat::Moure const& moure)
 	{
 		Punt2D posició_següent = estat.obtenir_component<Localització>(moure.entitat).posició + moure.direcció;
 
@@ -40,12 +27,7 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, MoureJugador const& moure)
-	{
-		processar(estat, MoureEntitat{ estat.obtenir_id_jugador(), moure.direcció});
-	}
-
-	void processar(Estat& estat, AtacCosACos const& cos_a_cos)
+	void processar(Estat& estat, acció_entitat::AtacCosACos const& cos_a_cos)
 	{
 		Nom const& nom_atacant = estat.obtenir_component<Nom>(cos_a_cos.entitat);
 		Nom& nom_defensor = estat.obtenir_component<Nom>(cos_a_cos.objectiu);
@@ -74,17 +56,48 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, BatzegadaJugador const& batzegada)
+	// accions de l'usuari ----------------------------------------------------------------------
+
+	void processar(Estat& estat, acció_usuari::Finalitzar const &fin)
+	{
+		estat.tanca();
+	}
+
+	void processar(Estat& estat, acció_usuari::Reiniciar const &fin)
+	{
+		estat.reinicia();
+	}
+
+	void processar(Estat& estat, acció_usuari::NoFerRes const &fin)
+	{
+		estat.actualitzar_lógica();
+	}
+
+	void processar(Estat& estat, acció_usuari::Moure const& moure)
+	{
+		processar(estat, acció_entitat::Moure{ estat.obtenir_id_jugador(), moure.direcció});
+
+		estat.actualitzar_lógica();
+	}
+
+	void processar(Estat& estat, acció_usuari::Batzegada const& batzegada)
 	{
 		Punt2D posició_següent = estat.obtenir_component<Localització>(estat.obtenir_id_jugador()).posició + batzegada.direcció;
 		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
 		{
 			// PERFER assegurar-se que l'enemic és Lluitador
-			processar(estat, AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
+			processar(estat, acció_entitat::AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
 		}
 		else
 		{
-			processar(estat, MoureJugador{ batzegada.direcció });
+			processar(estat, acció_entitat::Moure{ estat.obtenir_id_jugador(), batzegada.direcció });
 		}
+
+		estat.actualitzar_lógica();
+	}
+
+	void processar(Estat& estat, acció_usuari::MoureRatolí const& ratolí)
+	{
+		estat.moure_ratolí(ratolí.p);
 	}
 }

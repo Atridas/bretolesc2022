@@ -42,6 +42,9 @@ export namespace bretolesc
 
 		bool vol_ser_tancat() const { return tancar; }
 		bool vol_ser_reiniciat() const { return reiniciar; }
+		void moure_ratolí(Punt2D p) { ratolí = p; }
+		Punt2D obtenir_ratolí() const { return ratolí; }
+
 		bool jugador_és_viu() const;
 
 		Mapa& mapa() { return m_mapa; }
@@ -98,13 +101,10 @@ export namespace bretolesc
 
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
+		std::vector<IdEntitat> buscar_entitats(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
 
-
-		// sistemes
-		void actualitzar_ias_hostils();
-		void buscar_morts();
-		// -----------
+		void actualitzar_lógica();
 
 		void actualitzar_visió();
 
@@ -114,6 +114,8 @@ export namespace bretolesc
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
 		bool tancar = false, reiniciar = false;
+		Punt2D ratolí;
+
 		IdEntitat id_jugador;
 
 		IdEntitat id_següent = 0;
@@ -125,6 +127,12 @@ export namespace bretolesc
 		Col·lecció<Lluitador> lluitadors;
 		Col·lecció<IAHostil> ias_hostils; // VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
+
+
+		// sistemes
+		void actualitzar_ias_hostils();
+		void buscar_morts();
+		// -----------
 	};
 }
 

@@ -21,9 +21,9 @@ import Comú;
 
 export namespace bretolesc::motor
 {
-	void executar_accions_jugador(std::span<Acció> accions, Estat& estat)
+	void executar_accions_usuari(std::span<AccióUsuari> accions, Estat& estat)
 	{
-        for (Acció acció : accions)
+        for (AccióUsuari acció : accions)
         {
             std::visit([&estat](auto& acció)
                 {
@@ -31,12 +31,6 @@ export namespace bretolesc::motor
                 }, acció);
 
             estat.actualitzar_visió();
-
-            if (!estat.vol_ser_tancat() && !estat.vol_ser_reiniciat())
-            {
-                estat.actualitzar_ias_hostils();
-                estat.buscar_morts();
-            }
         }
 	}
 

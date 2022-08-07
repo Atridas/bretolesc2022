@@ -1,5 +1,8 @@
 ﻿module;
 
+// std
+#include <cassert>
+
 // 3rd party
 #include <libtcod.hpp>
 
@@ -72,6 +75,56 @@ export namespace bretolesc::iu
 			std::nullopt);
 	}
 
-	
+	void pintar_info_ratolí(Estat const& estat, tcod::Console& console)
+	{
+		Punt2D r = estat.obtenir_ratolí();
+
+		std::vector<IdEntitat> entitats = estat.buscar_entitats(r);
+
+		//char buffer[2048];
+		//sprintf_s(buffer, 2048, "");
+
+		int línia = 45;
+		
+		for (IdEntitat id : entitats)
+		{
+			// no petar el joc
+			if (línia >= 50)
+				break;
+
+			if (auto nom = estat.potser_obtenir_component<Nom>(id))
+			{
+				Color color = Paleta::TextInfoRatolíActor;
+
+				if (auto pintat = estat.potser_obtenir_component<Pintat>(id))
+				{
+					switch (pintat->prioritat)
+					{
+					case PrioritatPintar::Cadàver:
+						color = Paleta::TextInfoRatolíCadàver;
+						break;
+					case PrioritatPintar::Objecte:
+						color = Paleta::TextInfoRatolíObjecte;
+						break;
+					case PrioritatPintar::Actor:
+						color = Paleta::TextInfoRatolíActor;
+						break;
+					default:
+						assert(false);
+						break;
+					}
+				}
+
+				tcod::print(
+					console,
+					{ 62, línia },
+					nom->nom,
+					color,
+					std::nullopt);
+
+				++línia;
+			}
+		}
+	}
 
 }

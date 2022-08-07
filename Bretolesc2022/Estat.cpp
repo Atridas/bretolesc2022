@@ -97,6 +97,20 @@ std::optional<IdEntitat> Estat::buscar_entitat(Punt2D coordenades) const
 		}
 	}
 
+	return resultat;
+}
+
+std::vector<IdEntitat> Estat::buscar_entitats(Punt2D coordenades) const
+{
+	std::vector<IdEntitat> resultat;
+
+	for (auto [id, loc] : localitzacions)
+	{
+		if (loc.posició == coordenades)
+		{
+			resultat.push_back(id);
+		}
+	}
 
 	return resultat;
 }
@@ -121,6 +135,12 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
+void Estat::actualitzar_lógica()
+{
+	actualitzar_ias_hostils();
+	buscar_morts();
+}
+
 void Estat::actualitzar_ias_hostils()
 {
 	// - l'objectiu és el jugador
@@ -131,13 +151,13 @@ void Estat::actualitzar_ias_hostils()
 
 	Localització loc_jugador = obtenir_component<Localització>(id_jugador);
 
-	std::vector<Acció> accions;
+	std::vector<AccióEntitat> accions;
 
 	for (auto [id_ia, loc_ia, ia_hostil] : per_cada(localitzacions, ias_hostils))
 	{
 		if (distància_manhattan(loc_jugador.posició, loc_ia.posició) == 1)
 		{
-			accions.push_back( acció::AtacCosACos{id_ia, id_jugador} );
+			accions.push_back( acció_entitat::AtacCosACos{id_ia, id_jugador} );
 		}
 		else if (!TCOD_path_is_empty(ia_hostil.camí))
 		{
@@ -157,7 +177,7 @@ void Estat::actualitzar_ias_hostils()
 					// recalcular
 					TCOD_path_compute(ia_hostil.camí, loc_ia.posició.x, loc_ia.posició.y, loc_jugador.posició.x, loc_jugador.posició.y);
 				}
-				accions.push_back(acció::MoureEntitat{ id_ia, moviment });
+				accions.push_back(acció_entitat::Moure{ id_ia, moviment });
 			}
 		}
 		else if (m_mapa.és_a_la_vista(loc_ia.posició))
@@ -166,7 +186,7 @@ void Estat::actualitzar_ias_hostils()
 		}
 	}
 
-	for (Acció acció : accions)
+	for (AccióEntitat acció : accions)
 	{
 		std::visit([this](auto& acció)
 			{
@@ -242,6 +262,7 @@ void Estat::pintar(tcod::Console& console) const
 	pintar_tipus(PrioritatPintar::Actor);
 
 	iu::pintar_barra_de_vida(*this, console);
+	iu::pintar_info_ratolí(*this, console);
 	
 	registre.pintar(console);
 }

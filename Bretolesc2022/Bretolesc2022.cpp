@@ -47,13 +47,13 @@ import Motor;
 //   ✔️ imprimir usant TCOD::get_height_rect i TCOD::print_rect
 //     ✔️ dibuixem el registre a [21+40, 45+5]
 //     ✔️ canviem l'alçada del mapa de 45 a 43 per deixar espai al registre
-// - Afegim els missatges a la consola
+// ✔️ Afegim els missatges a la consola
 //   ✔️ "Aventurer, sigui benvingut a un altre calabós"
-//   - els printfs a processar(Estat&, AtacCosACos const&)
-//   - el missatge de morir a buscar_morts + canviar el color depenent de si és el jugador
+//   ✔️ els printfs a processar(Estat&, AtacCosACos const&)
+//   ✔️ el missatge de morir a buscar_morts + canviar el color depenent de si és el jugador
 // - Afegir accions que no avancen la lógica
-//   - moure el ratolí, per poder saber on és i...
-//   - imprimir el nom de les entitats sota el ratolí [21, 44]
+//   ✔️ moure el ratolí, per poder saber on és i...
+//   ✔️ imprimir el nom de les entitats sota el ratolí [21, 44]
 //   - Obrir el log de missatges sencer
 //     - "v" per obrir-lo
 //     - fletxes per moure't, pag up / pag down per moure 10 missatges a la vegada
@@ -111,14 +111,14 @@ int SDL_main(int argc, char* argv[])
 
     estat.actualitzar_visió();
 
-    std::vector<bretolesc::Acció> accions;
+    std::vector<bretolesc::AccióUsuari> accions;
 
     // ------------------------------------------------------------------------
     // Game loop.
     // ------------------------------------------------------------------------
     while (!estat.vol_ser_tancat())
     {
-        bretolesc::motor::executar_accions_jugador(accions, estat);
+        bretolesc::motor::executar_accions_usuari(accions, estat);
         accions.clear();
 
         bretolesc::motor::pintar(console, context, estat);

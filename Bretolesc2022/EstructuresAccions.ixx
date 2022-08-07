@@ -11,7 +11,7 @@ import Entitats;
 export namespace bretolesc
 {
 
-	namespace acció
+	namespace acció_usuari
 	{
 		struct Finalitzar {};
 
@@ -19,12 +19,35 @@ export namespace bretolesc
 
 		struct Reiniciar {};
 
-		struct MoureJugador
+		struct Moure
 		{
 			Vector2D direcció;
 		};
 
-		struct MoureEntitat
+		// el jugador o bé es mou en una direcció o bé ataca cos a cos si hi ha algú
+		struct Batzegada
+		{
+			Vector2D direcció;
+		};
+
+		struct MoureRatolí
+		{
+			Punt2D p;
+		};
+	}
+
+	using AccióUsuari = std::variant<
+		acció_usuari::NoFerRes,
+		acció_usuari::Moure,
+		acció_usuari::Batzegada,
+		acció_usuari::MoureRatolí,
+		acció_usuari::Finalitzar,
+		acció_usuari::Reiniciar
+	>;
+
+	namespace acció_entitat
+	{
+		struct Moure
 		{
 			IdEntitat entitat;
 			Vector2D direcció;
@@ -35,22 +58,10 @@ export namespace bretolesc
 		{
 			IdEntitat entitat, objectiu;
 		};
-
-
-		// el jugador o bé es mou en una direcció o bé ataca cos a cos si hi ha algú
-		struct BatzegadaJugador
-		{
-			Vector2D direcció;
-		};
 	}
 
-	using Acció = std::variant<
-		acció::NoFerRes,
-		acció::MoureJugador,
-		acció::MoureEntitat,
-		acció::AtacCosACos,
-		acció::BatzegadaJugador,
-		acció::Finalitzar,
-		acció::Reiniciar
+	using AccióEntitat = std::variant<
+		acció_entitat::Moure,
+		acció_entitat::AtacCosACos
 	>;
 }
