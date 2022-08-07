@@ -28,36 +28,9 @@ import Motor;
 // - TCOD::pring -> TCOD_console_printf
 // - Reportar bug¿?
 // 
-// 7ª PART
-// ✔️ Crear fitxer de colors de la IU
-//   ✔️ atac_jugador = (0xE0, 0xE0, 0xE0)
-//   ✔️ atac_enemic = (0xFF, 0xC0, 0xC0)
-//   ✔️ mort_jugador = (0xFF, 0x30, 0x30)
-//   ✔️ mort_enemic = (0xFF, 0xA0, 0x30)
-//   ✔️ text_benvinguda = (0x20, 0xA0, 0xFF)
-//   ✔️ text_barra_vida = white
-//   ✔️ barra_vida_sencera = (0x0, 0x60, 0x0)
-//   ✔️ barra_vida_buida = (0x40, 0x10, 0x10)
-// ✔️ Pintar barra de vida sota el text de vida
-//   ✔️ console[std::array<int, 2>].bg = color
-//   ✔️ [0,45] -> [20,45]
-// ✔️ Crear el registre (log) de missatges
-//   ✔️ cada missatge conté text, un color i un contador, si el contador és >1, s'afegeix al missatge (L'orc ataca x3)
-//   ✔️ quan afegim un missatge aquest ha d'indicar si acumula o no
-//   ✔️ imprimir usant TCOD::get_height_rect i TCOD::print_rect
-//     ✔️ dibuixem el registre a [21+40, 45+5]
-//     ✔️ canviem l'alçada del mapa de 45 a 43 per deixar espai al registre
-// ✔️ Afegim els missatges a la consola
-//   ✔️ "Aventurer, sigui benvingut a un altre calabós"
-//   ✔️ els printfs a processar(Estat&, AtacCosACos const&)
-//   ✔️ el missatge de morir a buscar_morts + canviar el color depenent de si és el jugador
-// - Afegir accions que no avancen la lógica
-//   ✔️ moure el ratolí, per poder saber on és i...
-//   ✔️ imprimir el nom de les entitats sota el ratolí [21, 44]
-//   - Obrir el log de missatges sencer
-//     - "v" per obrir-lo
-//     - fletxes per moure't, pag up / pag down per moure 10 missatges a la vegada
+// - 8ª PART
 // 
+// ✔️ 7ª PART
 // ✔️ 6ª PART
 // 
 // 
@@ -132,9 +105,7 @@ int SDL_main(int argc, char* argv[])
             estat.reinicia(generador);
         }
 
-        bool jugador_és_viu = estat.jugador_és_viu();
-
-        entrada_sdl::ProcessarEvents(context, jugador_és_viu, accions);
+        entrada_sdl::ProcessarEvents(context, estat.obtenir_mode_entrada(), accions);
     }
 
     return 0;

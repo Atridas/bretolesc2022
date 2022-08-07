@@ -12,6 +12,7 @@ module;
 export module EntradaSDL;
 
 import EstructuresAccions;
+import ModeEntrada;
 
 namespace entrada_sdl
 {
@@ -36,27 +37,31 @@ namespace entrada_sdl
 		{
 			switch (evnt.keysym.sym)
 			{
+			case SDLK_ESCAPE:
+				return Finalitzar{};
+
+			case SDLK_SPACE:
+				return NoFerRes{ };
+
+			case SDLK_v:
+				return AlternarRegistre{};
+
 			case SDLK_RIGHT:
-				return Batzegada{ +1, 0};
+				return Batzegada{ +1, 0 };
 			case SDLK_LEFT:
 				return Batzegada{ -1, 0 };
 			case SDLK_DOWN:
 				return Batzegada{ 0, +1 };
 			case SDLK_UP:
 				return Batzegada{ 0, -1 };
-			case SDLK_SPACE:
-				return NoFerRes{ };
-
-			case SDLK_ESCAPE:
-				return Finalitzar{};
 			default:
-				return {};
+				return std::nullopt;
 			}
 		}
 		else
 		{
 			assert(evnt.type == SDL_KEYUP);
-			return {};
+			return std::nullopt;
 		}
 	};
 
@@ -66,23 +71,60 @@ namespace entrada_sdl
 		{
 			switch (evnt.keysym.sym)
 			{
+			case SDLK_ESCAPE:
+				return Finalitzar{};
+
 			case SDLK_SPACE:
 				return Reiniciar{ };
 
-			case SDLK_ESCAPE:
-				return Finalitzar{};
+			case SDLK_v:
+				return AlternarRegistre{};
+
 			default:
-				return {};
+				return std::nullopt;
 			}
 		}
 		else
 		{
 			assert(evnt.type == SDL_KEYUP);
-			return {};
+			return std::nullopt;
 		}
 	};
 
-	export void ProcessarEvents(tcod::ContextPtr const& context, bool jugador_és_viu, std::vector<AccióUsuari>& accions_)
+	std::optional<AccióUsuari> processar_registre(SDL_KeyboardEvent const& evnt)
+	{
+		if (evnt.type == SDL_KEYDOWN)
+		{
+			switch (evnt.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+			case SDLK_SPACE:
+			case SDLK_v:
+				return AlternarRegistre{};
+
+			case SDLK_DOWN:
+				return DesplaçarRegistre{ +1 };
+			case SDLK_UP:
+				return DesplaçarRegistre{ -1 };
+
+
+			case SDLK_PAGEUP:
+				return DesplaçarRegistre{ -10 };
+			case SDLK_PAGEDOWN:
+				return DesplaçarRegistre{ +10 };
+
+			default:
+				return std::nullopt;
+			}
+		}
+		else
+		{
+			assert(evnt.type == SDL_KEYUP);
+			return std::nullopt;
+		}
+	}
+
+	export void ProcessarEvents(tcod::ContextPtr const& context, ModeEntrada mode_entrada, std::vector<AccióUsuari>& accions_)
 	{
 		SDL_Event evnt;
 		SDL_WaitEvent(nullptr);  // Optional, sleep until events are available.
@@ -96,11 +138,30 @@ namespace entrada_sdl
 				break;
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
-				if (std::optional<AccióUsuari> acció = jugador_és_viu ? processar_viu(evnt.key) : processar_mort(evnt.key))
+			{
+				std::optional<AccióUsuari> acció;
+				switch (mode_entrada)
+				{
+				case ModeEntrada::Viu:
+					acció = processar_viu(evnt.key);
+					break;
+				case ModeEntrada::Mort:
+					acció = processar_mort(evnt.key);
+					break;
+				case ModeEntrada::Registre:
+					acció = processar_registre(evnt.key);
+					break;
+				default:
+					assert(false);
+					break;
+				}
+
+				if (acció)
 				{
 					accions_.push_back(*acció);
 				}
 				break;
+			}
 			case SDL_MOUSEMOTION:
 				accions_.push_back(processar(evnt.motion));
 				break; 

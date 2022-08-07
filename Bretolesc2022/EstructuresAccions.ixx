@@ -34,6 +34,13 @@ export namespace bretolesc
 		{
 			Punt2D p;
 		};
+
+		struct AlternarRegistre {};
+
+		struct DesplaçarRegistre
+		{
+			int línies;
+		};
 	}
 
 	using AccióUsuari = std::variant<
@@ -41,6 +48,8 @@ export namespace bretolesc
 		acció_usuari::Moure,
 		acció_usuari::Batzegada,
 		acció_usuari::MoureRatolí,
+		acció_usuari::AlternarRegistre,
+		acció_usuari::DesplaçarRegistre,
 		acció_usuari::Finalitzar,
 		acció_usuari::Reiniciar
 	>;

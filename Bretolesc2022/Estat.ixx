@@ -17,6 +17,7 @@ import :RegistreDeMissatges;
 
 import Comú;
 import Entitats;
+import ModeEntrada;
 
 export namespace bretolesc
 {
@@ -39,6 +40,8 @@ export namespace bretolesc
 		void tanca() { tancar = true; }
 		void reinicia() { reiniciar = true; }
 		void reinicia(Generador const& generador);
+		void alterna_registre() { mostrar_registre = !mostrar_registre; registre.reiniciar_desplaçament(); }
+		void desplaçar_registre(int quantitat) { registre.desplaçar_registre(quantitat); }
 
 		bool vol_ser_tancat() const { return tancar; }
 		bool vol_ser_reiniciat() const { return reiniciar; }
@@ -46,6 +49,7 @@ export namespace bretolesc
 		Punt2D obtenir_ratolí() const { return ratolí; }
 
 		bool jugador_és_viu() const;
+		ModeEntrada obtenir_mode_entrada() const;
 
 		Mapa& mapa() { return m_mapa; }
 		Mapa const& mapa() const { return m_mapa; }
@@ -113,7 +117,7 @@ export namespace bretolesc
 	private:
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
-		bool tancar = false, reiniciar = false;
+		bool tancar = false, reiniciar = false, mostrar_registre = false;
 		Punt2D ratolí;
 
 		IdEntitat id_jugador;

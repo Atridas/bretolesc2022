@@ -19,6 +19,7 @@ export namespace bretolesc
 		static Color const Blanc;
 		static Color const Groc;
 		static Color const Negre;
+		static Color const GrisFosc;
 
 		operator TCOD_ColorRGB() const
 		{
@@ -35,12 +36,19 @@ export namespace bretolesc
 	{
 		int x, y;
 	};
+
+	struct Rectangle2D
+	{
+		Punt2D orígen;
+		Vector2D mida;
+	};
 }
 
 // constants
 bretolesc::Color const bretolesc::Color::Blanc = Color{ 0xff, 0xff, 0xff };
 bretolesc::Color const bretolesc::Color::Groc = Color{ 0xff, 0xff, 0x00 };
 bretolesc::Color const bretolesc::Color::Negre = Color{ 0x00, 0x00, 0x00 };
+bretolesc::Color const bretolesc::Color::GrisFosc = Color{ 0x33, 0x33, 0x33 };
 
 
 // operacions

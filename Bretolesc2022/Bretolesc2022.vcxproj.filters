@@ -22,6 +22,9 @@
     <Filter Include="Móduls\Motlles">
       <UniqueIdentifier>{ca298146-791b-455a-941f-b2cafba982eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Móduls\ModeEntrada">
+      <UniqueIdentifier>{2793ef82-62ec-4bd5-955c-9450010f91d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntradaSDL.ixx">
@@ -91,6 +94,12 @@
       <Filter>Móduls\Motor</Filter>
     </ClCompile>
     <ClCompile Include="RegistreDeMissatges.ixx">
+      <Filter>Móduls\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeEntrada.ixx">
+      <Filter>Móduls\ModeEntrada</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistreDeMissatges.cpp">
       <Filter>Móduls\Motor</Filter>
     </ClCompile>
   </ItemGroup>

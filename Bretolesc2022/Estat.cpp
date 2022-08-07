@@ -34,6 +34,13 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 {
 	id_jugador = generador.generar(*this);
 	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
+
+	for (int i = 0; i < 100; ++i)
+	{
+		char buffer[2048];
+		sprintf_s(buffer, 2048, "catacroker %d", i);
+		registre.afegir_missatge(buffer, Color{ (uint8_t)(i % 255), 0xff, 0xff });
+	}
 }
 
 
@@ -79,6 +86,22 @@ void Estat::actualitzar_visió()
 bool Estat::jugador_és_viu() const
 {
 	return potser_obtenir_component<Lluitador>(id_jugador).has_value();
+}
+
+ModeEntrada Estat::obtenir_mode_entrada() const
+{
+	if (mostrar_registre)
+	{
+		return ModeEntrada::Registre;
+	}
+	else if (jugador_és_viu())
+	{
+		return ModeEntrada::Viu;
+	}
+	else
+	{
+		return ModeEntrada::Mort;
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -265,6 +288,9 @@ void Estat::pintar(tcod::Console& console) const
 	iu::pintar_info_ratolí(*this, console);
 	
 	registre.pintar(console);
+
+	if (mostrar_registre)
+		registre.pintar_sencer(console);
 }
 
 // ----------------------------------------------------------------------------

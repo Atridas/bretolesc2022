@@ -100,4 +100,14 @@ export namespace bretolesc
 	{
 		estat.moure_ratolí(ratolí.p);
 	}
+
+	void processar(Estat& estat, acció_usuari::AlternarRegistre const&)
+	{
+		estat.alterna_registre();
+	}
+
+	void processar(Estat& estat, acció_usuari::DesplaçarRegistre const& desplaçament)
+	{
+		estat.desplaçar_registre(desplaçament.línies);
+	}
 }
