@@ -34,13 +34,6 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 {
 	id_jugador = generador.generar(*this);
 	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
-
-	for (int i = 0; i < 100; ++i)
-	{
-		char buffer[2048];
-		sprintf_s(buffer, 2048, "catacroker %d", i);
-		registre.afegir_missatge(buffer, Color{ (uint8_t)(i % 255), 0xff, 0xff });
-	}
 }
 
 
