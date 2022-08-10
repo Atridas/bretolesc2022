@@ -26,7 +26,10 @@ import Motor;
 // PERFER
 // - Game Over de victòria!
 // - TCOD::pring -> TCOD_console_printf
-// - Reportar bug¿?
+// - Reportar bug
+//   - tutorial 12
+//   - llavor 0x10d5da89
+//   -        0x5eda1105
 // 
 // - 8ª PART
 // 
