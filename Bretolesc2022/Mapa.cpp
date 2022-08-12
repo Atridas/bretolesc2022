@@ -14,7 +14,7 @@ module Motor:Mapa;
 using namespace bretolesc;
 
 
-#define TRUC_VISIÓ 1
+#define TRUC_VISIÓ 0
 
 
 Mapa::Mapa(int _amplada, int _alçada)
