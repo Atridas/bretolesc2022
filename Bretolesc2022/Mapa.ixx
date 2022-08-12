@@ -63,7 +63,7 @@ export namespace bretolesc
 
 		bool és_dins_del_límit(Punt2D r) const
 		{
-			return r.x >= 0 && r.x < amplada&& r.y >= 0 && r.y < alçada;
+			return r.x >= 0 && r.x < amplada && r.y >= 0 && r.y < alçada;
 		}
 
 		bool és_transitable(Punt2D r) const

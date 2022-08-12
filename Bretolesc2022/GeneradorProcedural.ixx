@@ -68,8 +68,8 @@ namespace bretolesc
 			std::vector<Habitació> habitacions;
 			std::vector<Passadís> passadissos;
 
-			std::uniform_int_distribution<> amplada_qualsevol(0, estat.mapa().obtenir_amplada());
-			std::uniform_int_distribution<> alçada_qualsevol(0, estat.mapa().obtenir_alçada());
+			std::uniform_int_distribution<> amplada_qualsevol(1, estat.mapa().obtenir_amplada() - 4);
+			std::uniform_int_distribution<> alçada_qualsevol(1, estat.mapa().obtenir_alçada() - 4);
 
 			std::uniform_int_distribution<> tamany(3, 15);
 
@@ -101,7 +101,7 @@ namespace bretolesc
 					}
 				}
 
-				if (!solapada && estat.mapa().és_dins_del_límit(habitació.v2))
+				if (!solapada && habitació.v2.x < estat.mapa().obtenir_amplada() - 1 && habitació.v2.y < estat.mapa().obtenir_alçada() - 1)
 				{
 					habitacions.push_back(habitació);
 				}
@@ -135,8 +135,8 @@ namespace bretolesc
 			// pintar habitacions
 			for (Habitació habitació : habitacions)
 			{
-				for (int y = habitació.v1.y + 1; y < habitació.v2.y; ++y)
-					for (int x = habitació.v1.x; x < habitació.v2.x; ++x)
+				for (int y = habitació.v1.y; y <= habitació.v2.y; ++y)
+					for (int x = habitació.v1.x; x <= habitació.v2.x; ++x)
 					{
 						estat.mapa().establir_rajola({ x, y }, TipusRajola::Terra);
 					}

@@ -13,6 +13,10 @@ module Motor:Mapa;
 
 using namespace bretolesc;
 
+
+#define TRUC_VISIÓ 1
+
+
 Mapa::Mapa(int _amplada, int _alçada)
 	: amplada(_amplada)
 	, alçada(_alçada)
@@ -94,7 +98,7 @@ void Mapa::actualitzar_camp_de_visió(Punt2D origen, int profunditat_màxima)
 		rajoles_per_actualitzar.erase(rajoles_per_actualitzar.begin());
 
 		int idx = rajola.r.y * amplada + rajola.r.x;
-		if (!rajoles_a_la_vista[idx])
+		if (és_dins_del_límit(rajola.r) && !rajoles_a_la_vista[idx])
 		{
 			rajoles_a_la_vista[idx] = true;
 			rajoles_explorades[idx] = true;
@@ -134,6 +138,12 @@ void Mapa::pintar(tcod::Console& console) const
 			}
 
 			console[{x, y}] = gràfic;
+
+#			if TRUC_VISIÓ
+			{
+				console[{x, y}] = rajola.gràfic_a_la_vista;
+			}
+#			endif
 		}
 }
 
