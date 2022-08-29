@@ -12,6 +12,7 @@ module Motlles;
 
 using namespace bretolesc;
 using namespace bretolesc::component;
+using namespace bretolesc::etiqueta;
 
 IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D posició)
 {
@@ -25,7 +26,6 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		Localització localització = {};
 		localització.posició = posició;
-		localització.bloqueja_el_pas = true;
 
 		Pintat pintat = {};
 		pintat.caràcter = '@';
@@ -42,6 +42,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
+		estat.afegir_etiqueta<BloquejaElPas>(id);
 		return id;
 	}
 	case TipusEntitat::Orc:
@@ -50,7 +51,6 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		Localització localització = {};
 		localització.posició = posició;
-		localització.bloqueja_el_pas = true;
 
 		Pintat pintat = {};
 		pintat.caràcter = 'o';
@@ -71,6 +71,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, ia_hostil);
+		estat.afegir_etiqueta<BloquejaElPas>(id);
 		return id;
 	}
 	case TipusEntitat::Trol:
@@ -79,7 +80,6 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		Localització localització = {};
 		localització.posició = posició;
-		localització.bloqueja_el_pas = true;
 
 		Pintat pintat = {};
 		pintat.caràcter = 'T';
@@ -100,6 +100,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, ia_hostil);
+		estat.afegir_etiqueta<BloquejaElPas>(id);
 		return id;
 	}
 	case TipusEntitat::PocióVida:
@@ -108,7 +109,6 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		Localització localització = {};
 		localització.posició = posició;
-		localització.bloqueja_el_pas = false;
 
 		Pintat pintat = {};
 		pintat.caràcter = '!';
@@ -123,8 +123,8 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, curador);
-		estat.afegir_component(id, Objecte{});
-		estat.afegir_component(id, Consumible{});
+		estat.afegir_etiqueta<Objecte>(id);
+		estat.afegir_etiqueta<Consumible>(id);
 		return id;
 	}
 	default:

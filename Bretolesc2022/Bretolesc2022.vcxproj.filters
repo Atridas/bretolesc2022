@@ -102,6 +102,9 @@
     <ClCompile Include="RegistreDeMissatges.cpp">
       <Filter>Móduls\Motor</Filter>
     </ClCompile>
+    <ClCompile Include="Etiquetes.ixx">
+      <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />

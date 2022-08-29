@@ -33,11 +33,12 @@ export namespace bretolesc::iu
 
 		float vida = 0;
 
-		if (auto jugador = estat.potser_obtenir_component<Lluitador>(id_jugador))
+		if (auto jugador_opt = estat.potser_obtenir_component<Lluitador>(id_jugador))
 		{
-			sprintf_s(buffer, 2048, "Salut:%d/%d", jugador->salut, jugador->salut_màxima);
+			Lluitador const& jugador = *jugador_opt;
+			sprintf_s(buffer, 2048, "Salut:%d/%d", jugador.salut, jugador.salut_màxima);
 
-			vida = (float)jugador->salut / (float)jugador->salut_màxima;
+			vida = (float)jugador.salut / (float)jugador.salut_màxima;
 		}
 		else
 		{
@@ -95,13 +96,15 @@ export namespace bretolesc::iu
 			if (línia >= 50)
 				break;
 
-			if (auto nom = estat.potser_obtenir_component<Nom>(id))
+			if (auto nom_opt = estat.potser_obtenir_component<Nom>(id))
 			{
+				Nom const& nom = *nom_opt;
 				Color color = Paleta::TextInfoRatolíActor;
 
-				if (auto pintat = estat.potser_obtenir_component<Pintat>(id))
+				if (auto pintat_opt = estat.potser_obtenir_component<Pintat>(id))
 				{
-					switch (pintat->prioritat)
+					Pintat const& pintat = *pintat_opt;
+					switch (pintat.prioritat)
 					{
 					case PrioritatPintar::Cadàver:
 						color = Paleta::TextInfoRatolíCadàver;
@@ -121,7 +124,7 @@ export namespace bretolesc::iu
 				tcod::print(
 					console,
 					{ 62, línia },
-					nom->nom,
+					nom.nom,
 					color,
 					std::nullopt);
 

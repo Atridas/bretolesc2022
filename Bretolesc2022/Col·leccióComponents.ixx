@@ -99,7 +99,7 @@ export namespace bretolesc
 			return components[pos];
 		}
 
-		std::optional<Component> potser_obtenir(IdEntitat id)const
+		std::optional<std::reference_wrapper<Component>> potser_obtenir(IdEntitat id)
 		{
 			assert(ids.size() == components.size());
 			auto it = std::find(ids.begin(), ids.end(), id);
@@ -112,7 +112,24 @@ export namespace bretolesc
 			}
 			else
 			{
-				return {};
+				return std::nullopt;
+			}
+		}
+
+		std::optional<std::reference_wrapper<Component const>> potser_obtenir(IdEntitat id) const
+		{
+			assert(ids.size() == components.size());
+			auto it = std::find(ids.begin(), ids.end(), id);
+
+			if (it != ids.end())
+			{
+				size_t pos = it - ids.begin();
+
+				return components[pos];
+			}
+			else
+			{
+				return std::nullopt;
 			}
 		}
 
@@ -395,7 +412,6 @@ export namespace bretolesc
 		}
 	}
 
-	// PERFER Etiquetes
 	template<typename... Components>
 	class Col·leccions
 	{
@@ -403,10 +419,10 @@ export namespace bretolesc
 
 	public:
 		template<typename C>
-		Col·lecció<C>& obtenir_col·lecció() { return {}; }
+		Col·lecció<C>& obtenir_col·lecció() { assert(false); return {}; }
 
 		template<typename C>
-		Col·lecció<C> const& obtenir_col·lecció() const { return {}; }
+		Col·lecció<C> const& obtenir_col·lecció() const { assert(false); return {}; }
 
 		void reinicia() {}
 
@@ -451,7 +467,13 @@ export namespace bretolesc
 		}
 
 		template<typename C>
-		std::optional<C> potser_obtenir_component(IdEntitat id) const
+		std::optional<std::reference_wrapper<C const>> potser_obtenir_component(IdEntitat id) const
+		{
+			return obtenir_col·lecció<C>().potser_obtenir(id);
+		}
+
+		template<typename C>
+		std::optional<std::reference_wrapper<C const>> potser_obtenir_component(IdEntitat id)
 		{
 			return obtenir_col·lecció<C>().potser_obtenir(id);
 		}
@@ -480,7 +502,7 @@ export namespace bretolesc
 		{
 			if (auto component = col·lecció.potser_obtenir(id))
 			{
-				bool treure = funció(*component);
+				bool treure = funció(component->get());
 				if (treure)
 				{
 					col·lecció.treure(id);
@@ -493,5 +515,125 @@ export namespace bretolesc
 		Col·lecció<Component> col·lecció;
 		Col·leccions<Components...> resta_de_col·leccions;
 	};
+
+	template<typename... RestaEtiquetes>
+	class Etiquetes
+	{
+	public:
+		template<typename E>
+		void afegir(IdEntitat id) { assert(false); }
+
+		template<typename E>
+		void treure(IdEntitat id) {}
+
+		template<typename F>
+		void treure(F const& funció, IdEntitat id) {}
+
+		template<typename E>
+		bool treure_si_hi_és(IdEntitat id) { return false; }
+
+		template<typename E>
+		bool té(IdEntitat id) const { return false; }
+
+		void reinicia() {}
+	};
+
+	template<typename Etiqueta, typename... RestaEtiquetes>
+	class Etiquetes<Etiqueta, RestaEtiquetes...>
+	{
+	public:
+
+		template<typename E>
+		void afegir(IdEntitat id)
+		{
+			if constexpr (std::is_same_v<Etiqueta, E>)
+			{
+				assert(!std::binary_search(ids.begin(), ids.end(), id));
+
+				// inserir id ordenadament
+				auto it = ids.insert(std::upper_bound(ids.begin(), ids.end(), id), id);
+			}
+			else
+			{
+				resta_d_etiquetes.afegir<E>(id);
+			}
+		}
+
+		template<typename E>
+		void treure(IdEntitat id)
+		{
+			if constexpr (std::is_same_v<Etiqueta, E>)
+			{
+				auto it = std::lower_bound(ids.begin(), ids.end(), id);
+				assert(it != ids.end() && *it == id);
+
+				ids.erase(it);
+			}
+			else
+			{
+				resta_d_etiquetes.treure<E>(id);
+			}
+		}
+
+		template<typename F>
+		void treure(F const& funció, IdEntitat id)
+		{
+			if (té<Etiqueta>(id) && funció((Etiqueta*)nullptr))
+			{
+				treure<Etiqueta>(id);
+			}
+			resta_d_etiquetes.treure(funció, id);
+		}
+
+		template<typename E>
+		bool treure_si_hi_és(IdEntitat id)
+		{
+			if constexpr (std::is_same_v<Etiqueta, E>)
+			{
+				auto it = std::lower_bound(ids.begin(), ids.end(), id);
+				if (it != ids.end() && *it == id)
+				{
+					size_t idx = it - ids.begin();
+
+					ids.erase(it);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return resta_d_etiquetes.treure_si_hi_és<E>(id);
+			}
+		}
+
+		template<typename E>
+		bool té(IdEntitat id) const
+		{
+			if constexpr (std::is_same_v<Etiqueta, E>)
+			{
+				auto it = std::find(ids.begin(), ids.end(), id);
+
+				return (it != ids.end());
+			}
+			else
+			{
+				return resta_d_etiquetes.té<E>(id);
+			}
+		}
+
+		void reinicia()
+		{
+			ids.clear();
+			resta_d_etiquetes.reinicia();
+		}
+
+	private:
+		std::vector<IdEntitat> ids;
+		Etiquetes<RestaEtiquetes...> resta_d_etiquetes;
+	};
+
 
 }

@@ -21,6 +21,7 @@ import EstructuresAccions;
 
 using namespace bretolesc;
 using namespace bretolesc::component;
+using namespace bretolesc::etiqueta;
 
 // --------------------------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ void Estat::reinicia(Generador const& generador)
 	}
 
 	col·leccions.reinicia();
+	etiquetes.reinicia();
 
 	m_mapa.reinicia();
 	registre.reinicia();
@@ -133,7 +135,7 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 
 	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
 	{
-		if (loc.posició == coordenades && loc.bloqueja_el_pas)
+		if (loc.posició == coordenades && etiquetes.té<BloquejaElPas>(id))
 		{
 			resultat = id;
 		}
@@ -231,13 +233,8 @@ void Estat::buscar_morts()
 		col·leccions.modificar_o_treure([](auto& component)
 			{
 				using Component = std::decay_t<decltype(component)>;
-				if constexpr (std::is_same_v<Component, Nom>)
+				if constexpr (std::is_same_v<Component, Nom> || std::is_same_v<Component, Localització>)
 				{
-					return false;
-				}
-				else if constexpr (std::is_same_v<Component, Localització>)
-				{
-					component.bloqueja_el_pas = false;
 					return false;
 				}
 				else if constexpr (std::is_same_v<Component, Pintat>)
@@ -256,6 +253,12 @@ void Estat::buscar_morts()
 				{
 					return true;
 				}
+			}, id);
+		etiquetes.treure([](auto* etiqueta)
+			{
+				using Etiqueta = std::decay_t<decltype(etiqueta)>;
+				//std::is_same_v<Etiqueta, BloquejaElPas*>;
+				return true;
 			}, id);
 	}
 }

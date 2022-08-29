@@ -153,6 +153,7 @@
     <ClCompile Include="Components.ixx" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="Entitats.ixx" />
+    <ClCompile Include="Etiquetes.ixx" />
     <ClCompile Include="InterfícieUsuari.ixx" />
     <ClCompile Include="ModeEntrada.ixx" />
     <ClCompile Include="Motlles.cpp" />

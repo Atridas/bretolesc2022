@@ -13,7 +13,6 @@ export namespace bretolesc::component
 	{
 		Punt2D posició;
 		// pis?
-		bool bloqueja_el_pas;
 	};
 
 	enum class PrioritatPintar
@@ -46,22 +45,8 @@ export namespace bretolesc::component
 		TCOD_path_t camí;
 	};
 
-	struct Objecte
-	{
-	};
-
-	struct Consumible
-	{
-	};
-
 	struct Curador
 	{
 		int vida;
 	};
-
-	// PERFER
-	//namespace etiqueta
-	//{
-	//	struct BloquejaElPas {};
-	//}
 }

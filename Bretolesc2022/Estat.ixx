@@ -22,6 +22,7 @@ import ModeEntrada;
 export namespace bretolesc
 {
 	using namespace component;
+	using namespace etiqueta;
 
 	class Estat
 	{
@@ -73,10 +74,13 @@ export namespace bretolesc
 		template<typename Component>
 		Component const& obtenir_component(IdEntitat id) const { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
-		std::optional<Component> potser_obtenir_component(IdEntitat id) const { return col·leccions.potser_obtenir_component<Component>(id); }
+		std::optional<std::reference_wrapper<Component const>> potser_obtenir_component(IdEntitat id) const { return col·leccions.potser_obtenir_component<Component>(id); }
 
 		template<typename Component>
 		void afegir_component(IdEntitat id, Component const& component) { return col·leccions.afegir_component<Component>(id, component); }
+		
+		template<typename Etiqueta>
+		void afegir_etiqueta(IdEntitat id) { return etiquetes.afegir<Etiqueta>(id); }
 
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
@@ -100,7 +104,8 @@ export namespace bretolesc
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
-		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Objecte, Consumible, Curador> col·leccions;
+		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador> col·leccions;
+		Etiquetes<BloquejaElPas, Objecte, Consumible> etiquetes;
 		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
 

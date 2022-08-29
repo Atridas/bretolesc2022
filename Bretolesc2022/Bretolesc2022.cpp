@@ -41,7 +41,7 @@ import Motor;
 //    ✔️ Consumible
 //    ✔️ Curador
 //  ✔️ Nova entitat amb els components de dalt caràcter "!" i color 7f 00 ff
-//     - Quanta vida? 4
+//     ✔️ Quanta vida? 4
 //  ✔️ Afegim entitats d'aquestes aleatòriament a les habitacions (de forma similar als enemics)
 //  - Nou component per al jugador: inventari!
 //     - Capacitat
