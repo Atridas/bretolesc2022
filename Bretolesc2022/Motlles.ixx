@@ -16,6 +16,8 @@ export namespace bretolesc
 		Orc,
 		Trol,
 
+		PocióVida,
+
 		NUM
 	};
 

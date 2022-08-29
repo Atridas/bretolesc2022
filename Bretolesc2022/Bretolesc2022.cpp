@@ -36,16 +36,17 @@ import Motor;
 //    - error ff 40 40
 //    - text_vida_recuperada 00 ff 00
 //  - Acció recuperar vida
-//  - Components:
-//    - Objecte
-//    - Consumible
-//    - Curador
-//  - Nova entitat amb els components de dalt caràcter "!" i color 7f 00 ff
-//  - Afegim entitats d'aquestes aleatòriament a les habitacions (de forma similar als enemics)
+//  ✔️ Components:
+//    ✔️ Objecte
+//    ✔️ Consumible
+//    ✔️ Curador
+//  ✔️ Nova entitat amb els components de dalt caràcter "!" i color 7f 00 ff
+//     - Quanta vida? 4
+//  ✔️ Afegim entitats d'aquestes aleatòriament a les habitacions (de forma similar als enemics)
 //  - Nou component per al jugador: inventari!
 //     - Capacitat
 //     - Vector[id entitats]
-//  - Nova acció "agafar" (g), agafa l'objecte de la casella on és l'entitat, si té lloc a l'inventari.L
+//  - Nova acció "agafar" (g), agafa l'objecte de la casella on és l'entitat, si té lloc a l'inventari.
 //    L'inventari en guanya una referència a l'objecte i l'objecte "perd" la seva posició
 //  - Creem l'inventari de forma similar al registre
 //    - Nova acció "usar" (i)

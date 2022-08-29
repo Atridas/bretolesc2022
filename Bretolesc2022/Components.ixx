@@ -46,6 +46,19 @@ export namespace bretolesc::component
 		TCOD_path_t camí;
 	};
 
+	struct Objecte
+	{
+	};
+
+	struct Consumible
+	{
+	};
+
+	struct Curador
+	{
+		int vida;
+	};
+
 	// PERFER
 	//namespace etiqueta
 	//{

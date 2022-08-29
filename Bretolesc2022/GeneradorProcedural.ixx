@@ -207,6 +207,31 @@ namespace bretolesc
 
 			}
 
+			// objectes
+			for (int h = 0; h < habitacions.size(); ++h)
+			{
+				int num_objectes = std::uniform_int_distribution<>(min_num_objectes_per_habitació, max_num_objectes_per_habitació)(rng);
+
+				for (int e = 0; e < num_objectes; ++e)
+				{
+					Punt2D posició_objecte;
+
+					posició_objecte.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					posició_objecte.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+
+					if (!estat.buscar_entitat(posició_objecte))
+					{
+						afegir_entitat(estat, TipusEntitat::PocióVida, posició_objecte);
+					}
+					else if (intents < 100)
+					{
+						++intents;
+						--e;
+					}
+				}
+
+			}
+
 			// inici del jugador
 			Punt2D posició_jugador = habitacions[0].centre();
 			return afegir_entitat(estat, TipusEntitat::Jugador, posició_jugador);
@@ -221,6 +246,9 @@ namespace bretolesc
 
 		uint32_t min_num_enemics_per_habitació = 0;
 		uint32_t max_num_enemics_per_habitació = 2;
+
+		uint32_t min_num_objectes_per_habitació = 0;
+		uint32_t max_num_objectes_per_habitació = 2;
 
 		uint32_t llavor = 0;
 	};

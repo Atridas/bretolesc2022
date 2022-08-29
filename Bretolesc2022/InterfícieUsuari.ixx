@@ -79,6 +79,9 @@ export namespace bretolesc::iu
 	{
 		Punt2D r = estat.obtenir_ratolí();
 
+		if (!estat.mapa().és_a_la_vista(r))
+			return;
+
 		std::vector<IdEntitat> entitats = estat.buscar_entitats(r);
 
 		//char buffer[2048];

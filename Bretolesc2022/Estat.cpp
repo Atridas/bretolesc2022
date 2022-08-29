@@ -39,7 +39,7 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 
 Estat::~Estat()
 {
-	for (auto [id, ia_hostil] : ias_hostils)
+	for (auto [id, ia_hostil] : col·leccions.obtenir_col·lecció<IAHostil>())
 	{
 		TCOD_path_delete(ia_hostil.camí);
 	}
@@ -48,16 +48,12 @@ Estat::~Estat()
 
 void Estat::reinicia(Generador const& generador)
 {
-	for (auto [id, ia_hostil] : ias_hostils)
+	for (auto [id, ia_hostil] : col·leccions.obtenir_col·lecció<IAHostil>())
 	{
 		TCOD_path_delete(ia_hostil.camí);
 	}
 
-	noms.reinicia();
-	localitzacions.reinicia();
-	pintats.reinicia();
-	lluitadors.reinicia();
-	ias_hostils.reinicia();
+	col·leccions.reinicia();
 
 	m_mapa.reinicia();
 	registre.reinicia();
@@ -105,7 +101,7 @@ std::optional<IdEntitat> Estat::buscar_entitat(Punt2D coordenades) const
 {
 	std::optional<IdEntitat> resultat;
 
-	for (auto [id, loc] : localitzacions)
+	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
 	{
 		if (loc.posició == coordenades)
 		{
@@ -120,7 +116,7 @@ std::vector<IdEntitat> Estat::buscar_entitats(Punt2D coordenades) const
 {
 	std::vector<IdEntitat> resultat;
 
-	for (auto [id, loc] : localitzacions)
+	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
 	{
 		if (loc.posició == coordenades)
 		{
@@ -135,7 +131,7 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 {
 	std::optional<IdEntitat> resultat;
 
-	for (auto [id, loc] : localitzacions)
+	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
 	{
 		if (loc.posició == coordenades && loc.bloqueja_el_pas)
 		{
@@ -169,7 +165,7 @@ void Estat::actualitzar_ias_hostils()
 
 	std::vector<AccióEntitat> accions;
 
-	for (auto [id_ia, loc_ia, ia_hostil] : per_cada(localitzacions, ias_hostils))
+	for (auto [id_ia, loc_ia, ia_hostil] : col·leccions.per_cada<Localització, IAHostil>())
 	{
 		if (distància_manhattan(loc_jugador.posició, loc_ia.posició) == 1)
 		{
@@ -214,7 +210,7 @@ void Estat::actualitzar_ias_hostils()
 void Estat::buscar_morts()
 {
 	std::vector<IdEntitat> morts;
-	for (auto [id, lluitador] : lluitadors)
+	for (auto [id, lluitador] : col·leccions.obtenir_col·lecció<Lluitador>())
 	{
 		if (lluitador.salut <= 0)
 		{
@@ -232,18 +228,35 @@ void Estat::buscar_morts()
 			id == obtenir_id_jugador() ? iu::Paleta::MortJugador : iu::Paleta::MortEnemic,
 			true);
 
-		obtenir_component<Localització>(id).bloqueja_el_pas = false;
-
-		Pintat& pintat = obtenir_component<Pintat>(id);
-		pintat.caràcter = '%';
-		pintat.color = { 191,0,0 };
-		pintat.prioritat = PrioritatPintar::Cadàver;
-
-		lluitadors.treure(id);
-		if (auto ia = ias_hostils.treure_si_hi_és(id))
-		{
-			TCOD_path_delete(ia->camí);
-		}
+		col·leccions.modificar_o_treure([](auto& component)
+			{
+				using Component = std::decay_t<decltype(component)>;
+				if constexpr (std::is_same_v<Component, Nom>)
+				{
+					return false;
+				}
+				else if constexpr (std::is_same_v<Component, Localització>)
+				{
+					component.bloqueja_el_pas = false;
+					return false;
+				}
+				else if constexpr (std::is_same_v<Component, Pintat>)
+				{
+					component.caràcter = '%';
+					component.color = { 191,0,0 };
+					component.prioritat = PrioritatPintar::Cadàver;
+					return false;
+				}
+				else if constexpr (std::is_same_v<Component, IAHostil>)
+				{
+					TCOD_path_delete(component.camí);
+					return true;
+				}
+				else
+				{
+					return true;
+				}
+			}, id);
 	}
 }
 
@@ -257,7 +270,7 @@ void Estat::pintar(tcod::Console& console) const
 
 	auto pintar_tipus = [this, &console](PrioritatPintar prioritat)
 	{
-		for (auto [id, loc, pintat] : per_cada(localitzacions, pintats))
+		for (auto [id, loc, pintat] : col·leccions.per_cada<Localització, Pintat>())
 		{
 			if (pintat.prioritat == prioritat && m_mapa.és_a_la_vista(loc.posició))
 			{

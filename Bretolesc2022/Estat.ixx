@@ -64,44 +64,19 @@ export namespace bretolesc
 		IdEntitat const& obtenir_id_jugador() const { return id_jugador; }
 
 		template<typename Component>
-		Col·lecció<Component>& obtenir_col·lecció() { return {}; }
+		Col·lecció<Component>& obtenir_col·lecció() { return col·leccions.obtenir_col·lecció(); }
 		template<typename Component>
-		Col·lecció<Component> const& obtenir_col·lecció() const { return {}; }
-
-		template<>
-		Col·lecció<Localització>& obtenir_col·lecció<Localització>() { return localitzacions; }
-		template<>
-		Col·lecció<Localització> const& obtenir_col·lecció<Localització>() const { return localitzacions; }
-
-		template<>
-		Col·lecció<Nom>& obtenir_col·lecció<Nom>() { return noms; }
-		template<>
-		Col·lecció<Nom> const& obtenir_col·lecció<Nom>() const { return noms; }
-
-		template<>
-		Col·lecció<Pintat>& obtenir_col·lecció<Pintat>() { return pintats; }
-		template<>
-		Col·lecció<Pintat> const& obtenir_col·lecció<Pintat>() const { return pintats; }
-
-		template<>
-		Col·lecció<Lluitador>& obtenir_col·lecció<Lluitador>() { return lluitadors; }
-		template<>
-		Col·lecció<Lluitador> const& obtenir_col·lecció<Lluitador>() const { return lluitadors; }
-
-		template<>
-		Col·lecció<IAHostil>& obtenir_col·lecció<IAHostil>() { return ias_hostils; }
-		template<>
-		Col·lecció<IAHostil> const& obtenir_col·lecció<IAHostil>() const { return ias_hostils; }
+		Col·lecció<Component> const& obtenir_col·lecció() const { return col·leccions.obtenir_col·lecció(); }
 
 		template<typename Component>
-		Component& obtenir_component(IdEntitat id) { return obtenir_col·lecció<Component>().obtenir(id); }
+		Component& obtenir_component(IdEntitat id) { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
-		Component const& obtenir_component(IdEntitat id) const { return obtenir_col·lecció<Component>().obtenir(id); }
+		Component const& obtenir_component(IdEntitat id) const { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
-		std::optional<Component> potser_obtenir_component(IdEntitat id) const { return obtenir_col·lecció<Component>().potser_obtenir(id); }
+		std::optional<Component> potser_obtenir_component(IdEntitat id) const { return col·leccions.potser_obtenir_component<Component>(id); }
 
 		template<typename Component>
-		void afegir_component(IdEntitat id, Component const& component) { return obtenir_col·lecció<Component>().afegir(id, component); }
+		void afegir_component(IdEntitat id, Component const& component) { return col·leccions.afegir_component<Component>(id, component); }
 
 
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
@@ -125,11 +100,8 @@ export namespace bretolesc
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
-		Col·lecció<Nom> noms;
-		Col·lecció<Localització> localitzacions;
-		Col·lecció<Pintat> pintats;
-		Col·lecció<Lluitador> lluitadors;
-		Col·lecció<IAHostil> ias_hostils; // VIGILA!!! cal un destructor per eliminar-ho bé
+		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Objecte, Consumible, Curador> col·leccions;
+		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
 
 

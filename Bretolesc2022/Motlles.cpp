@@ -48,13 +48,13 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 		Nom nom = { "Orc" };
 
-		bretolesc::component::Localització localització = {};
+		Localització localització = {};
 		localització.posició = posició;
 		localització.bloqueja_el_pas = true;
 
-		bretolesc::component::Pintat pintat = {};
+		Pintat pintat = {};
 		pintat.caràcter = 'o';
-		pintat.color = bretolesc::Color{ 63, 127, 63 };
+		pintat.color = Color{ 63, 127, 63 };
 		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
@@ -77,13 +77,13 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 		Nom nom = { "Trol" };
 
-		bretolesc::component::Localització localització = {};
+		Localització localització = {};
 		localització.posició = posició;
 		localització.bloqueja_el_pas = true;
 
-		bretolesc::component::Pintat pintat = {};
+		Pintat pintat = {};
 		pintat.caràcter = 'T';
-		pintat.color = bretolesc::Color{ 0, 127, 0 };
+		pintat.color = Color{ 0, 127, 0 };
 		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
@@ -100,6 +100,31 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, ia_hostil);
+		return id;
+	}
+	case TipusEntitat::PocióVida:
+	{
+		Nom nom = { "Pocio de Vida" };
+
+		Localització localització = {};
+		localització.posició = posició;
+		localització.bloqueja_el_pas = false;
+
+		Pintat pintat = {};
+		pintat.caràcter = '!';
+		pintat.color = Color{ 0x7f, 0x00, 0xff };
+		pintat.prioritat = PrioritatPintar::Objecte;
+
+		Curador curador = {};
+		curador.vida = 10;
+
+		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
+		estat.afegir_component(id, localització);
+		estat.afegir_component(id, pintat);
+		estat.afegir_component(id, curador);
+		estat.afegir_component(id, Objecte{});
+		estat.afegir_component(id, Consumible{});
 		return id;
 	}
 	default:

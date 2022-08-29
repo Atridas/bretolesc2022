@@ -82,6 +82,8 @@ export namespace bretolesc
 
 		bool és_a_la_vista(Punt2D r) const
 		{
+			if (!és_dins_del_límit(r))
+				return false;
 			return rajoles_a_la_vista[a_índex(r)];
 		}
 
