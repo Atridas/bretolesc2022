@@ -116,7 +116,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		pintat.prioritat = PrioritatPintar::Objecte;
 
 		Curador curador = {};
-		curador.vida = 10;
+		curador.vida = 4;
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
