@@ -37,11 +37,15 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		lluitador.defensa = 2;
 		lluitador.força = 5;
 
+		Inventari inventari;
+		inventari.capacitat = 26;
+
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
+		estat.afegir_component(id, inventari);
 		estat.afegir_etiqueta<BloquejaElPas>(id);
 		return id;
 	}

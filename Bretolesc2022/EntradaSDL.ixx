@@ -43,6 +43,9 @@ namespace entrada_sdl
 			case SDLK_SPACE:
 				return NoFerRes{ };
 
+			case SDLK_g:
+				return Agafar{};
+
 			case SDLK_v:
 				return AlternarRegistre{};
 

@@ -30,6 +30,8 @@ export namespace bretolesc
 			Vector2D direcció;
 		};
 
+		struct Agafar {};
+
 		struct MoureRatolí
 		{
 			Punt2D p;
@@ -47,6 +49,7 @@ export namespace bretolesc
 		acció_usuari::NoFerRes,
 		acció_usuari::Moure,
 		acció_usuari::Batzegada,
+		acció_usuari::Agafar,
 		acció_usuari::MoureRatolí,
 		acció_usuari::AlternarRegistre,
 		acció_usuari::DesplaçarRegistre,

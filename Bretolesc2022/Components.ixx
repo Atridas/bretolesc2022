@@ -5,6 +5,8 @@ module;
 
 export module Entitats:Components;
 
+import :IdEntitat;
+
 import Comú;
 
 export namespace bretolesc::component
@@ -48,5 +50,16 @@ export namespace bretolesc::component
 	struct Curador
 	{
 		int vida;
+	};
+
+	struct Inventari
+	{
+		int capacitat;
+		std::vector<IdEntitat> objectes;
+	};
+
+	struct EnInventari
+	{
+		IdEntitat propietàri;
 	};
 }

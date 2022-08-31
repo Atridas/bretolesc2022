@@ -14,6 +14,7 @@ import Entitats;
 export namespace bretolesc
 {
 	using namespace component;
+	using namespace etiqueta;
 
 	// accions entitats -----------------------------------------------------------------------------
 
@@ -94,6 +95,25 @@ export namespace bretolesc
 		}
 
 		estat.actualitzar_lógica();
+	}
+
+	void processar(Estat& estat, acció_usuari::Agafar const& agafar)
+	{
+		IdEntitat jugador = estat.obtenir_id_jugador();
+		Punt2D posició_jugador = estat.obtenir_component<Localització>(jugador).posició;
+		for (IdEntitat objecte : estat.buscar_entitats(posició_jugador))
+		{
+			if (estat.té_etiqueta<Objecte>(objecte))
+			{
+				Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
+				if (inventari.objectes.size() < inventari.capacitat)
+				{
+					inventari.objectes.push_back(objecte);
+					estat.treure_component<Localització>(objecte);
+					estat.afegir_component(objecte, EnInventari{ jugador });
+				}
+			}
+		}
 	}
 
 	void processar(Estat& estat, acció_usuari::MoureRatolí const& ratolí)

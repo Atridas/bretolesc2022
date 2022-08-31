@@ -484,6 +484,18 @@ export namespace bretolesc
 			return obtenir_col·lecció<C>().afegir(id, component);
 		}
 
+		template<typename C>
+		void treure(IdEntitat id)
+		{
+			obtenir_col·lecció<C>().treure(id);
+		}
+
+		template<typename C>
+		std::optional<C> treure_si_hi_és(IdEntitat id)
+		{
+			return obtenir_col·lecció<C>().treure_si_hi_és(id);
+		}
+
 		void reinicia()
 		{
 			col·lecció.reinicia();

@@ -70,14 +70,21 @@ export namespace bretolesc
 		Col·lecció<Component> const& obtenir_col·lecció() const { return col·leccions.obtenir_col·lecció(); }
 
 		template<typename Component>
+		void afegir_component(IdEntitat id, Component&& component) { col·leccions.afegir_component(id, std::forward<Component>(component)); }
+		template<typename Etiqueta>
+		bool té_etiqueta(IdEntitat id) const { return etiquetes.té<Etiqueta>(id); }
+		
+		template<typename Component>
 		Component& obtenir_component(IdEntitat id) { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
 		Component const& obtenir_component(IdEntitat id) const { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
 		std::optional<std::reference_wrapper<Component const>> potser_obtenir_component(IdEntitat id) const { return col·leccions.potser_obtenir_component<Component>(id); }
-
+		
 		template<typename Component>
-		void afegir_component(IdEntitat id, Component const& component) { return col·leccions.afegir_component<Component>(id, component); }
+		void treure_component(IdEntitat id) { col·leccions.treure<Component>(id); }
+		template<typename Component>
+		std::optional<Component> treure_component_si_hi_és(IdEntitat id) { return col·leccions.treure_si_hi_és<Component>(id); }
 		
 		template<typename Etiqueta>
 		void afegir_etiqueta(IdEntitat id) { return etiquetes.afegir<Etiqueta>(id); }
@@ -104,7 +111,7 @@ export namespace bretolesc
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
-		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador> col·leccions;
+		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador, Inventari, EnInventari> col·leccions;
 		Etiquetes<BloquejaElPas, Objecte, Consumible> etiquetes;
 		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
