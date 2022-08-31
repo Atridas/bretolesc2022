@@ -141,6 +141,12 @@ namespace entrada_sdl
 			case SDLK_SPACE:
 				return AlternarInventari{};
 
+
+			case SDLK_i:
+				return Consumir{};
+			case SDLK_d:
+				return Tirar{};
+
 			case SDLK_DOWN:
 				return DesplaçarInventari{ +1 };
 			case SDLK_UP:

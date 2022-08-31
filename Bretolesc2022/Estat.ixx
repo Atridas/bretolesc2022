@@ -67,6 +67,13 @@ export namespace bretolesc
 
 		IdEntitat const& obtenir_id_jugador() const { return id_jugador; }
 
+		template<typename F>
+		void modificar_o_treure(F f, IdEntitat id)
+		{
+			col·leccions.modificar_o_treure(f, id);
+			etiquetes.treure(f, id);
+		}
+
 		template<typename Component>
 		Col·lecció<Component>& obtenir_col·lecció() { return col·leccions.obtenir_col·lecció(); }
 		template<typename Component>
@@ -77,6 +84,8 @@ export namespace bretolesc
 		template<typename Etiqueta>
 		bool té_etiqueta(IdEntitat id) const { return etiquetes.té<Etiqueta>(id); }
 		
+		template<typename Component>
+		bool té_component(IdEntitat id) { return col·leccions.potser_obtenir_component<Component>(id).has_value(); }
 		template<typename Component>
 		Component& obtenir_component(IdEntitat id) { return col·leccions.obtenir_component<Component>(id); }
 		template<typename Component>

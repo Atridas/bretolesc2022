@@ -13,6 +13,9 @@ export namespace bretolesc::iu
 		static Color const MortEnemic;
 
 		static Color const TextBenvinguda;
+		static Color const TextVidaRecuperada;
+		static Color const TextManipularObjecte;
+		static Color const TextAccióInvàlida;
 
 		static Color const TextBarraVida;
 		static Color const BarraVidaSencera;
@@ -37,6 +40,9 @@ bretolesc::Color const bretolesc::iu::Paleta::MortJugador = Color{ 0xFF, 0x30, 0
 bretolesc::Color const bretolesc::iu::Paleta::MortEnemic = Color{ 0xFF, 0xA0, 0x30 };
 
 bretolesc::Color const bretolesc::iu::Paleta::TextBenvinguda = Color{ 0x20, 0xA0, 0xFF };
+bretolesc::Color const bretolesc::iu::Paleta::TextVidaRecuperada = Color{ 0x00, 0xFF, 0x00 };
+bretolesc::Color const bretolesc::iu::Paleta::TextManipularObjecte = Color{ 0x99, 0x99, 0xDD };
+bretolesc::Color const bretolesc::iu::Paleta::TextAccióInvàlida = Color{ 0x80, 0x80, 0x80 };
 
 bretolesc::Color const bretolesc::iu::Paleta::TextBarraVida = Color{ 0xFF, 0xFF, 0xFF };
 bretolesc::Color const bretolesc::iu::Paleta::BarraVidaSencera = Color{ 0x00, 0x60, 0x00 };

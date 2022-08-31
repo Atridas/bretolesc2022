@@ -32,6 +32,10 @@ export namespace bretolesc
 
 		struct Agafar {};
 
+		struct Tirar {};
+
+		struct Consumir {};
+
 		struct MoureRatolí
 		{
 			Punt2D p;
@@ -57,6 +61,8 @@ export namespace bretolesc
 		acció_usuari::Moure,
 		acció_usuari::Batzegada,
 		acció_usuari::Agafar,
+		acció_usuari::Tirar,
+		acció_usuari::Consumir,
 		acció_usuari::MoureRatolí,
 		acció_usuari::AlternarRegistre,
 		acció_usuari::DesplaçarRegistre,
@@ -79,10 +85,17 @@ export namespace bretolesc
 		{
 			IdEntitat entitat, objectiu;
 		};
+
+		struct RecuperarVida
+		{
+			IdEntitat entitat;
+			int vida;
+		};
 	}
 
 	using AccióEntitat = std::variant<
 		acció_entitat::Moure,
-		acció_entitat::AtacCosACos
+		acció_entitat::AtacCosACos,
+		acció_entitat::RecuperarVida
 	>;
 }
