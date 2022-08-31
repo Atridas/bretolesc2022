@@ -22,6 +22,11 @@ export namespace bretolesc::iu
 		static Color const TextInfoRatolíCadàver;
 		static Color const TextInfoRatolíObjecte;
 		static Color const TextInfoRatolíActor;
+
+		static Color const FonsInventari;
+		static Color const SeleccióInventari;
+		static Color const TextSeleccióInventari;
+		static Color const TextObjecteInventari;
 	};
 }
 
@@ -41,3 +46,8 @@ bretolesc::Color const bretolesc::iu::Paleta::FonsRegistre = Color{ 0x33, 0x33, 
 bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolíCadàver = Color{ 0xDD, 0x99, 0x99 };
 bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolíObjecte = Color{ 0x99, 0x99, 0xDD };
 bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolíActor = Color{ 0xA0, 0xFF, 0xFF };
+
+bretolesc::Color const bretolesc::iu::Paleta::FonsInventari = Color{ 0x30, 0x30, 0x3F };
+bretolesc::Color const bretolesc::iu::Paleta::SeleccióInventari = Color{ 0xAA, 0xAA, 0x44 };
+bretolesc::Color const bretolesc::iu::Paleta::TextSeleccióInventari = Color{ 0x70, 0x70, 0xFF };
+bretolesc::Color const bretolesc::iu::Paleta::TextObjecteInventari = Color{ 0x50, 0x50, 0xCF };

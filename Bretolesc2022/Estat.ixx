@@ -43,6 +43,9 @@ export namespace bretolesc
 		void reinicia(Generador const& generador);
 		void alterna_registre() { mostrar_registre = !mostrar_registre; registre.reiniciar_desplaçament(); }
 		void desplaçar_registre(int quantitat) { registre.desplaçar_registre(quantitat); }
+		void alterna_inventari() { mostrar_inventari = !mostrar_inventari; posició_inventari = 0; }
+		void desplaçar_inventari(int quantitat);
+		int obtenir_posició_inventari() const { return posició_inventari; }
 
 		bool vol_ser_tancat() const { return tancar; }
 		bool vol_ser_reiniciat() const { return reiniciar; }
@@ -103,7 +106,8 @@ export namespace bretolesc
 	private:
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
-		bool tancar = false, reiniciar = false, mostrar_registre = false;
+		bool tancar = false, reiniciar = false, mostrar_registre = false, mostrar_inventari = false;
+		int posició_inventari = 0;
 		Punt2D ratolí;
 
 		IdEntitat id_jugador;

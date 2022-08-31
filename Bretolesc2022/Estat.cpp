@@ -74,6 +74,16 @@ void Estat::actualitzar_visió()
 	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);
 }
 
+void Estat::desplaçar_inventari(int quantitat)
+{
+	Inventari const& inventari = obtenir_component<Inventari>(id_jugador);
+	if (inventari.objectes.size() > 0)
+	{
+		posició_inventari = (posició_inventari + quantitat) % inventari.objectes.size();
+		// PERFER donar la volta al reves
+	}
+}
+
 bool Estat::jugador_és_viu() const
 {
 	return potser_obtenir_component<Lluitador>(id_jugador).has_value();
@@ -84,6 +94,10 @@ ModeEntrada Estat::obtenir_mode_entrada() const
 	if (mostrar_registre)
 	{
 		return ModeEntrada::Registre;
+	}
+	else if (mostrar_inventari)
+	{
+		return ModeEntrada::Inventari;
 	}
 	else if (jugador_és_viu())
 	{
@@ -298,6 +312,8 @@ void Estat::pintar(tcod::Console& console) const
 	
 	registre.pintar(console);
 
+	if (mostrar_inventari)
+		iu::pintar_inventari(*this, console);
 	if (mostrar_registre)
 		registre.pintar_sencer(console);
 }

@@ -43,6 +43,13 @@ export namespace bretolesc
 		{
 			int línies;
 		};
+
+		struct AlternarInventari {};
+
+		struct DesplaçarInventari
+		{
+			int línies;
+		};
 	}
 
 	using AccióUsuari = std::variant<
@@ -53,6 +60,8 @@ export namespace bretolesc
 		acció_usuari::MoureRatolí,
 		acció_usuari::AlternarRegistre,
 		acció_usuari::DesplaçarRegistre,
+		acció_usuari::AlternarInventari,
+		acció_usuari::DesplaçarInventari,
 		acció_usuari::Finalitzar,
 		acció_usuari::Reiniciar
 	>;

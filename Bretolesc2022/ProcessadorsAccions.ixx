@@ -130,4 +130,14 @@ export namespace bretolesc
 	{
 		estat.desplaçar_registre(desplaçament.línies);
 	}
+
+	void processar(Estat& estat, acció_usuari::AlternarInventari const&)
+	{
+		estat.alterna_inventari();
+	}
+
+	void processar(Estat& estat, acció_usuari::DesplaçarInventari const& desplaçament)
+	{
+		estat.desplaçar_inventari(desplaçament.línies);
+	}
 }

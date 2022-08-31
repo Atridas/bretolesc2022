@@ -133,4 +133,48 @@ export namespace bretolesc::iu
 		}
 	}
 
+	void pintar_inventari(Estat const& estat, tcod::Console& console)
+	{
+		for (int y = 10; y < 40; ++y)
+			for (int x = 9; x < 71; ++x)
+			{
+				auto& casella = console[{x, y}];
+				casella.bg = iu::Paleta::FonsInventari;
+				casella.ch = ' ';
+			}
+
+
+		if (auto inventari_opc = estat.potser_obtenir_component<Inventari>(estat.obtenir_id_jugador()))
+		{
+			Inventari const& inventari = inventari_opc->get();
+
+			for (int i = 0; i < inventari.objectes.size(); ++i)
+			{
+				int const línea = i + 12;
+
+				Nom const& nom = estat.obtenir_component<Nom>(inventari.objectes[i]);
+
+				Color color = iu::Paleta::TextObjecteInventari;
+
+				if (i == estat.obtenir_posició_inventari())
+				{
+					color = iu::Paleta::TextSeleccióInventari;
+					tcod::print(
+						console,
+						{ 12, línea },
+						"*",
+						iu::Paleta::SeleccióInventari,
+						std::nullopt);
+				}
+
+				tcod::print(
+					console,
+					{ 14, línea },
+					nom.nom,
+					color,
+					std::nullopt);
+			}
+
+		}
+	}
 }

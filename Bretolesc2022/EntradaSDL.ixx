@@ -37,6 +37,9 @@ namespace entrada_sdl
 		{
 			switch (evnt.keysym.sym)
 			{
+			case SDLK_TAB:
+				return AlternarInventari{};
+
 			case SDLK_ESCAPE:
 				return Finalitzar{};
 
@@ -127,6 +130,39 @@ namespace entrada_sdl
 		}
 	}
 
+	std::optional<AccióUsuari> processar_inventari(SDL_KeyboardEvent const& evnt)
+	{
+		if (evnt.type == SDL_KEYDOWN)
+		{
+			switch (evnt.keysym.sym)
+			{
+			case SDLK_TAB:
+			case SDLK_ESCAPE:
+			case SDLK_SPACE:
+				return AlternarInventari{};
+
+			case SDLK_DOWN:
+				return DesplaçarInventari{ +1 };
+			case SDLK_UP:
+				return DesplaçarInventari{ -1 };
+
+
+			case SDLK_PAGEUP:
+				return DesplaçarInventari{ -10 };
+			case SDLK_PAGEDOWN:
+				return DesplaçarInventari{ +10 };
+
+			default:
+				return std::nullopt;
+			}
+		}
+		else
+		{
+			assert(evnt.type == SDL_KEYUP);
+			return std::nullopt;
+		}
+	}
+
 	export void ProcessarEvents(tcod::ContextPtr const& context, ModeEntrada mode_entrada, std::vector<AccióUsuari>& accions_)
 	{
 		SDL_Event evnt;
@@ -150,6 +186,9 @@ namespace entrada_sdl
 					break;
 				case ModeEntrada::Mort:
 					acció = processar_mort(evnt.key);
+					break;
+				case ModeEntrada::Inventari:
+					acció = processar_inventari(evnt.key);
 					break;
 				case ModeEntrada::Registre:
 					acció = processar_registre(evnt.key);

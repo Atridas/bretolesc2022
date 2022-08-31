@@ -6,6 +6,7 @@ export namespace bretolesc
 	{
 		Viu,
 		Mort,
+		Inventari,
 		Registre
 	};
 }
