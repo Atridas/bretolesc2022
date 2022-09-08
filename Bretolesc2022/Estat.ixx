@@ -16,6 +16,7 @@ import :Generador;
 import :RegistreDeMissatges;
 
 import Comú;
+import Col·leccióComponents;
 import Entitats;
 import ModeEntrada;
 

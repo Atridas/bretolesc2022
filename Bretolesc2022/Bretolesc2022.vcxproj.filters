@@ -25,6 +25,9 @@
     <Filter Include="Móduls\ModeEntrada">
       <UniqueIdentifier>{2793ef82-62ec-4bd5-955c-9450010f91d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Móduls\Col·leccióComponents">
+      <UniqueIdentifier>{fb5f0dd5-e2a2-4d40-a36f-ebfe936a55a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntradaSDL.ixx">
@@ -69,9 +72,6 @@
     <ClCompile Include="NoiseRNG.ixx">
       <Filter>Móduls\Comú</Filter>
     </ClCompile>
-    <ClCompile Include="Col·leccióComponents.ixx">
-      <Filter>Móduls\Entitats</Filter>
-    </ClCompile>
     <ClCompile Include="Components.ixx">
       <Filter>Móduls\Entitats</Filter>
     </ClCompile>
@@ -104,6 +104,21 @@
     </ClCompile>
     <ClCompile Include="Etiquetes.ixx">
       <Filter>Móduls\Entitats</Filter>
+    </ClCompile>
+    <ClCompile Include="Col·leccióComponents.ixx">
+      <Filter>Móduls\Col·leccióComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Col·lecció.ixx">
+      <Filter>Móduls\Col·leccióComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="PerCada.ixx">
+      <Filter>Móduls\Col·leccióComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Col·leccions.ixx">
+      <Filter>Móduls\Col·leccióComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Col·leccióEtiquetes.ixx">
+      <Filter>Móduls\Col·leccióComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

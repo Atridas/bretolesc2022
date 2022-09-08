@@ -149,7 +149,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bretolesc2022.cpp" />
+    <ClCompile Include="Col·leccions.ixx" />
+    <ClCompile Include="Col·lecció.ixx" />
     <ClCompile Include="Col·leccióComponents.ixx" />
+    <ClCompile Include="Col·leccióEtiquetes.ixx" />
     <ClCompile Include="Components.ixx" />
     <ClCompile Include="Comú.ixx" />
     <ClCompile Include="Entitats.ixx" />
@@ -171,6 +174,7 @@
     <ClCompile Include="Motor.ixx" />
     <ClCompile Include="NoiseRNG.ixx" />
     <ClCompile Include="PaletaDeColors.ixx" />
+    <ClCompile Include="PerCada.ixx" />
     <ClCompile Include="ProcessadorsAccions.ixx" />
     <ClCompile Include="RegistreDeMissatges.cpp" />
     <ClCompile Include="RegistreDeMissatges.ixx" />

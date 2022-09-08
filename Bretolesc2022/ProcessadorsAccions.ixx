@@ -82,17 +82,17 @@ export namespace bretolesc
 
 	// accions de l'usuari ----------------------------------------------------------------------
 
-	void processar(Estat& estat, acció_usuari::Finalitzar const &fin)
+	void processar(Estat& estat, acció_usuari::Finalitzar const &)
 	{
 		estat.tanca();
 	}
 
-	void processar(Estat& estat, acció_usuari::Reiniciar const &fin)
+	void processar(Estat& estat, acció_usuari::Reiniciar const &)
 	{
 		estat.reinicia();
 	}
 
-	void processar(Estat& estat, acció_usuari::NoFerRes const &fin)
+	void processar(Estat& estat, acció_usuari::NoFerRes const &)
 	{
 		estat.actualitzar_lógica();
 	}
