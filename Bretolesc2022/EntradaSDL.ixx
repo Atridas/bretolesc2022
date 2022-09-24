@@ -25,10 +25,19 @@ namespace entrada_sdl
 		return Finalitzar{};
 	};
 
-	AccióUsuari processar(SDL_MouseMotionEvent const& evnt)
+	std::optional<AccióUsuari> processar(SDL_MouseMotionEvent const& evnt, ModeEntrada mode_entrada)
 	{
 		assert(evnt.type == SDL_MOUSEMOTION);
-		return MoureRatolí{ Punt2D{evnt.x, evnt.y} };
+		switch (mode_entrada)
+		{
+		case ModeEntrada::Viu:
+		case ModeEntrada::Mort:
+			return MoureRatolí{ Punt2D{evnt.x, evnt.y} };
+		case ModeEntrada::Cursor:
+			return EstablirCursor{ Punt2D{evnt.x, evnt.y} };
+		default:
+			return std::nullopt;
+		}
 	}
 
 	std::optional<AccióUsuari> processar_viu(SDL_KeyboardEvent const& evnt)
@@ -70,6 +79,39 @@ namespace entrada_sdl
 			return std::nullopt;
 		}
 	};
+
+	std::optional<AccióUsuari> processar_cursor(SDL_KeyboardEvent const& evnt)
+	{
+		if (evnt.type == SDL_KEYDOWN)
+		{
+			switch (evnt.keysym.sym)
+			{
+
+			case SDLK_RETURN:
+				return AcceptarCursor{ };
+
+			case SDLK_ESCAPE:
+			case SDLK_SPACE:
+				return CancelarCursor{ };
+
+			case SDLK_RIGHT:
+				return MoureCursor{ Vector2D{ +1, 0 } };
+			case SDLK_LEFT:
+				return MoureCursor{ Vector2D{ -1, 0 } };
+			case SDLK_DOWN:
+				return MoureCursor{ Vector2D{ 0, +1 } };
+			case SDLK_UP:
+				return MoureCursor{ Vector2D{ 0, -1 } };
+			default:
+				return std::nullopt;
+			}
+		}
+		else
+		{
+			assert(evnt.type == SDL_KEYUP);
+			return std::nullopt;
+		}
+	}
 
 	std::optional<AccióUsuari> processar_mort(SDL_KeyboardEvent const& evnt)
 	{
@@ -190,6 +232,9 @@ namespace entrada_sdl
 				case ModeEntrada::Viu:
 					acció = processar_viu(evnt.key);
 					break;
+				case ModeEntrada::Cursor:
+					acció = processar_cursor(evnt.key);
+					break;
 				case ModeEntrada::Mort:
 					acció = processar_mort(evnt.key);
 					break;
@@ -211,7 +256,10 @@ namespace entrada_sdl
 				break;
 			}
 			case SDL_MOUSEMOTION:
-				accions_.push_back(processar(evnt.motion));
+				if (auto acció = processar(evnt.motion, mode_entrada))
+				{
+					accions_.push_back(*acció);
+				}
 				break; 
 			}
 		}

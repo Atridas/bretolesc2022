@@ -18,6 +18,7 @@ export namespace bretolesc
 
 		PocióVida,
 		RotlloDelLlamp,
+		RotlloDeConfusió,
 
 		NUM
 	};

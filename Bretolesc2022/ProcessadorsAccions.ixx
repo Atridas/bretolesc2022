@@ -41,6 +41,11 @@ export namespace bretolesc
 			true);
 	}
 
+	void processar(Estat& estat, acció::ExecutarEncanteriDeConfusió const& executar_encanteri_de_confusió)
+	{
+
+	}
+
 	bool processar(Estat& estat, acció::ExecutarEncanteriDelLlamp const& executar_encanteri_del_llamp)
 	{
 		// Trobar l'entitat (lluitadora) més propera
@@ -239,6 +244,15 @@ export namespace bretolesc
 							curador->get().vida
 						});
 				}
+				if (auto encanteri_de_confusió = estat.potser_obtenir_component<EncanteriDeConfusió>(objecte))
+				{
+					processar(estat, acció::ExecutarEncanteriDeConfusió
+						{
+							jugador,
+							encanteri_de_confusió->get().torns,
+							encanteri_de_confusió->get().rang
+						});
+				}
 				if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDelLlamp>(objecte))
 				{
 					eliminem_objecte = processar(estat, acció::ExecutarEncanteriDelLlamp
@@ -276,6 +290,24 @@ export namespace bretolesc
 	void processar(Estat& estat, acció_usuari::MoureRatolí const& ratolí)
 	{
 		estat.moure_ratolí(ratolí.p);
+	}
+
+
+	void processar(Estat& estat, acció_usuari::EstablirCursor const& cursor)
+	{
+		estat.establir_cursor(cursor.p);
+	}
+	void processar(Estat& estat, acció_usuari::MoureCursor const& cursor)
+	{
+		estat.moure_cursor(cursor.v);
+	}
+	void processar(Estat& estat, acció_usuari::AcceptarCursor const&)
+	{
+		estat.accepta_cursor();
+	}
+	void processar(Estat& estat, acció_usuari::CancelarCursor const&)
+	{
+		estat.cancela_cursor();
 	}
 
 	void processar(Estat& estat, acció_usuari::AlternarRegistre const&)

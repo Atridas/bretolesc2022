@@ -58,6 +58,12 @@ export namespace bretolesc::component
 		int rang;
 	};
 
+	struct EncanteriDeConfusió
+	{
+		int torns;
+		int rang;
+	};
+
 	struct Inventari
 	{
 		int capacitat;

@@ -41,6 +41,19 @@ export namespace bretolesc
 			Punt2D p;
 		};
 
+		struct EstablirCursor
+		{
+			Punt2D p;
+		};
+
+		struct MoureCursor
+		{
+			Vector2D v;
+		};
+
+		struct AcceptarCursor {};
+		struct CancelarCursor {};
+
 		struct AlternarRegistre {};
 
 		struct DesplaçarRegistre
@@ -64,6 +77,10 @@ export namespace bretolesc
 		acció_usuari::Tirar,
 		acció_usuari::Consumir,
 		acció_usuari::MoureRatolí,
+		acció_usuari::EstablirCursor,
+		acció_usuari::MoureCursor,
+		acció_usuari::AcceptarCursor,
+		acció_usuari::CancelarCursor,
 		acció_usuari::AlternarRegistre,
 		acció_usuari::DesplaçarRegistre,
 		acció_usuari::AlternarInventari,
@@ -104,6 +121,13 @@ export namespace bretolesc
 		{
 			IdEntitat entitat;
 			int dany;
+			int rang;
+		};
+
+		struct ExecutarEncanteriDeConfusió
+		{
+			IdEntitat entitat;
+			int torns;
 			int rang;
 		};
 	}

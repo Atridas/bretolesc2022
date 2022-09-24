@@ -74,6 +74,32 @@ void Estat::actualitzar_visió()
 	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);
 }
 
+void Estat::alterna_registre()
+{
+	if (submode_joc == SubmodeJoc::Registre)
+	{
+		submode_joc = SubmodeJoc::Normal;
+	}
+	else
+	{
+		submode_joc = SubmodeJoc::Registre;
+	}
+	registre.reiniciar_desplaçament();
+}
+
+void Estat::alterna_inventari()
+{
+	if (submode_joc == SubmodeJoc::Inventari)
+	{
+		submode_joc = SubmodeJoc::Normal;
+	}
+	else
+	{
+		submode_joc = SubmodeJoc::Inventari;
+	}
+	posició_inventari = 0;
+}
+
 void Estat::desplaçar_inventari(int quantitat)
 {
 	Inventari const& inventari = obtenir_component<Inventari>(id_jugador);
@@ -84,6 +110,26 @@ void Estat::desplaçar_inventari(int quantitat)
 	}
 }
 
+void Estat::moure_cursor(Vector2D p)
+{
+
+}
+
+void Estat::establir_cursor(Punt2D p)
+{
+
+}
+
+void Estat::accepta_cursor()
+{
+
+}
+
+void Estat::cancela_cursor()
+{
+
+}
+
 bool Estat::jugador_és_viu() const
 {
 	return potser_obtenir_component<Lluitador>(id_jugador).has_value();
@@ -91,21 +137,26 @@ bool Estat::jugador_és_viu() const
 
 ModeEntrada Estat::obtenir_mode_entrada() const
 {
-	if (mostrar_registre)
+	switch (submode_joc)
 	{
+	case SubmodeJoc::Normal:
+		if (jugador_és_viu())
+		{
+			return ModeEntrada::Viu;
+		}
+		else
+		{
+			return ModeEntrada::Mort;
+		}
+	case SubmodeJoc::Registre:
 		return ModeEntrada::Registre;
-	}
-	else if (mostrar_inventari)
-	{
+	case SubmodeJoc::Inventari:
 		return ModeEntrada::Inventari;
-	}
-	else if (jugador_és_viu())
-	{
+	case SubmodeJoc::Cursor:
+		return ModeEntrada::Cursor;
+	default:
+		assert(false);
 		return ModeEntrada::Viu;
-	}
-	else
-	{
-		return ModeEntrada::Mort;
 	}
 }
 
@@ -330,10 +381,15 @@ void Estat::pintar(tcod::Console& console) const
 	
 	registre.pintar(console);
 
-	if (mostrar_inventari)
+	switch (submode_joc)
+	{
+	case SubmodeJoc::Inventari:
 		iu::pintar_inventari(*this, console);
-	if (mostrar_registre)
+		break;
+	case SubmodeJoc::Registre:
 		registre.pintar_sencer(console);
+		break;
+	}
 }
 
 // ----------------------------------------------------------------------------

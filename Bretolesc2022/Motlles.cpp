@@ -157,6 +157,32 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_etiqueta<AvançaTorn>(id);
 		return id;
 	}
+	case TipusEntitat::RotlloDeConfusió:
+	{
+		Nom nom = { "Rotllo de Confusio" };
+
+		Localització localització = {};
+		localització.posició = posició;
+
+		Pintat pintat = {};
+		pintat.caràcter = '~';
+		pintat.color = Color{ 207, 63, 255 };
+		pintat.prioritat = PrioritatPintar::Objecte;
+
+		EncanteriDeConfusió encanteri_de_confusió = {};
+		encanteri_de_confusió.torns = 10;
+		encanteri_de_confusió.rang = 5;
+
+		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
+		estat.afegir_component(id, localització);
+		estat.afegir_component(id, pintat);
+		estat.afegir_component(id, encanteri_de_confusió);
+		estat.afegir_etiqueta<Objecte>(id);
+		estat.afegir_etiqueta<Consumible>(id);
+		estat.afegir_etiqueta<AvançaTorn>(id);
+		return id;
+	}
 	default:
 		assert(false);
 		return -1;

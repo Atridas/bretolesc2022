@@ -42,11 +42,16 @@ export namespace bretolesc
 		void tanca() { tancar = true; }
 		void reinicia() { reiniciar = true; }
 		void reinicia(Generador const& generador);
-		void alterna_registre() { mostrar_registre = !mostrar_registre; registre.reiniciar_desplaçament(); }
+		void alterna_registre();
 		void desplaçar_registre(int quantitat) { registre.desplaçar_registre(quantitat); }
-		void alterna_inventari() { mostrar_inventari = !mostrar_inventari; posició_inventari = 0; }
+		void alterna_inventari();
 		void desplaçar_inventari(int quantitat);
 		int obtenir_posició_inventari() const { return posició_inventari; }
+		void activa_cursor() { submode_joc = SubmodeJoc::Cursor; }
+		void moure_cursor(Vector2D p);
+		void establir_cursor(Punt2D p);
+		void accepta_cursor();
+		void cancela_cursor();
 
 		bool vol_ser_tancat() const { return tancar; }
 		bool vol_ser_reiniciat() const { return reiniciar; }
@@ -118,7 +123,11 @@ export namespace bretolesc
 	private:
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
-		bool tancar = false, reiniciar = false, mostrar_registre = false, mostrar_inventari = false;
+		bool tancar = false, reiniciar = false;// mostrar_registre = false, mostrar_inventari = false;
+		enum class SubmodeJoc
+		{
+			Normal, Registre, Inventari, Cursor
+		} submode_joc = SubmodeJoc::Normal;
 		int posició_inventari = 0;
 		Punt2D ratolí;
 
@@ -127,7 +136,11 @@ export namespace bretolesc
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
-		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador, EncanteriDelLlamp, Inventari, EnInventari> col·leccions;
+		Col·leccions<
+			Nom, Localització, Pintat, 
+			Lluitador, IAHostil, 
+			Curador, EncanteriDelLlamp, EncanteriDeConfusió, 
+			Inventari, EnInventari> col·leccions;
 		Etiquetes<BloquejaElPas, Objecte, Consumible, AvançaTorn> etiquetes;
 		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar

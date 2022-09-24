@@ -240,13 +240,15 @@ namespace bretolesc
 							break;
 						case 7:
 						case 8:
+							tipus_objecte = TipusEntitat::RotlloDeConfusió;
+							break;
 						case 9:
 							tipus_objecte = TipusEntitat::RotlloDelLlamp;
 							break;
 						default:
 							assert(false);
 						}
-
+						tipus_objecte = TipusEntitat::RotlloDeConfusió;
 
 						afegir_entitat(estat, tipus_objecte, posició_objecte);
 					}
