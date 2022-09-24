@@ -236,19 +236,20 @@ namespace bretolesc
 						case 4:
 						case 5:
 						case 6:
-							tipus_objecte = TipusEntitat::PocióVida;
-							break;
+							//tipus_objecte = TipusEntitat::PocióVida;
+							//break;
 						case 7:
+							//tipus_objecte = TipusEntitat::RotlloDeBolaDeFoc;
+							//break;
 						case 8:
-							tipus_objecte = TipusEntitat::RotlloDeConfusió;
-							break;
+							//tipus_objecte = TipusEntitat::RotlloDeConfusió;
+							//break;
 						case 9:
 							tipus_objecte = TipusEntitat::RotlloDelLlamp;
 							break;
 						default:
 							assert(false);
 						}
-						tipus_objecte = TipusEntitat::RotlloDeConfusió;
 
 						afegir_entitat(estat, tipus_objecte, posició_objecte);
 					}

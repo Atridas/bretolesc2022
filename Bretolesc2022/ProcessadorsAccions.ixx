@@ -58,13 +58,14 @@ export namespace bretolesc
 			true);
 	}
 
-	void processar(Estat& estat, acció::ExecutarEncanteriDelLlamp const& executar_encanteri_del_llamp)
+	void processar(Estat& estat, acció::ExecutarEncanteriDeDany const& executar_encanteri_del_llamp)
 	{
+		Nom const& nom_encanteri = estat.obtenir_component<Nom>(executar_encanteri_del_llamp.objecte);
 		Nom const& nom_objectiu = estat.obtenir_component<Nom>(executar_encanteri_del_llamp.entitat);
 		Lluitador& objectiu = estat.obtenir_component<Lluitador>(executar_encanteri_del_llamp.entitat);
 
 		char buffer[2048];
-		sprintf_s(buffer, 2048, "Un raig colpeja a %s, fent-li %d punts de dany", nom_objectiu.nom.c_str(), executar_encanteri_del_llamp.dany);
+		sprintf_s(buffer, 2048, "Un %s colpeja a %s, fent-li %d punts de dany", nom_encanteri.nom.c_str(), nom_objectiu.nom.c_str(), executar_encanteri_del_llamp.dany);
 
 		estat.afegir_missatge(
 			buffer,
@@ -81,36 +82,44 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, IdEntitat objectiu, acció::ActivarObjecte const& activar_objecte)
+	void processar(Estat& estat, std::vector<IdEntitat> objectius, acció::ActivarObjecte const& activar_objecte)
 	{
 		IdEntitat jugador = estat.obtenir_id_jugador();
 
 		if (auto curador = estat.potser_obtenir_component<Curador>(activar_objecte.objecte))
 		{
-			processar(estat, acció::RecuperarVida
-				{
-					objectiu,
-					curador->get().vida
-				});
+			for (IdEntitat objectiu : objectius)
+			{
+				processar(estat, acció::RecuperarVida
+					{
+						objectiu,
+						curador->get().vida
+					});
+			}
 		}
 		if (auto encanteri_de_confusió = estat.potser_obtenir_component<EncanteriDeConfusió>(activar_objecte.objecte))
 		{
-			processar(estat, acció::ExecutarEncanteriDeConfusió
-				{
-					objectiu,
-					encanteri_de_confusió->get().torns
-				});
+			for (IdEntitat objectiu : objectius)
+			{
+				processar(estat, acció::ExecutarEncanteriDeConfusió
+					{
+						objectiu,
+						encanteri_de_confusió->get().torns
+					});
+			}
 		}
-		if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDelLlamp>(activar_objecte.objecte))
+		if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDeDany>(activar_objecte.objecte))
 		{
-			processar(estat, acció::ExecutarEncanteriDelLlamp
-				{
-					objectiu,
-					encanteri_del_llamp->get().dany
-				});
+			for (IdEntitat objectiu : objectius)
+			{
+				processar(estat, acció::ExecutarEncanteriDeDany
+					{
+						activar_objecte.objecte,
+						objectiu,
+						encanteri_del_llamp->get().dany
+					});
+			}
 		}
-		// PERFER Més efectes?
-
 
 		bool avançar_torn = estat.té_etiqueta<AvançaTorn>(activar_objecte.objecte);
 
@@ -129,6 +138,11 @@ export namespace bretolesc
 		{
 			estat.actualitzar_lógica();
 		}
+	}
+
+	void processar(Estat& estat, IdEntitat objectiu, acció::ActivarObjecte const& activar_objecte)
+	{
+		processar(estat, std::vector<IdEntitat>{ objectiu }, activar_objecte);
 	}
 
 	void processar(Estat& estat, acció::ActivarObjecte const& activar_objecte)
@@ -153,7 +167,7 @@ export namespace bretolesc
 		}
 		else if (auto objectiu_cursor = estat.potser_obtenir_component<ObjectiuCursor>(activar_objecte.objecte))
 		{
-			estat.activa_cursor(activar_objecte, objectiu_cursor->get().rang);
+			estat.activa_cursor(activar_objecte, objectiu_cursor->get().rang, objectiu_cursor->get().radi);
 		}
 
 		if (objectiu)

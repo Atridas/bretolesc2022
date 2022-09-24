@@ -125,8 +125,9 @@ export namespace bretolesc
 			int vida;
 		};
 
-		struct ExecutarEncanteriDelLlamp
+		struct ExecutarEncanteriDeDany
 		{
+			IdEntitat objecte;
 			IdEntitat entitat;
 			int dany;
 		};

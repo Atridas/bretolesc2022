@@ -144,8 +144,8 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		pintat.color = Color{ 0xff, 0xff, 0x00 };
 		pintat.prioritat = PrioritatPintar::Objecte;
 
-		EncanteriDelLlamp encanteri_del_llamp = {};
-		encanteri_del_llamp.dany = 20;
+		EncanteriDeDany encanteri_de_dany = {};
+		encanteri_de_dany.dany = 20;
 
 		ObjectiuLluitadorProper objectiu = {};
 		objectiu.rang = 5;
@@ -155,6 +155,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, objectiu);
+		estat.afegir_component(id, encanteri_de_dany);
 		estat.afegir_etiqueta<Objecte>(id);
 		estat.afegir_etiqueta<Consumible>(id);
 		estat.afegir_etiqueta<AvançaTorn>(id);
@@ -183,6 +184,36 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, encanteri_de_confusió);
+		estat.afegir_component(id, objectiu);
+		estat.afegir_etiqueta<Objecte>(id);
+		estat.afegir_etiqueta<Consumible>(id);
+		estat.afegir_etiqueta<AvançaTorn>(id);
+		return id;
+	}
+	case TipusEntitat::RotlloDeBolaDeFoc:
+	{
+		Nom nom = { "Rotllo de Bola de Foc" };
+
+		Localització localització = {};
+		localització.posició = posició;
+
+		Pintat pintat = {};
+		pintat.caràcter = '~';
+		pintat.color = Color{ 255, 0, 0 };
+		pintat.prioritat = PrioritatPintar::Objecte;
+
+		EncanteriDeDany encanteri_de_dany = {};
+		encanteri_de_dany.dany = 10;
+
+		ObjectiuCursor objectiu = {};
+		objectiu.rang = 5;
+		objectiu.radi = 2;
+
+		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
+		estat.afegir_component(id, localització);
+		estat.afegir_component(id, pintat);
+		estat.afegir_component(id, encanteri_de_dany);
 		estat.afegir_component(id, objectiu);
 		estat.afegir_etiqueta<Objecte>(id);
 		estat.afegir_etiqueta<Consumible>(id);

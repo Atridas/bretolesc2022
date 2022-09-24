@@ -112,9 +112,10 @@ void Estat::desplaçar_inventari(int quantitat)
 	}
 }
 
-void Estat::activa_cursor(acció::ActivarObjecte _objecte_a_activar, int _rang_cursor)
+void Estat::activa_cursor(acció::ActivarObjecte _objecte_a_activar, int _rang_cursor, int _radi_cursor)
 {
 	rang_cursor = _rang_cursor;
+	radi_cursor = _radi_cursor;
 	submode_joc = SubmodeJoc::Cursor;
 	objecte_a_activar = _objecte_a_activar;
 	cursor = obtenir_component<Localització>(id_jugador).posició;
@@ -142,19 +143,43 @@ void Estat::accepta_cursor()
 		}
 	}
 
-	for (IdEntitat id : buscar_entitats(cursor))
+	if (radi_cursor == 0)
 	{
-		if (té_component<Lluitador>(id))
+		for (IdEntitat id : buscar_entitats(cursor))
 		{
-			processar(*this, id , *objecte_a_activar);
-			cancela_cursor();
-			return;
+			if (té_component<Lluitador>(id))
+			{
+				processar(*this, id, *objecte_a_activar);
+				cancela_cursor();
+				return;
+			}
 		}
 	}
+	else
+	{
+		std::vector<IdEntitat> objectius;
+
+		for (auto [id, lluitador, localització] : col·leccions.per_cada<Lluitador, Localització>())
+		{
+			if (distància_euclidiana(localització.posició, cursor) <= radi_cursor)
+			{
+				objectius.push_back(id);
+			}
+		}
+
+		if (!objectius.empty())
+		{
+			processar(*this, objectius, *objecte_a_activar);
+			cancela_cursor();
+		}
+	}
+
 }
 
 void Estat::cancela_cursor()
 {
+	rang_cursor = 0;
+	radi_cursor = 0;
 	objecte_a_activar = std::nullopt;
 	submode_joc = SubmodeJoc::Normal;
 }
@@ -472,10 +497,31 @@ void Estat::pintar(tcod::Console& console) const
 		registre.pintar_sencer(console);
 		break;
 	case SubmodeJoc::Cursor:
-		if (m_mapa.és_dins_del_límit(cursor))
+
+		auto color = iu::Paleta::Cursor;
+
+		if (rang_cursor > 0)
 		{
-			console[{cursor.x, cursor.y}].bg = iu::Paleta::Cursor;
+			float dist = distància_euclidiana(cursor, obtenir_component<Localització>(id_jugador).posició);
+			if (dist > rang_cursor)
+			{
+				color = iu::Paleta::CursorForaDeRang;
+			}
 		}
+
+		for (int i = -radi_cursor; i <= radi_cursor; ++i)
+		{
+			for (int j = -radi_cursor; j <= radi_cursor; ++j)
+			{
+				Vector2D dif = {i, j};
+				Punt2D c = cursor + dif;
+				if (m_mapa.és_dins_del_límit(c) && norma(dif) <= radi_cursor)
+				{
+					console[{c.x, c.y}].bg = color;
+				}
+			}
+		}
+		
 		break;
 	}
 }

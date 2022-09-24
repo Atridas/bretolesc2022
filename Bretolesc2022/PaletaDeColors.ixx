@@ -34,6 +34,7 @@ export namespace bretolesc::iu
 		static Color const TextObjecteInventari;
 
 		static Color const Cursor;
+		static Color const CursorForaDeRang;
 	};
 }
 
@@ -65,3 +66,4 @@ bretolesc::Color const bretolesc::iu::Paleta::TextSeleccióInventari = Color{ 0x
 bretolesc::Color const bretolesc::iu::Paleta::TextObjecteInventari = Color{ 0x50, 0x50, 0xCF };
 
 bretolesc::Color const bretolesc::iu::Paleta::Cursor = Color{ 0x10, 0x10, 0x50 };
+bretolesc::Color const bretolesc::iu::Paleta::CursorForaDeRang = Color{ 0x30, 0x30, 0x80 };

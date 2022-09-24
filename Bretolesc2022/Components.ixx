@@ -60,6 +60,7 @@ export namespace bretolesc::component
 	struct ObjectiuCursor
 	{
 		int rang;
+		int radi;
 	};
 
 	struct Curador
@@ -67,7 +68,7 @@ export namespace bretolesc::component
 		int vida;
 	};
 
-	struct EncanteriDelLlamp
+	struct EncanteriDeDany
 	{
 		int dany;
 	};

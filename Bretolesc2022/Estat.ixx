@@ -48,7 +48,7 @@ export namespace bretolesc
 		void alterna_inventari();
 		void desplaçar_inventari(int quantitat);
 		int obtenir_posició_inventari() const { return posició_inventari; }
-		void activa_cursor(acció::ActivarObjecte _objecte_a_activar, int rang_cursor = 0);
+		void activa_cursor(acció::ActivarObjecte _objecte_a_activar, int rang_cursor, int radi_cursor);
 		void moure_cursor(Vector2D v);
 		void establir_cursor(Punt2D p);
 		void accepta_cursor();
@@ -131,7 +131,7 @@ export namespace bretolesc
 			Normal, Registre, Inventari, Cursor
 		} submode_joc = SubmodeJoc::Normal;
 		std::optional<acció::ActivarObjecte> objecte_a_activar;
-		int rang_cursor = 0;
+		int rang_cursor = 0, radi_cursor = 0;
 		int posició_inventari = 0;
 		Punt2D cursor, ratolí;
 
@@ -143,7 +143,7 @@ export namespace bretolesc
 		Col·leccions<
 			Nom, Localització, Pintat, 
 			Lluitador, IAHostil, Confús,
-			Curador, EncanteriDelLlamp, EncanteriDeConfusió, 
+			Curador, EncanteriDeDany, EncanteriDeConfusió,
 			ObjectiuLluitadorProper, ObjectiuCursor,
 			Inventari, EnInventari> col·leccions;
 		Etiquetes<
