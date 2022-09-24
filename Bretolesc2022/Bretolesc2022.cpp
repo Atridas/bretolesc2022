@@ -28,6 +28,30 @@ import Motor;
 // - TCOD::pring -> TCOD_console_printf
 // 
 // - 9ª PART
+//   - modificar_o_treure([] <typename Component> (Component& component)
+//   - Rotllo d'Encanteri del llamp
+//     - Entitat Consumible + EncanteriDelLlamp
+//        - '~' ffff00, 20 dany, rang 5
+//     - Trobar l'entitat (lluitadora) més propera
+//     - "Un raig colpeja a {} i li fa {} de dany"
+//     - Modificar la generació per incloure els rotllos (70% poció, 30% llamp)
+//   - Afegir un "cursor"
+//     - Es mou amb control + fletxes
+//     - Substitueix el mouse (el mouse ara mou això, i el que feia el mouse fins ara
+//          ho supleix això)
+//   - Afegir un nou estat per a la IA "confús"
+//     - Component + nº de torns que li queda de confús
+//     - Es mou (batzega) aleatóriament mentre duri
+//     - Missatge "{} ja no està confús" quan l'efecte acavi.
+//   - Rotllo d'Encanteri de confusió!
+//     - Consumible + EncanteriDeConfusió
+//     - Bon moment per fer components sobre com escollir objectiu?
+//       - ObjectiuSiMateix, ObjectiuLluitadorProper, ObjectiuCursor
+//     - "~" 207 63 255, 10 torns, rang 5
+//   - Rotllo de bola de foc
+//     - "~" ff0000, dany 12, radi 3
+//   - 70% poció, 10% per rotllo
+// 
 // 
 // ✔️ 8ª PART
 // ✔️ 7ª PART
