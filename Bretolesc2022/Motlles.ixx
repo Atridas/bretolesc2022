@@ -17,6 +17,7 @@ export namespace bretolesc
 		Trol,
 
 		PocióVida,
+		RotlloDelLlamp,
 
 		NUM
 	};

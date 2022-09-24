@@ -52,6 +52,12 @@ export namespace bretolesc::component
 		int vida;
 	};
 
+	struct EncanteriDelLlamp
+	{
+		int dany;
+		int rang;
+	};
+
 	struct Inventari
 	{
 		int capacitat;

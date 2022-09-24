@@ -1,6 +1,8 @@
 ﻿module;
 
 // std
+#include <cassert>
+
 #include <vector>
 #include <random>
 
@@ -221,7 +223,32 @@ namespace bretolesc
 
 					if (!estat.buscar_entitat(posició_objecte))
 					{
-						afegir_entitat(estat, TipusEntitat::PocióVida, posició_objecte);
+						TipusEntitat tipus_objecte;
+
+						int rnd_tipus_objecte = std::uniform_int_distribution<>(0, 9)(rng);
+
+						switch (rnd_tipus_objecte)
+						{
+						case 0:
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6:
+							tipus_objecte = TipusEntitat::PocióVida;
+							break;
+						case 7:
+						case 8:
+						case 9:
+							tipus_objecte = TipusEntitat::RotlloDelLlamp;
+							break;
+						default:
+							assert(false);
+						}
+
+
+						afegir_entitat(estat, tipus_objecte, posició_objecte);
 					}
 					else if (intents < 100)
 					{

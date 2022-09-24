@@ -62,7 +62,7 @@ export namespace bretolesc
 		template<typename F>
 		void treure(F const& funció, IdEntitat id)
 		{
-			if (té<Etiqueta>(id) && funció((Etiqueta*)nullptr))
+			if (té<Etiqueta>(id) && funció((Etiqueta const*)nullptr))
 			{
 				treure<Etiqueta>(id);
 			}

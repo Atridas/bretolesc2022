@@ -25,16 +25,16 @@ import Motor;
 // 
 // PERFER
 // - Game Over de victòria!
-// - TCOD::pring -> TCOD_console_printf
+// - TCOD::print -> TCOD_console_printf
 // 
 // - 9ª PART
-//   - modificar_o_treure([] <typename Component> (Component& component)
+//   ✔️ modificar_o_treure([] <typename Component> (Component& component)
 //   - Rotllo d'Encanteri del llamp
-//     - Entitat Consumible + EncanteriDelLlamp
+//     ✔️ Entitat Consumible + EncanteriDelLlamp
 //        - '~' ffff00, 20 dany, rang 5
 //     - Trobar l'entitat (lluitadora) més propera
 //     - "Un raig colpeja a {} i li fa {} de dany"
-//     - Modificar la generació per incloure els rotllos (70% poció, 30% llamp)
+//     ✔️ Modificar la generació per incloure els rotllos (70% poció, 30% llamp)
 //   - Afegir un "cursor"
 //     - Es mou amb control + fletxes
 //     - Substitueix el mouse (el mouse ara mou això, i el que feia el mouse fins ara
@@ -57,6 +57,18 @@ import Motor;
 // ✔️ 7ª PART
 // ✔️ 6ª PART
 // 
+// 
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// 
+// TAB -> inventari
+// g -> agafar
+// v -> registre
+// 
+// inventari
+// i -> consumir
+// d -> tirar
 // 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------

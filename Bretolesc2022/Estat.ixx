@@ -106,6 +106,8 @@ export namespace bretolesc
 		std::optional<IdEntitat> buscar_entitat(Punt2D coordenades) const;
 		std::vector<IdEntitat> buscar_entitats(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
+		struct EntitatIDistància { IdEntitat entitat; float distància; };
+		std::optional<EntitatIDistància> buscar_entitat_lluitadora_més_propera(IdEntitat entitat) const;
 
 		void actualitzar_lógica();
 
@@ -125,8 +127,8 @@ export namespace bretolesc
 		IdEntitat id_següent = 0;
 
 		// Col·leccions de components
-		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador, Inventari, EnInventari> col·leccions;
-		Etiquetes<BloquejaElPas, Objecte, Consumible> etiquetes;
+		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador, EncanteriDelLlamp, Inventari, EnInventari> col·leccions;
+		Etiquetes<BloquejaElPas, Objecte, Consumible, AvançaTorn> etiquetes;
 		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
 

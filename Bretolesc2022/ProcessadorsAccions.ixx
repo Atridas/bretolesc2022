@@ -17,6 +17,64 @@ export namespace bretolesc
 	using namespace component;
 	using namespace etiqueta;
 
+	// Accions Lliures ----------------------------------------------------------------------------------------
+
+	void processar(Estat& estat, acció::RecuperarVida const& recuperar_vida)
+	{
+		assert(recuperar_vida.vida > 0);
+
+		Nom const& nom_entitat = estat.obtenir_component<Nom>(recuperar_vida.entitat);
+		Lluitador& entitat = estat.obtenir_component<Lluitador>(recuperar_vida.entitat);
+
+		int vida_inicial = entitat.salut;
+		entitat.salut += recuperar_vida.vida;
+		if (entitat.salut > entitat.salut_màxima)
+			entitat.salut = entitat.salut_màxima;
+
+
+		char buffer[2048];
+		sprintf_s(buffer, 2048, "%s recupera %d punts de vida", nom_entitat.nom.c_str(), entitat.salut - vida_inicial);
+
+		estat.afegir_missatge(
+			buffer,
+			iu::Paleta::TextVidaRecuperada,
+			true);
+	}
+
+	bool processar(Estat& estat, acció::ExecutarEncanteriDelLlamp const& executar_encanteri_del_llamp)
+	{
+		// Trobar l'entitat (lluitadora) més propera
+		if (auto resultat_búsqueda = estat.buscar_entitat_lluitadora_més_propera(executar_encanteri_del_llamp.entitat))
+		{
+			if (resultat_búsqueda->distància <= executar_encanteri_del_llamp.rang)
+			{
+				Nom const& nom_objectiu = estat.obtenir_component<Nom>(resultat_búsqueda->entitat);
+				Lluitador& objectiu = estat.obtenir_component<Lluitador>(resultat_búsqueda->entitat);
+
+				char buffer[2048];
+				sprintf_s(buffer, 2048, "Un raig colpeja a %s, fent-li %d punts de dany", nom_objectiu.nom.c_str(), executar_encanteri_del_llamp.dany);
+
+				estat.afegir_missatge(
+					buffer,
+					iu::Paleta::AtacLlamp,
+					true);
+
+				if (executar_encanteri_del_llamp.dany >= objectiu.salut)
+				{
+					objectiu.salut = 0;
+				}
+				else
+				{
+					objectiu.salut -= executar_encanteri_del_llamp.dany;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	// accions entitats -----------------------------------------------------------------------------
 
 	void processar(Estat& estat, acció_entitat::Moure const& moure)
@@ -56,28 +114,6 @@ export namespace bretolesc
 		{
 			defensor.salut -= dany;
 		}
-	}
-
-	void processar(Estat& estat, acció_entitat::RecuperarVida const& recuperar_vida)
-	{
-		assert(recuperar_vida.vida > 0);
-
-		Nom const& nom_entitat = estat.obtenir_component<Nom>(recuperar_vida.entitat);
-		Lluitador& entitat = estat.obtenir_component<Lluitador>(recuperar_vida.entitat);
-
-		int vida_inicial = entitat.salut;
-		entitat.salut += recuperar_vida.vida;
-		if (entitat.salut > entitat.salut_màxima)
-			entitat.salut = entitat.salut_màxima;
-
-
-		char buffer[2048];
-		sprintf_s(buffer, 2048, "%s recupera %d punts de vida", nom_entitat.nom.c_str(), entitat.salut - vida_inicial);
-
-		estat.afegir_missatge(
-			buffer,
-			iu::Paleta::TextVidaRecuperada,
-			true);
 	}
 
 	// accions de l'usuari ----------------------------------------------------------------------
@@ -184,6 +220,8 @@ export namespace bretolesc
 
 	void processar(Estat& estat, acció_usuari::Consumir const& consumir)
 	{
+		bool avançar_torn = false;
+
 		IdEntitat jugador = estat.obtenir_id_jugador();
 		Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
 		int posició_inventari = estat.obtenir_posició_inventari();
@@ -192,25 +230,46 @@ export namespace bretolesc
 			IdEntitat objecte = inventari.objectes[posició_inventari];
 			if (estat.té_etiqueta<Consumible>(objecte))
 			{
+				bool eliminem_objecte = true;
 				if (auto curador = estat.potser_obtenir_component<Curador>(objecte))
 				{
-					processar(estat, acció_entitat::RecuperarVida
+					processar(estat, acció::RecuperarVida
 						{
 							jugador,
 							curador->get().vida
 						});
 				}
+				if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDelLlamp>(objecte))
+				{
+					eliminem_objecte = processar(estat, acció::ExecutarEncanteriDelLlamp
+						{
+							jugador,
+							encanteri_del_llamp->get().dany,
+							encanteri_del_llamp->get().rang
+						});
+				}
 				// PERFER Més efectes?
 
-				// eliminar objecte
-				assert(!estat.té_component<IAHostil>(objecte));
-				inventari.objectes.erase(inventari.objectes.begin() + posició_inventari);
-				estat.modificar_o_treure([](auto c) { return true; }, objecte);
+				
+				avançar_torn = estat.té_etiqueta<AvançaTorn>(objecte);
 
-				if (posició_inventari > 0)
-					estat.desplaçar_inventari(-1);
+				// eliminar objecte
+				if (eliminem_objecte)
+				{
+					assert(!estat.té_component<IAHostil>(objecte));
+					inventari.objectes.erase(inventari.objectes.begin() + posició_inventari);
+					estat.modificar_o_treure([](auto c) { return true; }, objecte);
+
+					if (posició_inventari > 0)
+						estat.desplaçar_inventari(-1);
+				}
 			}
 
+		}
+
+		if (avançar_torn)
+		{
+			estat.actualitzar_lógica();
 		}
 	}
 

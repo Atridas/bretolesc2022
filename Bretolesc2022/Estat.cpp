@@ -159,6 +159,27 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 	return resultat;
 }
 
+std::optional<Estat::EntitatIDistància> Estat::buscar_entitat_lluitadora_més_propera(IdEntitat entitat) const
+{
+	std::optional<EntitatIDistància> resultat;
+
+	Punt2D posició_entitat = col·leccions.obtenir_component<Localització>(entitat).posició;
+
+	for (auto [id, loc, lluitador] : col·leccions.per_cada<Localització, Lluitador>())
+	{
+		if (id != entitat)
+		{
+			float distància = distància_euclidiana(posició_entitat, loc.posició);
+			if (!resultat.has_value() || resultat->distància > distància)
+			{
+				resultat = EntitatIDistància{ id, distància };
+			}
+		}
+	}
+
+	return resultat;
+}
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -244,9 +265,8 @@ void Estat::buscar_morts()
 			id == obtenir_id_jugador() ? iu::Paleta::MortJugador : iu::Paleta::MortEnemic,
 			true);
 
-		col·leccions.modificar_o_treure([](auto& component)
+		col·leccions.modificar_o_treure([]<typename Component>(Component& component)
 			{
-				using Component = std::decay_t<decltype(component)>;
 				if constexpr (std::is_same_v<Component, Nom> || std::is_same_v<Component, Localització>)
 				{
 					return false;
@@ -268,10 +288,8 @@ void Estat::buscar_morts()
 					return true;
 				}
 			}, id);
-		etiquetes.treure([](auto* etiqueta)
+		etiquetes.treure([]<typename Etiqueta>(Etiqueta const* etiqueta)
 			{
-				using Etiqueta = std::decay_t<decltype(etiqueta)>;
-				//std::is_same_v<Etiqueta, BloquejaElPas*>;
 				return true;
 			}, id);
 	}

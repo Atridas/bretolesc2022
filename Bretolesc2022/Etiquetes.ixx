@@ -9,4 +9,6 @@ export namespace bretolesc::etiqueta
 	struct Objecte;
 
 	struct Consumible;
+
+	struct AvançaTorn;
 }

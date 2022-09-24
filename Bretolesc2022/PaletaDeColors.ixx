@@ -8,6 +8,7 @@ export namespace bretolesc::iu
 	{
 		static Color const AtacJugador;
 		static Color const AtacEnemic;
+		static Color const AtacLlamp;
 
 		static Color const MortJugador;
 		static Color const MortEnemic;
@@ -35,6 +36,7 @@ export namespace bretolesc::iu
 
 bretolesc::Color const bretolesc::iu::Paleta::AtacJugador = Color{ 0xE0, 0xE0, 0xE0 };
 bretolesc::Color const bretolesc::iu::Paleta::AtacEnemic = Color{ 0xFF, 0xC0, 0xC0 };
+bretolesc::Color const bretolesc::iu::Paleta::AtacLlamp = Color{ 0xFF, 0xFF, 0xC0 };
 
 bretolesc::Color const bretolesc::iu::Paleta::MortJugador = Color{ 0xFF, 0x30, 0x30 };
 bretolesc::Color const bretolesc::iu::Paleta::MortEnemic = Color{ 0xFF, 0xA0, 0x30 };

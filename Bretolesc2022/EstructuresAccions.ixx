@@ -85,17 +85,26 @@ export namespace bretolesc
 		{
 			IdEntitat entitat, objectiu;
 		};
+	}
 
+	using AccióEntitat = std::variant<
+		acció_entitat::Moure,
+		acció_entitat::AtacCosACos
+	>;
+
+	namespace acció
+	{
 		struct RecuperarVida
 		{
 			IdEntitat entitat;
 			int vida;
 		};
-	}
 
-	using AccióEntitat = std::variant<
-		acció_entitat::Moure,
-		acció_entitat::AtacCosACos,
-		acció_entitat::RecuperarVida
-	>;
+		struct ExecutarEncanteriDelLlamp
+		{
+			IdEntitat entitat;
+			int dany;
+			int rang;
+		};
+	}
 }

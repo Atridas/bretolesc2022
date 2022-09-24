@@ -131,6 +131,32 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_etiqueta<Consumible>(id);
 		return id;
 	}
+	case TipusEntitat::RotlloDelLlamp:
+	{
+		Nom nom = { "Rotllo del Llamp" };
+
+		Localització localització = {};
+		localització.posició = posició;
+
+		Pintat pintat = {};
+		pintat.caràcter = '~';
+		pintat.color = Color{ 0xff, 0xff, 0x00 };
+		pintat.prioritat = PrioritatPintar::Objecte;
+
+		EncanteriDelLlamp encanteri_del_llamp = {};
+		encanteri_del_llamp.dany = 20;
+		encanteri_del_llamp.rang = 5;
+
+		IdEntitat id = estat.crear_entitat();
+		estat.afegir_component(id, nom);
+		estat.afegir_component(id, localització);
+		estat.afegir_component(id, pintat);
+		estat.afegir_component(id, encanteri_del_llamp);
+		estat.afegir_etiqueta<Objecte>(id);
+		estat.afegir_etiqueta<Consumible>(id);
+		estat.afegir_etiqueta<AvançaTorn>(id);
+		return id;
+	}
 	default:
 		assert(false);
 		return -1;

@@ -79,9 +79,19 @@ export namespace bretolesc
 		return Vector2D{ p1.x - p2.x, p1.y - p2.y };
 	}
 
+	float norma(Vector2D v)
+	{
+		return std::sqrtf(v.x * v.x + v.y * v.y);
+	}
+
 	int distància_manhattan(Punt2D a, Punt2D b)
 	{
 		return std::abs(a.x - b.x) + std::abs(a.y - b.y);
+	}
+
+	float distància_euclidiana(Punt2D a, Punt2D b)
+	{
+		return norma(a - b);
 	}
 
 	Color mescla(Color a, Color b, float alpha)
