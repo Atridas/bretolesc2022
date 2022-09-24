@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 // std
 #include <vector>
@@ -6,18 +6,18 @@ module;
 
 export module GeneradorProcedural;
 
-import Comú;
+import ComÃº;
 import Entitats;
 import Motlles;
 import Motor;
 
 namespace bretolesc
 {
-	struct Habitació
+	struct HabitaciÃ³
 	{
 		Punt2D v1, v2;
 
-		Habitació(Punt2D origen, Vector2D mida)
+		HabitaciÃ³(Punt2D origen, Vector2D mida)
 			: v1{ origen.x, origen.y }
 			, v2{ origen.x + mida.x + 1, origen.y + mida.y + 1 }
 		{}
@@ -28,7 +28,7 @@ namespace bretolesc
 		}
 	};
 
-	struct Passadís
+	struct PassadÃ­s
 	{
 		int h1, h2;
 	};
@@ -49,10 +49,10 @@ namespace bretolesc
 			max_num_extra_passadissos = _max_num_extra_passadissos < _min_num_extra_passadissos ? _min_num_extra_passadissos : _max_num_extra_passadissos;
 		}
 
-		void establir_num_enemics_per_habitació(uint32_t _min_num_enemics_per_habitació, uint32_t _max_num_enemics_per_habitació = 0)
+		void establir_num_enemics_per_habitaciÃ³(uint32_t _min_num_enemics_per_habitaciÃ³, uint32_t _max_num_enemics_per_habitaciÃ³ = 0)
 		{
-			min_num_enemics_per_habitació = _min_num_enemics_per_habitació;
-			max_num_enemics_per_habitació = _max_num_enemics_per_habitació < _min_num_enemics_per_habitació ? _min_num_enemics_per_habitació : _max_num_enemics_per_habitació;
+			min_num_enemics_per_habitaciÃ³ = _min_num_enemics_per_habitaciÃ³;
+			max_num_enemics_per_habitaciÃ³ = _max_num_enemics_per_habitaciÃ³ < _min_num_enemics_per_habitaciÃ³ ? _min_num_enemics_per_habitaciÃ³ : _max_num_enemics_per_habitaciÃ³;
 		}
 
 		void establir_llavor(uint32_t _llavor)
@@ -65,11 +65,11 @@ namespace bretolesc
 			RNG rng(llavor);
 
 			// crear habitacions i passadissos
-			std::vector<Habitació> habitacions;
-			std::vector<Passadís> passadissos;
+			std::vector<HabitaciÃ³> habitacions;
+			std::vector<PassadÃ­s> passadissos;
 
 			std::uniform_int_distribution<> amplada_qualsevol(1, estat.mapa().obtenir_amplada() - 4);
-			std::uniform_int_distribution<> alçada_qualsevol(1, estat.mapa().obtenir_alçada() - 4);
+			std::uniform_int_distribution<> alÃ§ada_qualsevol(1, estat.mapa().obtenir_alÃ§ada() - 4);
 
 			std::uniform_int_distribution<> tamany(3, 15);
 
@@ -80,30 +80,30 @@ namespace bretolesc
 			for(int i = 0; i < num_habitacions; ++i)
 			{
 				int x = amplada_qualsevol(rng);
-				int y = alçada_qualsevol(rng);
+				int y = alÃ§ada_qualsevol(rng);
 
 				int w = tamany(rng);
 				int h = tamany(rng);
 
-				Habitació habitació({ x, y }, { w, h });
+				HabitaciÃ³ habitaciÃ³({ x, y }, { w, h });
 
 				bool solapada = false;
-				for (Habitació const& altra_habitació : habitacions)
+				for (HabitaciÃ³ const& altra_habitaciÃ³ : habitacions)
 				{
 					if (
-						habitació.v2.x >= altra_habitació.v1.x &&
-						altra_habitació.v2.x >= habitació.v1.x &&
-						habitació.v2.y >= altra_habitació.v1.y &&
-						altra_habitació.v2.y >= habitació.v1.y)
+						habitaciÃ³.v2.x >= altra_habitaciÃ³.v1.x &&
+						altra_habitaciÃ³.v2.x >= habitaciÃ³.v1.x &&
+						habitaciÃ³.v2.y >= altra_habitaciÃ³.v1.y &&
+						altra_habitaciÃ³.v2.y >= habitaciÃ³.v1.y)
 					{
 						solapada = true;
 						break;
 					}
 				}
 
-				if (!solapada && habitació.v2.x < estat.mapa().obtenir_amplada() - 1 && habitació.v2.y < estat.mapa().obtenir_alçada() - 1)
+				if (!solapada && habitaciÃ³.v2.x < estat.mapa().obtenir_amplada() - 1 && habitaciÃ³.v2.y < estat.mapa().obtenir_alÃ§ada() - 1)
 				{
-					habitacions.push_back(habitació);
+					habitacions.push_back(habitaciÃ³);
 				}
 				else if(intents < 100)
 				{
@@ -126,54 +126,54 @@ namespace bretolesc
 			}
 
 			// inicialitzar tot a parets
-			for (int y = 0; y < estat.mapa().obtenir_alçada(); ++y)
+			for (int y = 0; y < estat.mapa().obtenir_alÃ§ada(); ++y)
 				for (int x = 0; x < estat.mapa().obtenir_amplada(); ++x)
 				{
 					estat.mapa().establir_rajola({ x, y }, TipusRajola::Paret);
 				}
 
 			// pintar habitacions
-			for (Habitació habitació : habitacions)
+			for (HabitaciÃ³ habitaciÃ³ : habitacions)
 			{
-				for (int y = habitació.v1.y; y <= habitació.v2.y; ++y)
-					for (int x = habitació.v1.x; x <= habitació.v2.x; ++x)
+				for (int y = habitaciÃ³.v1.y; y <= habitaciÃ³.v2.y; ++y)
+					for (int x = habitaciÃ³.v1.x; x <= habitaciÃ³.v2.x; ++x)
 					{
 						estat.mapa().establir_rajola({ x, y }, TipusRajola::Terra);
 					}
 			}
 
 			// pintar passadissos
-			for (Passadís passadís : passadissos)
+			for (PassadÃ­s passadÃ­s : passadissos)
 			{
-				Habitació const &h1 = habitacions[passadís.h1];
-				Habitació const &h2 = habitacions[passadís.h2];
+				HabitaciÃ³ const &h1 = habitacions[passadÃ­s.h1];
+				HabitaciÃ³ const &h2 = habitacions[passadÃ­s.h2];
 
 				Punt2D const origen = h1.centre();
-				Punt2D const destí = h2.centre();
+				Punt2D const destÃ­ = h2.centre();
 
-				// passadís horitzontal
-				int const ox = origen.x < destí.x ? origen.x : destí.x;
-				int const dx = origen.x < destí.x ? destí.x : origen.x;
+				// passadÃ­s horitzontal
+				int const ox = origen.x < destÃ­.x ? origen.x : destÃ­.x;
+				int const dx = origen.x < destÃ­.x ? destÃ­.x : origen.x;
 
 				for (int x = ox; x <= dx; ++x)
 				{
 					estat.mapa().establir_rajola({ x, origen.y }, TipusRajola::Terra);
 				}
 
-				// passadís vertical
-				int oy = origen.y < destí.y ? origen.y : destí.y;
-				int dy = origen.y < destí.y ? destí.y : origen.y;
+				// passadÃ­s vertical
+				int oy = origen.y < destÃ­.y ? origen.y : destÃ­.y;
+				int dy = origen.y < destÃ­.y ? destÃ­.y : origen.y;
 
 				for (int y = oy; y <= dy; ++y)
 				{
-					estat.mapa().establir_rajola({destí.x, y}, TipusRajola::Terra);
+					estat.mapa().establir_rajola({destÃ­.x, y}, TipusRajola::Terra);
 				}
 			}
 
 			// enemics
 			for (int h = 1; h < habitacions.size(); ++h)
 			{
-				int num_enemics = std::uniform_int_distribution<>(min_num_enemics_per_habitació, max_num_enemics_per_habitació)(rng);
+				int num_enemics = std::uniform_int_distribution<>(min_num_enemics_per_habitaciÃ³, max_num_enemics_per_habitaciÃ³)(rng);
 
 				for (int e = 0; e < num_enemics; ++e)
 				{
@@ -189,14 +189,14 @@ namespace bretolesc
 						tipus_enemic = TipusEntitat::Trol;
 					}
 
-					Punt2D posició_enemic;
+					Punt2D posiciÃ³_enemic;
 
-					posició_enemic.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
-					posició_enemic.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+					posiciÃ³_enemic.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					posiciÃ³_enemic.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
 
-					if (!estat.buscar_entitat(posició_enemic))
+					if (!estat.buscar_entitat(posiciÃ³_enemic))
 					{
-						afegir_entitat(estat, tipus_enemic, posició_enemic);
+						afegir_entitat(estat, tipus_enemic, posiciÃ³_enemic);
 					}
 					else if (intents < 100)
 					{
@@ -210,18 +210,18 @@ namespace bretolesc
 			// objectes
 			for (int h = 0; h < habitacions.size(); ++h)
 			{
-				int num_objectes = std::uniform_int_distribution<>(min_num_objectes_per_habitació, max_num_objectes_per_habitació)(rng);
+				int num_objectes = std::uniform_int_distribution<>(min_num_objectes_per_habitaciÃ³, max_num_objectes_per_habitaciÃ³)(rng);
 
 				for (int e = 0; e < num_objectes; ++e)
 				{
-					Punt2D posició_objecte;
+					Punt2D posiciÃ³_objecte;
 
-					posició_objecte.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
-					posició_objecte.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
+					posiciÃ³_objecte.x = std::uniform_int_distribution<>(habitacions[h].v1.x + 2, habitacions[h].v2.x - 2)(rng);
+					posiciÃ³_objecte.y = std::uniform_int_distribution<>(habitacions[h].v1.y + 2, habitacions[h].v2.y - 2)(rng);
 
-					if (!estat.buscar_entitat(posició_objecte))
+					if (!estat.buscar_entitat(posiciÃ³_objecte))
 					{
-						afegir_entitat(estat, TipusEntitat::PocióVida, posició_objecte);
+						afegir_entitat(estat, TipusEntitat::PociÃ³Vida, posiciÃ³_objecte);
 					}
 					else if (intents < 100)
 					{
@@ -233,8 +233,8 @@ namespace bretolesc
 			}
 
 			// inici del jugador
-			Punt2D posició_jugador = habitacions[0].centre();
-			return afegir_entitat(estat, TipusEntitat::Jugador, posició_jugador);
+			Punt2D posiciÃ³_jugador = habitacions[0].centre();
+			return afegir_entitat(estat, TipusEntitat::Jugador, posiciÃ³_jugador);
 		}
 
 	private:
@@ -244,11 +244,11 @@ namespace bretolesc
 		uint32_t min_num_extra_passadissos = 0;
 		uint32_t max_num_extra_passadissos = 3;
 
-		uint32_t min_num_enemics_per_habitació = 0;
-		uint32_t max_num_enemics_per_habitació = 2;
+		uint32_t min_num_enemics_per_habitaciÃ³ = 0;
+		uint32_t max_num_enemics_per_habitaciÃ³ = 2;
 
-		uint32_t min_num_objectes_per_habitació = 0;
-		uint32_t max_num_objectes_per_habitació = 2;
+		uint32_t min_num_objectes_per_habitaciÃ³ = 0;
+		uint32_t max_num_objectes_per_habitaciÃ³ = 2;
 
 		uint32_t llavor = 0;
 	};

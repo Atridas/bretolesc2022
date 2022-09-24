@@ -1,4 +1,4 @@
-export module Motor:GeneradorDExemple;
+﻿export module Motor:GeneradorDExemple;
 
 import :Estat;
 import :Generador;
@@ -10,7 +10,7 @@ export namespace bretolesc
 	public:
 		IdEntitat generar(Estat& estat) const override
 		{
-			for (int y = 0; y < estat.mapa().obtenir_al�ada(); ++y)
+			for (int y = 0; y < estat.mapa().obtenir_alçada(); ++y)
 				for (int x = 0; x < estat.mapa().obtenir_amplada(); ++x)
 				{
 					estat.mapa().establir_rajola({ x, y }, TipusRajola::Terra);

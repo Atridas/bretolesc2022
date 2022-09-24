@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 // std
 #include <cinttypes>
@@ -15,8 +15,8 @@ import :Mapa;
 import :Generador;
 import :RegistreDeMissatges;
 
-import Comú;
-import Col·leccióComponents;
+import ComÃº;
+import ColÂ·lecciÃ³Components;
 import Entitats;
 import ModeEntrada;
 
@@ -28,9 +28,9 @@ export namespace bretolesc
 	class Estat
 	{
 	public:
-		static const int profunditat_de_visió = 8;
+		static const int profunditat_de_visiÃ³ = 8;
 
-		Estat(int _amplada, int _alçada, Generador const& generador);
+		Estat(int _amplada, int _alÃ§ada, Generador const& generador);
 		~Estat();
 
 		Estat(Estat const&) = delete;
@@ -42,18 +42,18 @@ export namespace bretolesc
 		void tanca() { tancar = true; }
 		void reinicia() { reiniciar = true; }
 		void reinicia(Generador const& generador);
-		void alterna_registre() { mostrar_registre = !mostrar_registre; registre.reiniciar_desplaçament(); }
-		void desplaçar_registre(int quantitat) { registre.desplaçar_registre(quantitat); }
-		void alterna_inventari() { mostrar_inventari = !mostrar_inventari; posició_inventari = 0; }
-		void desplaçar_inventari(int quantitat);
-		int obtenir_posició_inventari() const { return posició_inventari; }
+		void alterna_registre() { mostrar_registre = !mostrar_registre; registre.reiniciar_desplaÃ§ament(); }
+		void desplaÃ§ar_registre(int quantitat) { registre.desplaÃ§ar_registre(quantitat); }
+		void alterna_inventari() { mostrar_inventari = !mostrar_inventari; posiciÃ³_inventari = 0; }
+		void desplaÃ§ar_inventari(int quantitat);
+		int obtenir_posiciÃ³_inventari() const { return posiciÃ³_inventari; }
 
 		bool vol_ser_tancat() const { return tancar; }
 		bool vol_ser_reiniciat() const { return reiniciar; }
-		void moure_ratolí(Punt2D p) { ratolí = p; }
-		Punt2D obtenir_ratolí() const { return ratolí; }
+		void moure_ratolÃ­(Punt2D p) { ratolÃ­ = p; }
+		Punt2D obtenir_ratolÃ­() const { return ratolÃ­; }
 
-		bool jugador_és_viu() const;
+		bool jugador_Ã©s_viu() const;
 		ModeEntrada obtenir_mode_entrada() const;
 
 		Mapa& mapa() { return m_mapa; }
@@ -64,40 +64,40 @@ export namespace bretolesc
 			registre.afegir_missatge(missatge, color, acumular);
 		}
 
-		IdEntitat crear_entitat() { return id_següent++; }
+		IdEntitat crear_entitat() { return id_segÃ¼ent++; }
 
 		IdEntitat const& obtenir_id_jugador() const { return id_jugador; }
 
 		template<typename F>
 		void modificar_o_treure(F f, IdEntitat id)
 		{
-			col·leccions.modificar_o_treure(f, id);
+			colÂ·leccions.modificar_o_treure(f, id);
 			etiquetes.treure(f, id);
 		}
 
 		template<typename Component>
-		Col·lecció<Component>& obtenir_col·lecció() { return col·leccions.obtenir_col·lecció(); }
+		ColÂ·lecciÃ³<Component>& obtenir_colÂ·lecciÃ³() { return colÂ·leccions.obtenir_colÂ·lecciÃ³(); }
 		template<typename Component>
-		Col·lecció<Component> const& obtenir_col·lecció() const { return col·leccions.obtenir_col·lecció(); }
+		ColÂ·lecciÃ³<Component> const& obtenir_colÂ·lecciÃ³() const { return colÂ·leccions.obtenir_colÂ·lecciÃ³(); }
 
 		template<typename Component>
-		void afegir_component(IdEntitat id, Component&& component) { col·leccions.afegir_component(id, std::forward<Component>(component)); }
+		void afegir_component(IdEntitat id, Component&& component) { colÂ·leccions.afegir_component(id, std::forward<Component>(component)); }
 		template<typename Etiqueta>
-		bool té_etiqueta(IdEntitat id) const { return etiquetes.té<Etiqueta>(id); }
+		bool tÃ©_etiqueta(IdEntitat id) const { return etiquetes.tÃ©<Etiqueta>(id); }
 		
 		template<typename Component>
-		bool té_component(IdEntitat id) { return col·leccions.potser_obtenir_component<Component>(id).has_value(); }
+		bool tÃ©_component(IdEntitat id) { return colÂ·leccions.potser_obtenir_component<Component>(id).has_value(); }
 		template<typename Component>
-		Component& obtenir_component(IdEntitat id) { return col·leccions.obtenir_component<Component>(id); }
+		Component& obtenir_component(IdEntitat id) { return colÂ·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
-		Component const& obtenir_component(IdEntitat id) const { return col·leccions.obtenir_component<Component>(id); }
+		Component const& obtenir_component(IdEntitat id) const { return colÂ·leccions.obtenir_component<Component>(id); }
 		template<typename Component>
-		std::optional<std::reference_wrapper<Component const>> potser_obtenir_component(IdEntitat id) const { return col·leccions.potser_obtenir_component<Component>(id); }
+		std::optional<std::reference_wrapper<Component const>> potser_obtenir_component(IdEntitat id) const { return colÂ·leccions.potser_obtenir_component<Component>(id); }
 		
 		template<typename Component>
-		void treure_component(IdEntitat id) { col·leccions.treure<Component>(id); }
+		void treure_component(IdEntitat id) { colÂ·leccions.treure<Component>(id); }
 		template<typename Component>
-		std::optional<Component> treure_component_si_hi_és(IdEntitat id) { return col·leccions.treure_si_hi_és<Component>(id); }
+		std::optional<Component> treure_component_si_hi_Ã©s(IdEntitat id) { return colÂ·leccions.treure_si_hi_Ã©s<Component>(id); }
 		
 		template<typename Etiqueta>
 		void afegir_etiqueta(IdEntitat id) { return etiquetes.afegir<Etiqueta>(id); }
@@ -107,9 +107,9 @@ export namespace bretolesc
 		std::vector<IdEntitat> buscar_entitats(Punt2D coordenades) const;
 		std::optional<IdEntitat> buscar_entitat_bloquejant(Punt2D coordenades) const;
 
-		void actualitzar_lógica();
+		void actualitzar_lÃ³gica();
 
-		void actualitzar_visió();
+		void actualitzar_visiÃ³();
 
 		void pintar(tcod::Console& console) const;
 
@@ -117,18 +117,18 @@ export namespace bretolesc
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
 		bool tancar = false, reiniciar = false, mostrar_registre = false, mostrar_inventari = false;
-		int posició_inventari = 0;
-		Punt2D ratolí;
+		int posiciÃ³_inventari = 0;
+		Punt2D ratolÃ­;
 
 		IdEntitat id_jugador;
 
-		IdEntitat id_següent = 0;
+		IdEntitat id_segÃ¼ent = 0;
 
-		// Col·leccions de components
-		Col·leccions<Nom, Localització, Pintat, Lluitador, IAHostil, Curador, Inventari, EnInventari> col·leccions;
+		// ColÂ·leccions de components
+		ColÂ·leccions<Nom, LocalitzaciÃ³, Pintat, Lluitador, IAHostil, Curador, Inventari, EnInventari> colÂ·leccions;
 		Etiquetes<BloquejaElPas, Objecte, Consumible> etiquetes;
-		// VIGILA!!! cal un destructor per eliminar-ho bé
-		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
+		// VIGILA!!! cal un destructor per eliminar-ho bÃ©
+		// VIGILA si afegeixes mÃ©s components, quÃ¨ cal fer-ne al morir? + reiniciar
 
 
 		// sistemes

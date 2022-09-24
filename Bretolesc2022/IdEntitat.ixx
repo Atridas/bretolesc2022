@@ -1,4 +1,4 @@
-export module Entitats:IdEntitat;
+﻿export module Entitats:IdEntitat;
 
 export namespace bretolesc
 {

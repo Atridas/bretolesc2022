@@ -1,6 +1,6 @@
-export module Motor:PaletaDeColors;
+Ôªøexport module Motor:PaletaDeColors;
 
-import Com˙;
+import Com√∫;
 
 export namespace bretolesc::iu
 {
@@ -15,20 +15,20 @@ export namespace bretolesc::iu
 		static Color const TextBenvinguda;
 		static Color const TextVidaRecuperada;
 		static Color const TextManipularObjecte;
-		static Color const TextAcciÛInv‡lida;
+		static Color const TextAcci√≥Inv√†lida;
 
 		static Color const TextBarraVida;
 		static Color const BarraVidaSencera;
 		static Color const BarraVidaBuida;
 
 		static Color const FonsRegistre;
-		static Color const TextInfoRatolÌCad‡ver;
-		static Color const TextInfoRatolÌObjecte;
-		static Color const TextInfoRatolÌActor;
+		static Color const TextInfoRatol√≠Cad√†ver;
+		static Color const TextInfoRatol√≠Objecte;
+		static Color const TextInfoRatol√≠Actor;
 
 		static Color const FonsInventari;
-		static Color const SelecciÛInventari;
-		static Color const TextSelecciÛInventari;
+		static Color const Selecci√≥Inventari;
+		static Color const TextSelecci√≥Inventari;
 		static Color const TextObjecteInventari;
 	};
 }
@@ -42,18 +42,18 @@ bretolesc::Color const bretolesc::iu::Paleta::MortEnemic = Color{ 0xFF, 0xA0, 0x
 bretolesc::Color const bretolesc::iu::Paleta::TextBenvinguda = Color{ 0x20, 0xA0, 0xFF };
 bretolesc::Color const bretolesc::iu::Paleta::TextVidaRecuperada = Color{ 0x00, 0xFF, 0x00 };
 bretolesc::Color const bretolesc::iu::Paleta::TextManipularObjecte = Color{ 0x99, 0x99, 0xDD };
-bretolesc::Color const bretolesc::iu::Paleta::TextAcciÛInv‡lida = Color{ 0x80, 0x80, 0x80 };
+bretolesc::Color const bretolesc::iu::Paleta::TextAcci√≥Inv√†lida = Color{ 0x80, 0x80, 0x80 };
 
 bretolesc::Color const bretolesc::iu::Paleta::TextBarraVida = Color{ 0xFF, 0xFF, 0xFF };
 bretolesc::Color const bretolesc::iu::Paleta::BarraVidaSencera = Color{ 0x00, 0x60, 0x00 };
 bretolesc::Color const bretolesc::iu::Paleta::BarraVidaBuida = Color{ 0x40, 0x10, 0x10 };
 
 bretolesc::Color const bretolesc::iu::Paleta::FonsRegistre = Color{ 0x33, 0x33, 0x33 };
-bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolÌCad‡ver = Color{ 0xDD, 0x99, 0x99 };
-bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolÌObjecte = Color{ 0x99, 0x99, 0xDD };
-bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatolÌActor = Color{ 0xA0, 0xFF, 0xFF };
+bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatol√≠Cad√†ver = Color{ 0xDD, 0x99, 0x99 };
+bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatol√≠Objecte = Color{ 0x99, 0x99, 0xDD };
+bretolesc::Color const bretolesc::iu::Paleta::TextInfoRatol√≠Actor = Color{ 0xA0, 0xFF, 0xFF };
 
 bretolesc::Color const bretolesc::iu::Paleta::FonsInventari = Color{ 0x30, 0x30, 0x3F };
-bretolesc::Color const bretolesc::iu::Paleta::SelecciÛInventari = Color{ 0xAA, 0xAA, 0x44 };
-bretolesc::Color const bretolesc::iu::Paleta::TextSelecciÛInventari = Color{ 0x70, 0x70, 0xFF };
+bretolesc::Color const bretolesc::iu::Paleta::Selecci√≥Inventari = Color{ 0xAA, 0xAA, 0x44 };
+bretolesc::Color const bretolesc::iu::Paleta::TextSelecci√≥Inventari = Color{ 0x70, 0x70, 0xFF };
 bretolesc::Color const bretolesc::iu::Paleta::TextObjecteInventari = Color{ 0x50, 0x50, 0xCF };

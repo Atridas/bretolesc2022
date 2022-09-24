@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 #include <cinttypes>
 #include <cmath>
@@ -6,7 +6,7 @@ module;
 // 3rd party
 #include <libtcod.hpp>
 
-export module Comú;
+export module ComÃº;
 
 export import :NoiseRNG;
 
@@ -39,7 +39,7 @@ export namespace bretolesc
 
 	struct Rectangle2D
 	{
-		Punt2D orígen;
+		Punt2D orÃ­gen;
 		Vector2D mida;
 	};
 }
@@ -79,7 +79,7 @@ export namespace bretolesc
 		return Vector2D{ p1.x - p2.x, p1.y - p2.y };
 	}
 
-	int distància_manhattan(Punt2D a, Punt2D b)
+	int distÃ ncia_manhattan(Punt2D a, Punt2D b)
 	{
 		return std::abs(a.x - b.x) + std::abs(a.y - b.y);
 	}

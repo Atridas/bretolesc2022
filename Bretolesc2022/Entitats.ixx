@@ -1,4 +1,4 @@
-export module Entitats;
+﻿export module Entitats;
 
 export import :Components;
 export import :Etiquetes;

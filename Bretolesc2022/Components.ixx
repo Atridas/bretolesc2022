@@ -1,4 +1,4 @@
-module;
+Ôªømodule;
 
 // 3rd party
 #include <libtcod.hpp>
@@ -7,26 +7,26 @@ export module Entitats:Components;
 
 import :IdEntitat;
 
-import Com˙;
+import Com√∫;
 
 export namespace bretolesc::component
 {
-	struct LocalitzaciÛ
+	struct Localitzaci√≥
 	{
-		Punt2D posiciÛ;
+		Punt2D posici√≥;
 		// pis?
 	};
 
 	enum class PrioritatPintar
 	{
-		Cad‡ver,
+		Cad√†ver,
 		Objecte,
 		Actor
 	};
 
 	struct Pintat
 	{
-		char car‡cter;
+		char car√†cter;
 		Color color;
 		PrioritatPintar prioritat;
 	};
@@ -38,13 +38,13 @@ export namespace bretolesc::component
 
 	struct Lluitador
 	{
-		int salut, salut_m‡xima;
-		int forÁa, defensa;
+		int salut, salut_m√†xima;
+		int for√ßa, defensa;
 	};
 
 	struct IAHostil
 	{
-		TCOD_path_t camÌ;
+		TCOD_path_t cam√≠;
 	};
 
 	struct Curador
@@ -60,6 +60,6 @@ export namespace bretolesc::component
 
 	struct EnInventari
 	{
-		IdEntitat propiet‡ri;
+		IdEntitat propiet√†ri;
 	};
 }

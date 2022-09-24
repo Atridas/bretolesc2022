@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 // std
 #include <cassert>
@@ -14,7 +14,7 @@ module Motor:RegistreDeMissatges;
 
 import :PaletaDeColors;
 
-import Comú;
+import ComÃº;
 
 using namespace bretolesc;
 
@@ -44,22 +44,22 @@ void RegistreDeMissatges::afegir_missatge(std::string_view missatge, Color color
 }
 
 
-void RegistreDeMissatges::desplaçar_registre(int quantitat)
+void RegistreDeMissatges::desplaÃ§ar_registre(int quantitat)
 {
-	línea_base += quantitat;
-	if (línea_base < 0)
+	lÃ­nea_base += quantitat;
+	if (lÃ­nea_base < 0)
 	{
-		línea_base = 0;
+		lÃ­nea_base = 0;
 	}
-	else if(línea_base > (int)missatges.size() - 1)
+	else if(lÃ­nea_base > (int)missatges.size() - 1)
 	{
-		línea_base = (int)missatges.size() - 1;
+		lÃ­nea_base = (int)missatges.size() - 1;
 	}
 }
 
 void RegistreDeMissatges::pintar(tcod::Console& console) const
 {
-	pintar_àrea(console, { {21, 40}, {40, 10} });
+	pintar_Ã rea(console, { {21, 40}, {40, 10} });
 }
 
 void RegistreDeMissatges::pintar_sencer(tcod::Console& console) const
@@ -73,18 +73,18 @@ void RegistreDeMissatges::pintar_sencer(tcod::Console& console) const
 			casella.ch = ' ';
 		}
 
-	pintar_àrea(console, { {10, 2}, {59, 47} });
+	pintar_Ã rea(console, { {10, 2}, {59, 47} });
 }
 
 
-void RegistreDeMissatges::pintar_àrea(tcod::Console& console, Rectangle2D àrea) const
+void RegistreDeMissatges::pintar_Ã rea(tcod::Console& console, Rectangle2D Ã rea) const
 {
 	assert(missatges.size() == colors.size());
 	assert(missatges.size() == repeticions.size());
 
-	int missatge = (int)missatges.size() - 1 - línea_base;
-	int línea = 0;
-	while (missatge >= 0 && línea < àrea.mida.y)
+	int missatge = (int)missatges.size() - 1 - lÃ­nea_base;
+	int lÃ­nea = 0;
+	while (missatge >= 0 && lÃ­nea < Ã rea.mida.y)
 	{
 		char buffer[2048];
 		if (repeticions[missatge] == 1)
@@ -98,12 +98,12 @@ void RegistreDeMissatges::pintar_àrea(tcod::Console& console, Rectangle2D àrea) 
 
 		tcod::print_rect(
 			console,
-			std::array<int, 4>{àrea.orígen.x, àrea.orígen.y + línea, àrea.mida.x, àrea.orígen.y + àrea.mida.y - línea},
+			std::array<int, 4>{Ã rea.orÃ­gen.x, Ã rea.orÃ­gen.y + lÃ­nea, Ã rea.mida.x, Ã rea.orÃ­gen.y + Ã rea.mida.y - lÃ­nea},
 			buffer,
 			colors[missatge],
 			std::nullopt);
 
-		línea += tcod::get_height_rect(àrea.mida.x, buffer);
+		lÃ­nea += tcod::get_height_rect(Ã rea.mida.x, buffer);
 		--missatge;
 	}
 }

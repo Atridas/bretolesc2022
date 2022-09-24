@@ -1,4 +1,4 @@
-// Most of this code is based if not copied from Squirrel Eiserloh
+﻿// Most of this code is based if not copied from Squirrel Eiserloh
 // https://www.youtube.com/watch?v=LWFzPP8ZbdU&t=2670s&ab_channel=GDC
 module;
 
@@ -6,7 +6,7 @@ module;
 
 #include <bit>
 
-export module Com�:NoiseRNG;
+export module Comú:NoiseRNG;
 
 namespace bretolesc
 {

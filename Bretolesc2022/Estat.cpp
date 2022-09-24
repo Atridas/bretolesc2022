@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 // std
 #include <cassert>
@@ -14,7 +14,7 @@ module;
 module Motor:Estat;
 
 import :ProcessadorsAccions;
-import :InterfícieUsuari;
+import :InterfÃ­cieUsuari;
 import :PaletaDeColors;
 
 import EstructuresAccions;
@@ -30,8 +30,8 @@ static std::string MissatgeBenvinguda = "Aventurer, sigui benvingut a un altre c
 // --------------------------------------------------------------------------------------
 
 
-Estat::Estat(int _amplada, int _alçada, Generador const& generador)
-	: m_mapa(_amplada, _alçada)
+Estat::Estat(int _amplada, int _alÃ§ada, Generador const& generador)
+	: m_mapa(_amplada, _alÃ§ada)
 {
 	id_jugador = generador.generar(*this);
 	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
@@ -40,21 +40,21 @@ Estat::Estat(int _amplada, int _alçada, Generador const& generador)
 
 Estat::~Estat()
 {
-	for (auto [id, ia_hostil] : col·leccions.obtenir_col·lecció<IAHostil>())
+	for (auto [id, ia_hostil] : colÂ·leccions.obtenir_colÂ·lecciÃ³<IAHostil>())
 	{
-		TCOD_path_delete(ia_hostil.camí);
+		TCOD_path_delete(ia_hostil.camÃ­);
 	}
 }
 
 
 void Estat::reinicia(Generador const& generador)
 {
-	for (auto [id, ia_hostil] : col·leccions.obtenir_col·lecció<IAHostil>())
+	for (auto [id, ia_hostil] : colÂ·leccions.obtenir_colÂ·lecciÃ³<IAHostil>())
 	{
-		TCOD_path_delete(ia_hostil.camí);
+		TCOD_path_delete(ia_hostil.camÃ­);
 	}
 
-	col·leccions.reinicia();
+	colÂ·leccions.reinicia();
 	etiquetes.reinicia();
 
 	m_mapa.reinicia();
@@ -64,27 +64,27 @@ void Estat::reinicia(Generador const& generador)
 	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
 	// 
 
-	actualitzar_visió();
+	actualitzar_visiÃ³();
 
 	reiniciar = false;
 }
 
-void Estat::actualitzar_visió()
+void Estat::actualitzar_visiÃ³()
 {
-	m_mapa.actualitzar_camp_de_visió(obtenir_component<Localització>(obtenir_id_jugador()).posició, profunditat_de_visió);
+	m_mapa.actualitzar_camp_de_visiÃ³(obtenir_component<LocalitzaciÃ³>(obtenir_id_jugador()).posiciÃ³, profunditat_de_visiÃ³);
 }
 
-void Estat::desplaçar_inventari(int quantitat)
+void Estat::desplaÃ§ar_inventari(int quantitat)
 {
 	Inventari const& inventari = obtenir_component<Inventari>(id_jugador);
 	if (inventari.objectes.size() > 0)
 	{
-		posició_inventari = (posició_inventari + quantitat) % inventari.objectes.size();
+		posiciÃ³_inventari = (posiciÃ³_inventari + quantitat) % inventari.objectes.size();
 		// PERFER donar la volta al reves
 	}
 }
 
-bool Estat::jugador_és_viu() const
+bool Estat::jugador_Ã©s_viu() const
 {
 	return potser_obtenir_component<Lluitador>(id_jugador).has_value();
 }
@@ -99,7 +99,7 @@ ModeEntrada Estat::obtenir_mode_entrada() const
 	{
 		return ModeEntrada::Inventari;
 	}
-	else if (jugador_és_viu())
+	else if (jugador_Ã©s_viu())
 	{
 		return ModeEntrada::Viu;
 	}
@@ -117,9 +117,9 @@ std::optional<IdEntitat> Estat::buscar_entitat(Punt2D coordenades) const
 {
 	std::optional<IdEntitat> resultat;
 
-	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
+	for (auto [id, loc] : colÂ·leccions.obtenir_colÂ·lecciÃ³<LocalitzaciÃ³>())
 	{
-		if (loc.posició == coordenades)
+		if (loc.posiciÃ³ == coordenades)
 		{
 			resultat = id;
 		}
@@ -132,9 +132,9 @@ std::vector<IdEntitat> Estat::buscar_entitats(Punt2D coordenades) const
 {
 	std::vector<IdEntitat> resultat;
 
-	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
+	for (auto [id, loc] : colÂ·leccions.obtenir_colÂ·lecciÃ³<LocalitzaciÃ³>())
 	{
-		if (loc.posició == coordenades)
+		if (loc.posiciÃ³ == coordenades)
 		{
 			resultat.push_back(id);
 		}
@@ -147,9 +147,9 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 {
 	std::optional<IdEntitat> resultat;
 
-	for (auto [id, loc] : col·leccions.obtenir_col·lecció<Localització>())
+	for (auto [id, loc] : colÂ·leccions.obtenir_colÂ·lecciÃ³<LocalitzaciÃ³>())
 	{
-		if (loc.posició == coordenades && etiquetes.té<BloquejaElPas>(id))
+		if (loc.posiciÃ³ == coordenades && etiquetes.tÃ©<BloquejaElPas>(id))
 		{
 			resultat = id;
 		}
@@ -163,7 +163,7 @@ std::optional<IdEntitat> Estat::buscar_entitat_bloquejant(Punt2D coordenades) co
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-void Estat::actualitzar_lógica()
+void Estat::actualitzar_lÃ³gica()
 {
 	actualitzar_ias_hostils();
 	buscar_morts();
@@ -171,62 +171,62 @@ void Estat::actualitzar_lógica()
 
 void Estat::actualitzar_ias_hostils()
 {
-	// - l'objectiu és el jugador
-	// - si el jugador és a distància (manhattan) 1, atacar-lo
-	// - si tenim un camí definit, seguir-lo
-	// - si el jugador és visible (si nosaltres som visibles des del jugador), crear un camí fins a ell
+	// - l'objectiu Ã©s el jugador
+	// - si el jugador Ã©s a distÃ ncia (manhattan) 1, atacar-lo
+	// - si tenim un camÃ­ definit, seguir-lo
+	// - si el jugador Ã©s visible (si nosaltres som visibles des del jugador), crear un camÃ­ fins a ell
 	// - en cas contrari no fer res
 
-	Localització loc_jugador = obtenir_component<Localització>(id_jugador);
+	LocalitzaciÃ³ loc_jugador = obtenir_component<LocalitzaciÃ³>(id_jugador);
 
-	std::vector<AccióEntitat> accions;
+	std::vector<AcciÃ³Entitat> accions;
 
-	for (auto [id_ia, loc_ia, ia_hostil] : col·leccions.per_cada<Localització, IAHostil>())
+	for (auto [id_ia, loc_ia, ia_hostil] : colÂ·leccions.per_cada<LocalitzaciÃ³, IAHostil>())
 	{
-		if (distància_manhattan(loc_jugador.posició, loc_ia.posició) == 1)
+		if (distÃ ncia_manhattan(loc_jugador.posiciÃ³, loc_ia.posiciÃ³) == 1)
 		{
-			accions.push_back( acció_entitat::AtacCosACos{id_ia, id_jugador} );
+			accions.push_back( acciÃ³_entitat::AtacCosACos{id_ia, id_jugador} );
 		}
-		else if (!TCOD_path_is_empty(ia_hostil.camí))
+		else if (!TCOD_path_is_empty(ia_hostil.camÃ­))
 		{
-			Punt2D destí;
-			TCOD_path_get_destination(ia_hostil.camí, &destí.x, &destí.y);
-			if (distància_manhattan(destí, loc_jugador.posició) > 2)
+			Punt2D destÃ­;
+			TCOD_path_get_destination(ia_hostil.camÃ­, &destÃ­.x, &destÃ­.y);
+			if (distÃ ncia_manhattan(destÃ­, loc_jugador.posiciÃ³) > 2)
 			{
 				// recalcular
-				TCOD_path_compute(ia_hostil.camí, loc_ia.posició.x, loc_ia.posició.y, loc_jugador.posició.x, loc_jugador.posició.y);
+				TCOD_path_compute(ia_hostil.camÃ­, loc_ia.posiciÃ³.x, loc_ia.posiciÃ³.y, loc_jugador.posiciÃ³.x, loc_jugador.posiciÃ³.y);
 			}
 
-			if (TCOD_path_walk(ia_hostil.camí, &destí.x, &destí.y, true))
+			if (TCOD_path_walk(ia_hostil.camÃ­, &destÃ­.x, &destÃ­.y, true))
 			{
-				Vector2D moviment = destí - loc_ia.posició;
+				Vector2D moviment = destÃ­ - loc_ia.posiciÃ³;
 				if (std::abs(moviment.x) > 2 || std::abs(moviment.y) > 2)
 				{
 					// recalcular
-					TCOD_path_compute(ia_hostil.camí, loc_ia.posició.x, loc_ia.posició.y, loc_jugador.posició.x, loc_jugador.posició.y);
+					TCOD_path_compute(ia_hostil.camÃ­, loc_ia.posiciÃ³.x, loc_ia.posiciÃ³.y, loc_jugador.posiciÃ³.x, loc_jugador.posiciÃ³.y);
 				}
-				accions.push_back(acció_entitat::Moure{ id_ia, moviment });
+				accions.push_back(acciÃ³_entitat::Moure{ id_ia, moviment });
 			}
 		}
-		else if (m_mapa.és_a_la_vista(loc_ia.posició))
+		else if (m_mapa.Ã©s_a_la_vista(loc_ia.posiciÃ³))
 		{
-			TCOD_path_compute(ia_hostil.camí, loc_ia.posició.x, loc_ia.posició.y, loc_jugador.posició.x, loc_jugador.posició.y);
+			TCOD_path_compute(ia_hostil.camÃ­, loc_ia.posiciÃ³.x, loc_ia.posiciÃ³.y, loc_jugador.posiciÃ³.x, loc_jugador.posiciÃ³.y);
 		}
 	}
 
-	for (AccióEntitat acció : accions)
+	for (AcciÃ³Entitat acciÃ³ : accions)
 	{
-		std::visit([this](auto& acció)
+		std::visit([this](auto& acciÃ³)
 			{
-				processar(*this, acció);
-			}, acció);
+				processar(*this, acciÃ³);
+			}, acciÃ³);
 	}
 }
 
 void Estat::buscar_morts()
 {
 	std::vector<IdEntitat> morts;
-	for (auto [id, lluitador] : col·leccions.obtenir_col·lecció<Lluitador>())
+	for (auto [id, lluitador] : colÂ·leccions.obtenir_colÂ·lecciÃ³<Lluitador>())
 	{
 		if (lluitador.salut <= 0)
 		{
@@ -244,23 +244,23 @@ void Estat::buscar_morts()
 			id == obtenir_id_jugador() ? iu::Paleta::MortJugador : iu::Paleta::MortEnemic,
 			true);
 
-		col·leccions.modificar_o_treure([](auto& component)
+		colÂ·leccions.modificar_o_treure([](auto& component)
 			{
 				using Component = std::decay_t<decltype(component)>;
-				if constexpr (std::is_same_v<Component, Nom> || std::is_same_v<Component, Localització>)
+				if constexpr (std::is_same_v<Component, Nom> || std::is_same_v<Component, LocalitzaciÃ³>)
 				{
 					return false;
 				}
 				else if constexpr (std::is_same_v<Component, Pintat>)
 				{
-					component.caràcter = '%';
+					component.carÃ cter = '%';
 					component.color = { 191,0,0 };
-					component.prioritat = PrioritatPintar::Cadàver;
+					component.prioritat = PrioritatPintar::CadÃ ver;
 					return false;
 				}
 				else if constexpr (std::is_same_v<Component, IAHostil>)
 				{
-					TCOD_path_delete(component.camí);
+					TCOD_path_delete(component.camÃ­);
 					return true;
 				}
 				else
@@ -287,15 +287,15 @@ void Estat::pintar(tcod::Console& console) const
 
 	auto pintar_tipus = [this, &console](PrioritatPintar prioritat)
 	{
-		for (auto [id, loc, pintat] : col·leccions.per_cada<Localització, Pintat>())
+		for (auto [id, loc, pintat] : colÂ·leccions.per_cada<LocalitzaciÃ³, Pintat>())
 		{
-			if (pintat.prioritat == prioritat && m_mapa.és_a_la_vista(loc.posició))
+			if (pintat.prioritat == prioritat && m_mapa.Ã©s_a_la_vista(loc.posiciÃ³))
 			{
-				char const txt[2] = { pintat.caràcter , '\0' };
+				char const txt[2] = { pintat.carÃ cter , '\0' };
 
 				tcod::print(
 					console,
-					{ loc.posició.x, loc.posició.y },
+					{ loc.posiciÃ³.x, loc.posiciÃ³.y },
 					txt,
 					TCOD_ColorRGB{ pintat.color.r, pintat.color.g, pintat.color.b },
 					std::nullopt);
@@ -303,12 +303,12 @@ void Estat::pintar(tcod::Console& console) const
 		}
 	};
 
-	pintar_tipus(PrioritatPintar::Cadàver);
+	pintar_tipus(PrioritatPintar::CadÃ ver);
 	pintar_tipus(PrioritatPintar::Objecte);
 	pintar_tipus(PrioritatPintar::Actor);
 
 	iu::pintar_barra_de_vida(*this, console);
-	iu::pintar_info_ratolí(*this, console);
+	iu::pintar_info_ratolÃ­(*this, console);
 	
 	registre.pintar(console);
 

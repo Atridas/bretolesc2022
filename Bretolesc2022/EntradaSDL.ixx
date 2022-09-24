@@ -1,4 +1,4 @@
-module;
+Ôªømodule;
 
 // std
 #include <cassert>
@@ -17,21 +17,21 @@ import ModeEntrada;
 namespace entrada_sdl
 {
 	using namespace bretolesc;
-	using namespace bretolesc::acciÛ_usuari;
+	using namespace bretolesc::acci√≥_usuari;
 
-	AcciÛUsuari processar(SDL_QuitEvent const &evnt)
+	Acci√≥Usuari processar(SDL_QuitEvent const &evnt)
 	{
 		assert(evnt.type == SDL_QUIT);
 		return Finalitzar{};
 	};
 
-	AcciÛUsuari processar(SDL_MouseMotionEvent const& evnt)
+	Acci√≥Usuari processar(SDL_MouseMotionEvent const& evnt)
 	{
 		assert(evnt.type == SDL_MOUSEMOTION);
-		return MoureRatolÌ{ Punt2D{evnt.x, evnt.y} };
+		return MoureRatol√≠{ Punt2D{evnt.x, evnt.y} };
 	}
 
-	std::optional<AcciÛUsuari> processar_viu(SDL_KeyboardEvent const& evnt)
+	std::optional<Acci√≥Usuari> processar_viu(SDL_KeyboardEvent const& evnt)
 	{
 		if (evnt.type == SDL_KEYDOWN)
 		{
@@ -71,7 +71,7 @@ namespace entrada_sdl
 		}
 	};
 
-	std::optional<AcciÛUsuari> processar_mort(SDL_KeyboardEvent const& evnt)
+	std::optional<Acci√≥Usuari> processar_mort(SDL_KeyboardEvent const& evnt)
 	{
 		if (evnt.type == SDL_KEYDOWN)
 		{
@@ -97,7 +97,7 @@ namespace entrada_sdl
 		}
 	};
 
-	std::optional<AcciÛUsuari> processar_registre(SDL_KeyboardEvent const& evnt)
+	std::optional<Acci√≥Usuari> processar_registre(SDL_KeyboardEvent const& evnt)
 	{
 		if (evnt.type == SDL_KEYDOWN)
 		{
@@ -109,15 +109,15 @@ namespace entrada_sdl
 				return AlternarRegistre{};
 
 			case SDLK_DOWN:
-				return DesplaÁarRegistre{ +1 };
+				return Despla√ßarRegistre{ +1 };
 			case SDLK_UP:
-				return DesplaÁarRegistre{ -1 };
+				return Despla√ßarRegistre{ -1 };
 
 
 			case SDLK_PAGEUP:
-				return DesplaÁarRegistre{ -10 };
+				return Despla√ßarRegistre{ -10 };
 			case SDLK_PAGEDOWN:
-				return DesplaÁarRegistre{ +10 };
+				return Despla√ßarRegistre{ +10 };
 
 			default:
 				return std::nullopt;
@@ -130,7 +130,7 @@ namespace entrada_sdl
 		}
 	}
 
-	std::optional<AcciÛUsuari> processar_inventari(SDL_KeyboardEvent const& evnt)
+	std::optional<Acci√≥Usuari> processar_inventari(SDL_KeyboardEvent const& evnt)
 	{
 		if (evnt.type == SDL_KEYDOWN)
 		{
@@ -148,15 +148,15 @@ namespace entrada_sdl
 				return Tirar{};
 
 			case SDLK_DOWN:
-				return DesplaÁarInventari{ +1 };
+				return Despla√ßarInventari{ +1 };
 			case SDLK_UP:
-				return DesplaÁarInventari{ -1 };
+				return Despla√ßarInventari{ -1 };
 
 
 			case SDLK_PAGEUP:
-				return DesplaÁarInventari{ -10 };
+				return Despla√ßarInventari{ -10 };
 			case SDLK_PAGEDOWN:
-				return DesplaÁarInventari{ +10 };
+				return Despla√ßarInventari{ +10 };
 
 			default:
 				return std::nullopt;
@@ -169,7 +169,7 @@ namespace entrada_sdl
 		}
 	}
 
-	export void ProcessarEvents(tcod::ContextPtr const& context, ModeEntrada mode_entrada, std::vector<AcciÛUsuari>& accions_)
+	export void ProcessarEvents(tcod::ContextPtr const& context, ModeEntrada mode_entrada, std::vector<Acci√≥Usuari>& accions_)
 	{
 		SDL_Event evnt;
 		SDL_WaitEvent(nullptr);  // Optional, sleep until events are available.
@@ -184,29 +184,29 @@ namespace entrada_sdl
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
-				std::optional<AcciÛUsuari> acciÛ;
+				std::optional<Acci√≥Usuari> acci√≥;
 				switch (mode_entrada)
 				{
 				case ModeEntrada::Viu:
-					acciÛ = processar_viu(evnt.key);
+					acci√≥ = processar_viu(evnt.key);
 					break;
 				case ModeEntrada::Mort:
-					acciÛ = processar_mort(evnt.key);
+					acci√≥ = processar_mort(evnt.key);
 					break;
 				case ModeEntrada::Inventari:
-					acciÛ = processar_inventari(evnt.key);
+					acci√≥ = processar_inventari(evnt.key);
 					break;
 				case ModeEntrada::Registre:
-					acciÛ = processar_registre(evnt.key);
+					acci√≥ = processar_registre(evnt.key);
 					break;
 				default:
 					assert(false);
 					break;
 				}
 
-				if (acciÛ)
+				if (acci√≥)
 				{
-					accions_.push_back(*acciÛ);
+					accions_.push_back(*acci√≥);
 				}
 				break;
 			}

@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 #include <cassert>
 #include <cmath>
@@ -19,17 +19,17 @@ export namespace bretolesc
 
 	// accions entitats -----------------------------------------------------------------------------
 
-	void processar(Estat& estat, acció_entitat::Moure const& moure)
+	void processar(Estat& estat, acciÃ³_entitat::Moure const& moure)
 	{
-		Punt2D posició_següent = estat.obtenir_component<Localització>(moure.entitat).posició + moure.direcció;
+		Punt2D posiciÃ³_segÃ¼ent = estat.obtenir_component<LocalitzaciÃ³>(moure.entitat).posiciÃ³ + moure.direcciÃ³;
 
-		if (estat.mapa().és_transitable(posició_següent) && !estat.buscar_entitat_bloquejant(posició_següent))
+		if (estat.mapa().Ã©s_transitable(posiciÃ³_segÃ¼ent) && !estat.buscar_entitat_bloquejant(posiciÃ³_segÃ¼ent))
 		{
-			estat.obtenir_component<Localització>(moure.entitat).posició = posició_següent;
+			estat.obtenir_component<LocalitzaciÃ³>(moure.entitat).posiciÃ³ = posiciÃ³_segÃ¼ent;
 		}
 	}
 
-	void processar(Estat& estat, acció_entitat::AtacCosACos const& cos_a_cos)
+	void processar(Estat& estat, acciÃ³_entitat::AtacCosACos const& cos_a_cos)
 	{
 		Nom const& nom_atacant = estat.obtenir_component<Nom>(cos_a_cos.entitat);
 		Nom& nom_defensor = estat.obtenir_component<Nom>(cos_a_cos.objectiu);
@@ -37,7 +37,7 @@ export namespace bretolesc
 		Lluitador const& atacant = estat.obtenir_component<Lluitador>(cos_a_cos.entitat);
 		Lluitador& defensor = estat.obtenir_component<Lluitador>(cos_a_cos.objectiu);
 
-		int dany = std::max(atacant.força - defensor.defensa, 0);
+		int dany = std::max(atacant.forÃ§a - defensor.defensa, 0);
 
 
 		char buffer[2048];
@@ -58,7 +58,7 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, acció_entitat::RecuperarVida const& recuperar_vida)
+	void processar(Estat& estat, acciÃ³_entitat::RecuperarVida const& recuperar_vida)
 	{
 		assert(recuperar_vida.vida > 0);
 
@@ -67,8 +67,8 @@ export namespace bretolesc
 
 		int vida_inicial = entitat.salut;
 		entitat.salut += recuperar_vida.vida;
-		if (entitat.salut > entitat.salut_màxima)
-			entitat.salut = entitat.salut_màxima;
+		if (entitat.salut > entitat.salut_mÃ xima)
+			entitat.salut = entitat.salut_mÃ xima;
 
 
 		char buffer[2048];
@@ -82,51 +82,51 @@ export namespace bretolesc
 
 	// accions de l'usuari ----------------------------------------------------------------------
 
-	void processar(Estat& estat, acció_usuari::Finalitzar const &)
+	void processar(Estat& estat, acciÃ³_usuari::Finalitzar const &)
 	{
 		estat.tanca();
 	}
 
-	void processar(Estat& estat, acció_usuari::Reiniciar const &)
+	void processar(Estat& estat, acciÃ³_usuari::Reiniciar const &)
 	{
 		estat.reinicia();
 	}
 
-	void processar(Estat& estat, acció_usuari::NoFerRes const &)
+	void processar(Estat& estat, acciÃ³_usuari::NoFerRes const &)
 	{
-		estat.actualitzar_lógica();
+		estat.actualitzar_lÃ³gica();
 	}
 
-	void processar(Estat& estat, acció_usuari::Moure const& moure)
+	void processar(Estat& estat, acciÃ³_usuari::Moure const& moure)
 	{
-		processar(estat, acció_entitat::Moure{ estat.obtenir_id_jugador(), moure.direcció});
+		processar(estat, acciÃ³_entitat::Moure{ estat.obtenir_id_jugador(), moure.direcciÃ³});
 
-		estat.actualitzar_lógica();
+		estat.actualitzar_lÃ³gica();
 	}
 
-	void processar(Estat& estat, acció_usuari::Batzegada const& batzegada)
+	void processar(Estat& estat, acciÃ³_usuari::Batzegada const& batzegada)
 	{
-		Punt2D posició_següent = estat.obtenir_component<Localització>(estat.obtenir_id_jugador()).posició + batzegada.direcció;
-		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
+		Punt2D posiciÃ³_segÃ¼ent = estat.obtenir_component<LocalitzaciÃ³>(estat.obtenir_id_jugador()).posiciÃ³ + batzegada.direcciÃ³;
+		if (auto enemic = estat.buscar_entitat_bloquejant(posiciÃ³_segÃ¼ent))
 		{
-			// PERFER assegurar-se que l'enemic és Lluitador
-			processar(estat, acció_entitat::AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
+			// PERFER assegurar-se que l'enemic Ã©s Lluitador
+			processar(estat, acciÃ³_entitat::AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
 		}
 		else
 		{
-			processar(estat, acció_entitat::Moure{ estat.obtenir_id_jugador(), batzegada.direcció });
+			processar(estat, acciÃ³_entitat::Moure{ estat.obtenir_id_jugador(), batzegada.direcciÃ³ });
 		}
 
-		estat.actualitzar_lógica();
+		estat.actualitzar_lÃ³gica();
 	}
 
-	void processar(Estat& estat, acció_usuari::Agafar const& agafar)
+	void processar(Estat& estat, acciÃ³_usuari::Agafar const& agafar)
 	{
 		IdEntitat jugador = estat.obtenir_id_jugador();
-		Punt2D posició_jugador = estat.obtenir_component<Localització>(jugador).posició;
-		for (IdEntitat objecte : estat.buscar_entitats(posició_jugador))
+		Punt2D posiciÃ³_jugador = estat.obtenir_component<LocalitzaciÃ³>(jugador).posiciÃ³;
+		for (IdEntitat objecte : estat.buscar_entitats(posiciÃ³_jugador))
 		{
-			if (estat.té_etiqueta<Objecte>(objecte))
+			if (estat.tÃ©_etiqueta<Objecte>(objecte))
 			{
 				Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
 				Nom const& nom_objecte = estat.obtenir_component<Nom>(objecte);
@@ -136,7 +136,7 @@ export namespace bretolesc
 				if (inventari.objectes.size() < inventari.capacitat)
 				{
 					inventari.objectes.push_back(objecte);
-					estat.treure_component<Localització>(objecte);
+					estat.treure_component<LocalitzaciÃ³>(objecte);
 					estat.afegir_component(objecte, EnInventari{ jugador });
 
 					sprintf_s(buffer, 2048, "Agafat un objecte %s", nom_objecte.nom.c_str());
@@ -145,7 +145,7 @@ export namespace bretolesc
 				else
 				{
 					sprintf_s(buffer, 2048, "Inventari ple! No podem agafar un objecte %s", nom_objecte.nom.c_str());
-					color_log = iu::Paleta::TextAccióInvàlida;
+					color_log = iu::Paleta::TextAcciÃ³InvÃ lida;
 				}
 
 				estat.afegir_missatge(
@@ -156,21 +156,21 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, acció_usuari::Tirar const& tirar)
+	void processar(Estat& estat, acciÃ³_usuari::Tirar const& tirar)
 	{
 		IdEntitat jugador = estat.obtenir_id_jugador();
-		Localització localització_jugador = estat.obtenir_component<Localització>(jugador);
+		LocalitzaciÃ³ localitzaciÃ³_jugador = estat.obtenir_component<LocalitzaciÃ³>(jugador);
 		Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
-		int posició_inventari = estat.obtenir_posició_inventari();
-		if (posició_inventari < inventari.objectes.size())
+		int posiciÃ³_inventari = estat.obtenir_posiciÃ³_inventari();
+		if (posiciÃ³_inventari < inventari.objectes.size())
 		{
-			IdEntitat objecte = inventari.objectes[posició_inventari];
-			inventari.objectes.erase(inventari.objectes.begin() + posició_inventari);
-			estat.afegir_component(objecte, localització_jugador);
+			IdEntitat objecte = inventari.objectes[posiciÃ³_inventari];
+			inventari.objectes.erase(inventari.objectes.begin() + posiciÃ³_inventari);
+			estat.afegir_component(objecte, localitzaciÃ³_jugador);
 			estat.treure_component<EnInventari>(objecte);
 
-			if (posició_inventari > 0)
-				estat.desplaçar_inventari(-1);
+			if (posiciÃ³_inventari > 0)
+				estat.desplaÃ§ar_inventari(-1);
 
 			Nom const& nom_objecte = estat.obtenir_component<Nom>(objecte);
 			char buffer[2048];
@@ -182,60 +182,60 @@ export namespace bretolesc
 		}
 	}
 
-	void processar(Estat& estat, acció_usuari::Consumir const& consumir)
+	void processar(Estat& estat, acciÃ³_usuari::Consumir const& consumir)
 	{
 		IdEntitat jugador = estat.obtenir_id_jugador();
 		Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
-		int posició_inventari = estat.obtenir_posició_inventari();
-		if (posició_inventari < inventari.objectes.size())
+		int posiciÃ³_inventari = estat.obtenir_posiciÃ³_inventari();
+		if (posiciÃ³_inventari < inventari.objectes.size())
 		{
-			IdEntitat objecte = inventari.objectes[posició_inventari];
-			if (estat.té_etiqueta<Consumible>(objecte))
+			IdEntitat objecte = inventari.objectes[posiciÃ³_inventari];
+			if (estat.tÃ©_etiqueta<Consumible>(objecte))
 			{
 				if (auto curador = estat.potser_obtenir_component<Curador>(objecte))
 				{
-					processar(estat, acció_entitat::RecuperarVida
+					processar(estat, acciÃ³_entitat::RecuperarVida
 						{
 							jugador,
 							curador->get().vida
 						});
 				}
-				// PERFER Més efectes?
+				// PERFER MÃ©s efectes?
 
 				// eliminar objecte
-				assert(!estat.té_component<IAHostil>(objecte));
-				inventari.objectes.erase(inventari.objectes.begin() + posició_inventari);
+				assert(!estat.tÃ©_component<IAHostil>(objecte));
+				inventari.objectes.erase(inventari.objectes.begin() + posiciÃ³_inventari);
 				estat.modificar_o_treure([](auto c) { return true; }, objecte);
 
-				if (posició_inventari > 0)
-					estat.desplaçar_inventari(-1);
+				if (posiciÃ³_inventari > 0)
+					estat.desplaÃ§ar_inventari(-1);
 			}
 
 		}
 	}
 
-	void processar(Estat& estat, acció_usuari::MoureRatolí const& ratolí)
+	void processar(Estat& estat, acciÃ³_usuari::MoureRatolÃ­ const& ratolÃ­)
 	{
-		estat.moure_ratolí(ratolí.p);
+		estat.moure_ratolÃ­(ratolÃ­.p);
 	}
 
-	void processar(Estat& estat, acció_usuari::AlternarRegistre const&)
+	void processar(Estat& estat, acciÃ³_usuari::AlternarRegistre const&)
 	{
 		estat.alterna_registre();
 	}
 
-	void processar(Estat& estat, acció_usuari::DesplaçarRegistre const& desplaçament)
+	void processar(Estat& estat, acciÃ³_usuari::DesplaÃ§arRegistre const& desplaÃ§ament)
 	{
-		estat.desplaçar_registre(desplaçament.línies);
+		estat.desplaÃ§ar_registre(desplaÃ§ament.lÃ­nies);
 	}
 
-	void processar(Estat& estat, acció_usuari::AlternarInventari const&)
+	void processar(Estat& estat, acciÃ³_usuari::AlternarInventari const&)
 	{
 		estat.alterna_inventari();
 	}
 
-	void processar(Estat& estat, acció_usuari::DesplaçarInventari const& desplaçament)
+	void processar(Estat& estat, acciÃ³_usuari::DesplaÃ§arInventari const& desplaÃ§ament)
 	{
-		estat.desplaçar_inventari(desplaçament.línies);
+		estat.desplaÃ§ar_inventari(desplaÃ§ament.lÃ­nies);
 	}
 }

@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 #include <tuple>
 
@@ -6,7 +6,7 @@ export module Motlles;
 
 import Entitats;
 import Motor;
-import Comú;
+import ComÃº;
 
 export namespace bretolesc
 {
@@ -16,10 +16,10 @@ export namespace bretolesc
 		Orc,
 		Trol,
 
-		PocióVida,
+		PociÃ³Vida,
 
 		NUM
 	};
 
-	IdEntitat afegir_entitat(Estat &estat, TipusEntitat tipus, Punt2D posició = {});
+	IdEntitat afegir_entitat(Estat &estat, TipusEntitat tipus, Punt2D posiciÃ³ = {});
 }

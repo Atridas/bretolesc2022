@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 
 // std
 #include <span>
@@ -16,21 +16,21 @@ export import :Mapa;
 export import :ProcessadorsAccions;
 
 import EstructuresAccions;
-import Comú;
+import ComÃº;
 
 
 export namespace bretolesc::motor
 {
-	void executar_accions_usuari(std::span<AccióUsuari> accions, Estat& estat)
+	void executar_accions_usuari(std::span<AcciÃ³Usuari> accions, Estat& estat)
 	{
-        for (AccióUsuari acció : accions)
+        for (AcciÃ³Usuari acciÃ³ : accions)
         {
-            std::visit([&estat](auto& acció)
+            std::visit([&estat](auto& acciÃ³)
                 {
-                    processar(estat, acció);
-                }, acció);
+                    processar(estat, acciÃ³);
+                }, acciÃ³);
 
-            estat.actualitzar_visió();
+            estat.actualitzar_visiÃ³();
         }
 	}
 

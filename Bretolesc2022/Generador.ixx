@@ -1,4 +1,4 @@
-export module Motor:Generador;
+﻿export module Motor:Generador;
 
 import Entitats;
 

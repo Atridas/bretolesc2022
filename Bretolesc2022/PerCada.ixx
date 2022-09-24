@@ -1,25 +1,25 @@
-module;
+ï»¿module;
 
 // std
 #include <cassert>
 
 #include <tuple>
 
-export module Col·leccióComponents:PerCada;
+export module ColÂ·lecciÃ³Components:PerCada;
 
-import :Col·lecció;
+import :ColÂ·lecciÃ³;
 
 export namespace bretolesc
 {
 	template<typename ComponentA, typename ComponentB>
-	auto per_cada(Col·lecció<ComponentA> const& col·leccióA, Col·lecció<ComponentB> const& col·leccióB)
+	auto per_cada(ColÂ·lecciÃ³<ComponentA> const& colÂ·lecciÃ³A, ColÂ·lecciÃ³<ComponentB> const& colÂ·lecciÃ³B)
 	{
 		class ConstIterator
 		{
 		public:
 			ConstIterator(
-				Col·lecció<ComponentA>::ConstIterator const& _itA,
-				Col·lecció<ComponentB>::ConstIterator const& _itB)
+				ColÂ·lecciÃ³<ComponentA>::ConstIterator const& _itA,
+				ColÂ·lecciÃ³<ComponentB>::ConstIterator const& _itB)
 				: itA(_itA)
 				, itB(_itB)
 			{
@@ -28,8 +28,8 @@ export namespace bretolesc
 
 			std::tuple<IdEntitat, ComponentA const&, ComponentB const&> operator*() const
 			{
-				assert(!itA.és_al_final());
-				assert(!itB.és_al_final());
+				assert(!itA.Ã©s_al_final());
+				assert(!itB.Ã©s_al_final());
 				assert(std::get<IdEntitat>(*itA) == std::get<IdEntitat>(*itB));
 
 				return { std::get<IdEntitat>(*itA), std::get<ComponentA const&>(*itA), std::get<ComponentB const&>(*itB) };
@@ -37,8 +37,8 @@ export namespace bretolesc
 
 			void operator++()
 			{
-				assert(!itA.és_al_final());
-				assert(!itB.és_al_final());
+				assert(!itA.Ã©s_al_final());
+				assert(!itB.Ã©s_al_final());
 
 				++itA;
 				++itB;
@@ -56,30 +56,30 @@ export namespace bretolesc
 				return itA != it.itA || itB != it.itB;
 			}
 
-			bool operator==(GuargiaFinalDeCol·lecció const&) const
+			bool operator==(GuargiaFinalDeColÂ·lecciÃ³ const&) const
 			{
-				return és_al_final();
+				return Ã©s_al_final();
 			}
 
-			bool operator!=(GuargiaFinalDeCol·lecció const&)
+			bool operator!=(GuargiaFinalDeColÂ·lecciÃ³ const&)
 			{
-				return !és_al_final();
+				return !Ã©s_al_final();
 			}
 
-			bool és_al_final() const
+			bool Ã©s_al_final() const
 			{
-				assert(itA.és_al_final() == itB.és_al_final());
+				assert(itA.Ã©s_al_final() == itB.Ã©s_al_final());
 
-				return itA.és_al_final();
+				return itA.Ã©s_al_final();
 			}
 
 		private:
-			typename Col·lecció<ComponentA>::ConstIterator itA;
-			typename Col·lecció<ComponentB>::ConstIterator itB;
+			typename ColÂ·lecciÃ³<ComponentA>::ConstIterator itA;
+			typename ColÂ·lecciÃ³<ComponentB>::ConstIterator itB;
 
 			void sincronitzar()
 			{
-				while (!itA.és_al_final() && !itB.és_al_final())
+				while (!itA.Ã©s_al_final() && !itB.Ã©s_al_final())
 				{
 					IdEntitat idA = std::get<IdEntitat>(*itA);
 					IdEntitat idB = std::get<IdEntitat>(*itB);
@@ -106,25 +106,25 @@ export namespace bretolesc
 
 		struct Iterable
 		{
-			Col·lecció<ComponentA> const& col·leccióA;
-			Col·lecció<ComponentB> const& col·leccióB;
+			ColÂ·lecciÃ³<ComponentA> const& colÂ·lecciÃ³A;
+			ColÂ·lecciÃ³<ComponentB> const& colÂ·lecciÃ³B;
 
-			ConstIterator begin() const { return ConstIterator(col·leccióA.begin(), col·leccióB.begin()); }
-			GuargiaFinalDeCol·lecció end() const { return {}; }
+			ConstIterator begin() const { return ConstIterator(colÂ·lecciÃ³A.begin(), colÂ·lecciÃ³B.begin()); }
+			GuargiaFinalDeColÂ·lecciÃ³ end() const { return {}; }
 		};
 
-		return Iterable{ col·leccióA, col·leccióB };
+		return Iterable{ colÂ·lecciÃ³A, colÂ·lecciÃ³B };
 	}
 
 
 	template<typename F, typename ComponentA, typename ComponentB> requires std::invocable<F, IdEntitat, ComponentA, ComponentB>
-	void per_cada(F const& funció, Col·lecció<ComponentA> const& col·leccióA, Col·lecció<ComponentB> const& col·leccióB)
+	void per_cada(F const& funciÃ³, ColÂ·lecciÃ³<ComponentA> const& colÂ·lecciÃ³A, ColÂ·lecciÃ³<ComponentB> const& colÂ·lecciÃ³B)
 	{
-		auto itA = col·leccióA.begin();
-		auto itB = col·leccióB.begin();
+		auto itA = colÂ·lecciÃ³A.begin();
+		auto itB = colÂ·lecciÃ³B.begin();
 
-		auto endA = col·leccióA.end();
-		auto endB = col·leccióB.end();
+		auto endA = colÂ·lecciÃ³A.end();
+		auto endB = colÂ·lecciÃ³B.end();
 
 		while (itA != endA && itB != endB)
 		{
@@ -142,7 +142,7 @@ export namespace bretolesc
 			else
 			{
 				assert(idA == idB);
-				funció(idA, std::get<ComponentA const&>(*itA), std::get<ComponentB const&>(*itB));
+				funciÃ³(idA, std::get<ComponentA const&>(*itA), std::get<ComponentB const&>(*itB));
 				++itA;
 				++itB;
 			}

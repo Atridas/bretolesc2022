@@ -1,4 +1,4 @@
-module;
+Ôªømodule;
 
 // std
 #include <cassert>
@@ -11,11 +11,11 @@ module;
 
 export module Motor:Mapa;
 
-import Com˙;
+import Com√∫;
 
 export namespace bretolesc
 {
-	struct Gr‡fic
+	struct Gr√†fic
 	{
 		int caracter;
 		Color color_principal, color_de_fons;
@@ -34,8 +34,8 @@ export namespace bretolesc
 	{
 		bool transitable; // s'hi pot caminar
 		bool bloqueja_la_vista; // bloqueja la vista
-		Gr‡fic gr‡fic_a_la_vista; // no Ès a la vista
-		Gr‡fic gr‡fic_fora_de_vista; // no Ès a la vista
+		Gr√†fic gr√†fic_a_la_vista; // no √©s a la vista
+		Gr√†fic gr√†fic_fora_de_vista; // no √©s a la vista
 	};
 
 	enum class TipusRajola
@@ -46,7 +46,7 @@ export namespace bretolesc
 	class Mapa
 	{
 	public:
-		Mapa(int _amplada, int _alÁada);
+		Mapa(int _amplada, int _al√ßada);
 		~Mapa();
 
 		Mapa(Mapa const&) = delete;
@@ -56,40 +56,40 @@ export namespace bretolesc
 
 		void reinicia();
 
-		int a_Ìndex(Punt2D r) const
+		int a_√≠ndex(Punt2D r) const
 		{
 			return r.y * amplada + r.x;
 		}
 
-		bool Ès_dins_del_lÌmit(Punt2D r) const
+		bool √©s_dins_del_l√≠mit(Punt2D r) const
 		{
-			return r.x >= 0 && r.x < amplada && r.y >= 0 && r.y < alÁada;
+			return r.x >= 0 && r.x < amplada && r.y >= 0 && r.y < al√ßada;
 		}
 
-		bool Ès_transitable(Punt2D r) const
+		bool √©s_transitable(Punt2D r) const
 		{
-			return Ès_dins_del_lÌmit(r) && obtenir_rajola(r).transitable;
+			return √©s_dins_del_l√≠mit(r) && obtenir_rajola(r).transitable;
 		}
 
 		void establir_rajola(Punt2D r, TipusRajola tipus);
 
 		Rajola const& obtenir_rajola(Punt2D r) const
 		{
-			assert(Ès_dins_del_lÌmit(r));
+			assert(√©s_dins_del_l√≠mit(r));
 
-			return info_rajoles[(int)rajoles[a_Ìndex(r)]];
+			return info_rajoles[(int)rajoles[a_√≠ndex(r)]];
 		}
 
-		bool Ès_a_la_vista(Punt2D r) const
+		bool √©s_a_la_vista(Punt2D r) const
 		{
-			if (!Ès_dins_del_lÌmit(r))
+			if (!√©s_dins_del_l√≠mit(r))
 				return false;
-			return rajoles_a_la_vista[a_Ìndex(r)];
+			return rajoles_a_la_vista[a_√≠ndex(r)];
 		}
 
-		bool est‡_explorat(Punt2D r) const
+		bool est√†_explorat(Punt2D r) const
 		{
-			return rajoles_explorades[a_Ìndex(r)];
+			return rajoles_explorades[a_√≠ndex(r)];
 		}
 
 		int obtenir_amplada() const
@@ -97,9 +97,9 @@ export namespace bretolesc
 			return amplada;
 		}
 
-		int obtenir_alÁada() const
+		int obtenir_al√ßada() const
 		{
-			return alÁada;
+			return al√ßada;
 		}
 
 		TCOD_map_t obtenir_mapa_tcod() const
@@ -107,18 +107,18 @@ export namespace bretolesc
 			return mapa_TCOD;
 		}
 
-		void actualitzar_camp_de_visiÛ(Punt2D origen, int profunditat_m‡xima);
+		void actualitzar_camp_de_visi√≥(Punt2D origen, int profunditat_m√†xima);
 
 		void pintar(tcod::Console& console) const;
 
 	private:
-		int const amplada, alÁada;
+		int const amplada, al√ßada;
 		std::vector<TipusRajola> rajoles;
 
 		std::array<Rajola, 2> info_rajoles;
-		Gr‡fic mortalla; // rajola mai vista
+		Gr√†fic mortalla; // rajola mai vista
 
-		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visiÛ del jugador
+		std::vector<bool> rajoles_a_la_vista; // llista de rajoles dins del camp de visi√≥ del jugador
 		std::vector<bool> rajoles_explorades; // llista de rajoles que el jugador ha vist
 
 		TCOD_map_t mapa_TCOD;

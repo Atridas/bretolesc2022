@@ -1,4 +1,4 @@
-module;
+Ôªømodule;
 
 // std
 #include <cassert>
@@ -14,9 +14,9 @@ using namespace bretolesc;
 using namespace bretolesc::component;
 using namespace bretolesc::etiqueta;
 
-IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D posiciÛ)
+IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D posici√≥)
 {
-	// - Crear component "lluitador" amb atributs: salut, salut m‡xima, forÁa i defensa
+	// - Crear component "lluitador" amb atributs: salut, salut m√†xima, for√ßa i defensa
 
 	switch (tipus)
 	{
@@ -24,25 +24,25 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 		Nom nom = { "Jugador" };
 
-		LocalitzaciÛ localitzaciÛ = {};
-		localitzaciÛ.posiciÛ = posiciÛ;
+		Localitzaci√≥ localitzaci√≥ = {};
+		localitzaci√≥.posici√≥ = posici√≥;
 
 		Pintat pintat = {};
-		pintat.car‡cter = '@';
+		pintat.car√†cter = '@';
 		pintat.color = bretolesc::Color::Blanc;
 		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
-		lluitador.salut = lluitador.salut_m‡xima = 30;
+		lluitador.salut = lluitador.salut_m√†xima = 30;
 		lluitador.defensa = 2;
-		lluitador.forÁa = 5;
+		lluitador.for√ßa = 5;
 
 		Inventari inventari;
 		inventari.capacitat = 26;
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
-		estat.afegir_component(id, localitzaciÛ);
+		estat.afegir_component(id, localitzaci√≥);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, inventari);
@@ -53,25 +53,25 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 		Nom nom = { "Orc" };
 
-		LocalitzaciÛ localitzaciÛ = {};
-		localitzaciÛ.posiciÛ = posiciÛ;
+		Localitzaci√≥ localitzaci√≥ = {};
+		localitzaci√≥.posici√≥ = posici√≥;
 
 		Pintat pintat = {};
-		pintat.car‡cter = 'o';
+		pintat.car√†cter = 'o';
 		pintat.color = Color{ 63, 127, 63 };
 		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
-		lluitador.salut = lluitador.salut_m‡xima = 10;
+		lluitador.salut = lluitador.salut_m√†xima = 10;
 		lluitador.defensa = 0;
-		lluitador.forÁa = 3;
+		lluitador.for√ßa = 3;
 
 		IAHostil ia_hostil;
-		ia_hostil.camÌ = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.75f);
+		ia_hostil.cam√≠ = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 1.75f);
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
-		estat.afegir_component(id, localitzaciÛ);
+		estat.afegir_component(id, localitzaci√≥);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, ia_hostil);
@@ -82,40 +82,40 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 	{
 		Nom nom = { "Trol" };
 
-		LocalitzaciÛ localitzaciÛ = {};
-		localitzaciÛ.posiciÛ = posiciÛ;
+		Localitzaci√≥ localitzaci√≥ = {};
+		localitzaci√≥.posici√≥ = posici√≥;
 
 		Pintat pintat = {};
-		pintat.car‡cter = 'T';
+		pintat.car√†cter = 'T';
 		pintat.color = Color{ 0, 127, 0 };
 		pintat.prioritat = PrioritatPintar::Actor;
 
 		Lluitador lluitador;
-		lluitador.salut = lluitador.salut_m‡xima = 16;
+		lluitador.salut = lluitador.salut_m√†xima = 16;
 		lluitador.defensa = 1;
-		lluitador.forÁa = 4;
+		lluitador.for√ßa = 4;
 
 		IAHostil ia_hostil;
-		ia_hostil.camÌ = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 3.f);
+		ia_hostil.cam√≠ = TCOD_path_new_using_map(estat.mapa().obtenir_mapa_tcod(), 3.f);
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
-		estat.afegir_component(id, localitzaciÛ);
+		estat.afegir_component(id, localitzaci√≥);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, lluitador);
 		estat.afegir_component(id, ia_hostil);
 		estat.afegir_etiqueta<BloquejaElPas>(id);
 		return id;
 	}
-	case TipusEntitat::PociÛVida:
+	case TipusEntitat::Poci√≥Vida:
 	{
 		Nom nom = { "Pocio de Vida" };
 
-		LocalitzaciÛ localitzaciÛ = {};
-		localitzaciÛ.posiciÛ = posiciÛ;
+		Localitzaci√≥ localitzaci√≥ = {};
+		localitzaci√≥.posici√≥ = posici√≥;
 
 		Pintat pintat = {};
-		pintat.car‡cter = '!';
+		pintat.car√†cter = '!';
 		pintat.color = Color{ 0x7f, 0x00, 0xff };
 		pintat.prioritat = PrioritatPintar::Objecte;
 
@@ -124,7 +124,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
-		estat.afegir_component(id, localitzaciÛ);
+		estat.afegir_component(id, localitzaci√≥);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, curador);
 		estat.afegir_etiqueta<Objecte>(id);

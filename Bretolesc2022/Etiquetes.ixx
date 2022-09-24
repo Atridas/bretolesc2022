@@ -1,6 +1,6 @@
-export module Entitats:Etiquetes;
+﻿export module Entitats:Etiquetes;
 
-import Com�;
+import Comú;
 
 export namespace bretolesc::etiqueta
 {

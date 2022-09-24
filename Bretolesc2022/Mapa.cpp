@@ -1,4 +1,4 @@
-module;
+Ôªømodule;
 
 // std
 #include <cassert>
@@ -14,36 +14,36 @@ module Motor:Mapa;
 using namespace bretolesc;
 
 
-#define TRUC_VISI” 0
+#define TRUC_VISI√ì 0
 
 
-Mapa::Mapa(int _amplada, int _alÁada)
+Mapa::Mapa(int _amplada, int _al√ßada)
 	: amplada(_amplada)
-	, alÁada(_alÁada)
+	, al√ßada(_al√ßada)
 {
 	assert(amplada > 0);
-	assert(alÁada > 0);
+	assert(al√ßada > 0);
 
-	rajoles.resize(amplada * alÁada);
-	rajoles_a_la_vista.resize(amplada * alÁada);
-	rajoles_explorades.resize(amplada * alÁada);
+	rajoles.resize(amplada * al√ßada);
+	rajoles_a_la_vista.resize(amplada * al√ßada);
+	rajoles_explorades.resize(amplada * al√ßada);
 
 	info_rajoles[(int)TipusRajola::Terra] = {
 		true, // transitable
 		false, // bloqueja_la_vista
-		{' ', Color::Blanc, {200, 180, 50} }, // gr‡fic_a_la_vista
-		{' ', Color::Blanc, {50, 50, 150} } // gr‡fic_fora_de_vista
+		{' ', Color::Blanc, {200, 180, 50} }, // gr√†fic_a_la_vista
+		{' ', Color::Blanc, {50, 50, 150} } // gr√†fic_fora_de_vista
 	};
 	info_rajoles[(int)TipusRajola::Paret] = {
 		false, // transitable
 		true, // bloqueja_la_vista
-		{ ' ', Color::Blanc, {130, 110, 50} }, // gr‡fic_a_la_vista
-		{ ' ', Color::Blanc, {0, 0, 150} }// gr‡fic_fora_de_vista
+		{ ' ', Color::Blanc, {130, 110, 50} }, // gr√†fic_a_la_vista
+		{ ' ', Color::Blanc, {0, 0, 150} }// gr√†fic_fora_de_vista
 	};
 
 	mortalla = { ' ', Color::Blanc, Color::Negre };
 
-	mapa_TCOD = TCOD_map_new(amplada, alÁada);
+	mapa_TCOD = TCOD_map_new(amplada, al√ßada);
 
 	TCOD_map_clear(mapa_TCOD, false, false);
 }
@@ -55,7 +55,7 @@ Mapa::~Mapa()
 
 void Mapa::reinicia()
 {
-	for (int i = 0; i < amplada * alÁada; ++i)
+	for (int i = 0; i < amplada * al√ßada; ++i)
 	{
 		rajoles_a_la_vista[i] = false;
 		rajoles_explorades[i] = false;
@@ -66,16 +66,16 @@ void Mapa::reinicia()
 
 void Mapa::establir_rajola(Punt2D r, TipusRajola tipus)
 {
-	assert(Ès_dins_del_lÌmit(r));
+	assert(√©s_dins_del_l√≠mit(r));
 
-	rajoles[a_Ìndex(r)] = tipus;
+	rajoles[a_√≠ndex(r)] = tipus;
 
 	Rajola info = info_rajoles[(int)tipus];
 
 	TCOD_map_set_properties(mapa_TCOD, r.x, r.y, !info.bloqueja_la_vista, info.transitable);
 }
 
-void Mapa::actualitzar_camp_de_visiÛ(Punt2D origen, int profunditat_m‡xima)
+void Mapa::actualitzar_camp_de_visi√≥(Punt2D origen, int profunditat_m√†xima)
 {
 	for (int i = 0; i < rajoles_a_la_vista.size(); ++i)
 	{
@@ -90,7 +90,7 @@ void Mapa::actualitzar_camp_de_visiÛ(Punt2D origen, int profunditat_m‡xima)
 
 	std::vector<RajolaPerExplorar> rajoles_per_actualitzar;
 
-	rajoles_per_actualitzar.emplace_back(origen, profunditat_m‡xima);
+	rajoles_per_actualitzar.emplace_back(origen, profunditat_m√†xima);
 
 	while (!rajoles_per_actualitzar.empty())
 	{
@@ -98,7 +98,7 @@ void Mapa::actualitzar_camp_de_visiÛ(Punt2D origen, int profunditat_m‡xima)
 		rajoles_per_actualitzar.erase(rajoles_per_actualitzar.begin());
 
 		int idx = rajola.r.y * amplada + rajola.r.x;
-		if (Ès_dins_del_lÌmit(rajola.r) && !rajoles_a_la_vista[idx])
+		if (√©s_dins_del_l√≠mit(rajola.r) && !rajoles_a_la_vista[idx])
 		{
 			rajoles_a_la_vista[idx] = true;
 			rajoles_explorades[idx] = true;
@@ -117,31 +117,31 @@ void Mapa::actualitzar_camp_de_visiÛ(Punt2D origen, int profunditat_m‡xima)
 
 void Mapa::pintar(tcod::Console& console) const
 {
-	for (int y = 0; y < alÁada; ++y)
+	for (int y = 0; y < al√ßada; ++y)
 		for (int x = 0; x < amplada; ++x)
 		{
-			int idx = a_Ìndex({ x, y });
+			int idx = a_√≠ndex({ x, y });
 
 			Rajola const& rajola = obtenir_rajola({ x, y });
-			Gr‡fic gr‡fic;
+			Gr√†fic gr√†fic;
 			if (rajoles_a_la_vista[idx])
 			{
-				gr‡fic = rajola.gr‡fic_a_la_vista;
+				gr√†fic = rajola.gr√†fic_a_la_vista;
 			}
 			else if (rajoles_explorades[idx])
 			{
-				gr‡fic = rajola.gr‡fic_fora_de_vista;
+				gr√†fic = rajola.gr√†fic_fora_de_vista;
 			}
 			else
 			{
-				gr‡fic = mortalla;
+				gr√†fic = mortalla;
 			}
 
-			console[{x, y}] = gr‡fic;
+			console[{x, y}] = gr√†fic;
 
-#			if TRUC_VISI”
+#			if TRUC_VISI√ì
 			{
-				console[{x, y}] = rajola.gr‡fic_a_la_vista;
+				console[{x, y}] = rajola.gr√†fic_a_la_vista;
 			}
 #			endif
 		}

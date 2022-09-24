@@ -1,17 +1,17 @@
-module;
+ï»¿module;
 
 // std
 #include <variant>
 
 export module EstructuresAccions;
 
-import Comú;
+import ComÃº;
 import Entitats;
 
 export namespace bretolesc
 {
 
-	namespace acció_usuari
+	namespace acciÃ³_usuari
 	{
 		struct Finalitzar {};
 
@@ -21,13 +21,13 @@ export namespace bretolesc
 
 		struct Moure
 		{
-			Vector2D direcció;
+			Vector2D direcciÃ³;
 		};
 
-		// el jugador o bé es mou en una direcció o bé ataca cos a cos si hi ha algú
+		// el jugador o bÃ© es mou en una direcciÃ³ o bÃ© ataca cos a cos si hi ha algÃº
 		struct Batzegada
 		{
-			Vector2D direcció;
+			Vector2D direcciÃ³;
 		};
 
 		struct Agafar {};
@@ -36,48 +36,48 @@ export namespace bretolesc
 
 		struct Consumir {};
 
-		struct MoureRatolí
+		struct MoureRatolÃ­
 		{
 			Punt2D p;
 		};
 
 		struct AlternarRegistre {};
 
-		struct DesplaçarRegistre
+		struct DesplaÃ§arRegistre
 		{
-			int línies;
+			int lÃ­nies;
 		};
 
 		struct AlternarInventari {};
 
-		struct DesplaçarInventari
+		struct DesplaÃ§arInventari
 		{
-			int línies;
+			int lÃ­nies;
 		};
 	}
 
-	using AccióUsuari = std::variant<
-		acció_usuari::NoFerRes,
-		acció_usuari::Moure,
-		acció_usuari::Batzegada,
-		acció_usuari::Agafar,
-		acció_usuari::Tirar,
-		acció_usuari::Consumir,
-		acció_usuari::MoureRatolí,
-		acció_usuari::AlternarRegistre,
-		acció_usuari::DesplaçarRegistre,
-		acció_usuari::AlternarInventari,
-		acció_usuari::DesplaçarInventari,
-		acció_usuari::Finalitzar,
-		acció_usuari::Reiniciar
+	using AcciÃ³Usuari = std::variant<
+		acciÃ³_usuari::NoFerRes,
+		acciÃ³_usuari::Moure,
+		acciÃ³_usuari::Batzegada,
+		acciÃ³_usuari::Agafar,
+		acciÃ³_usuari::Tirar,
+		acciÃ³_usuari::Consumir,
+		acciÃ³_usuari::MoureRatolÃ­,
+		acciÃ³_usuari::AlternarRegistre,
+		acciÃ³_usuari::DesplaÃ§arRegistre,
+		acciÃ³_usuari::AlternarInventari,
+		acciÃ³_usuari::DesplaÃ§arInventari,
+		acciÃ³_usuari::Finalitzar,
+		acciÃ³_usuari::Reiniciar
 	>;
 
-	namespace acció_entitat
+	namespace acciÃ³_entitat
 	{
 		struct Moure
 		{
 			IdEntitat entitat;
-			Vector2D direcció;
+			Vector2D direcciÃ³;
 		};
 
 		// entitat ataca a objectiu
@@ -93,9 +93,9 @@ export namespace bretolesc
 		};
 	}
 
-	using AccióEntitat = std::variant<
-		acció_entitat::Moure,
-		acció_entitat::AtacCosACos,
-		acció_entitat::RecuperarVida
+	using AcciÃ³Entitat = std::variant<
+		acciÃ³_entitat::Moure,
+		acciÃ³_entitat::AtacCosACos,
+		acciÃ³_entitat::RecuperarVida
 	>;
 }
