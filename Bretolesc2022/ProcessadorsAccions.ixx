@@ -43,41 +43,123 @@ export namespace bretolesc
 
 	void processar(Estat& estat, acció::ExecutarEncanteriDeConfusió const& executar_encanteri_de_confusió)
 	{
+		Confús confús = {};
+		confús.torns = executar_encanteri_de_confusió.torns;
+		estat.afegir_component(executar_encanteri_de_confusió.entitat, confús);
 
+		Nom const& nom_objectiu = estat.obtenir_component<Nom>(executar_encanteri_de_confusió.entitat);
+
+		char buffer[2048];
+		sprintf_s(buffer, 2048, "%s es troba confus!", nom_objectiu.nom.c_str());
+
+		estat.afegir_missatge(
+			buffer,
+			iu::Paleta::Confusió,
+			true);
 	}
 
-	bool processar(Estat& estat, acció::ExecutarEncanteriDelLlamp const& executar_encanteri_del_llamp)
+	void processar(Estat& estat, acció::ExecutarEncanteriDelLlamp const& executar_encanteri_del_llamp)
 	{
-		// Trobar l'entitat (lluitadora) més propera
-		if (auto resultat_búsqueda = estat.buscar_entitat_lluitadora_més_propera(executar_encanteri_del_llamp.entitat))
+		Nom const& nom_objectiu = estat.obtenir_component<Nom>(executar_encanteri_del_llamp.entitat);
+		Lluitador& objectiu = estat.obtenir_component<Lluitador>(executar_encanteri_del_llamp.entitat);
+
+		char buffer[2048];
+		sprintf_s(buffer, 2048, "Un raig colpeja a %s, fent-li %d punts de dany", nom_objectiu.nom.c_str(), executar_encanteri_del_llamp.dany);
+
+		estat.afegir_missatge(
+			buffer,
+			iu::Paleta::AtacLlamp,
+			true);
+
+		if (executar_encanteri_del_llamp.dany >= objectiu.salut)
 		{
-			if (resultat_búsqueda->distància <= executar_encanteri_del_llamp.rang)
+			objectiu.salut = 0;
+		}
+		else
+		{
+			objectiu.salut -= executar_encanteri_del_llamp.dany;
+		}
+	}
+
+	void processar(Estat& estat, IdEntitat objectiu, acció::ActivarObjecte const& activar_objecte)
+	{
+		IdEntitat jugador = estat.obtenir_id_jugador();
+
+		if (auto curador = estat.potser_obtenir_component<Curador>(activar_objecte.objecte))
+		{
+			processar(estat, acció::RecuperarVida
+				{
+					objectiu,
+					curador->get().vida
+				});
+		}
+		if (auto encanteri_de_confusió = estat.potser_obtenir_component<EncanteriDeConfusió>(activar_objecte.objecte))
+		{
+			processar(estat, acció::ExecutarEncanteriDeConfusió
+				{
+					objectiu,
+					encanteri_de_confusió->get().torns
+				});
+		}
+		if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDelLlamp>(activar_objecte.objecte))
+		{
+			processar(estat, acció::ExecutarEncanteriDelLlamp
+				{
+					objectiu,
+					encanteri_del_llamp->get().dany
+				});
+		}
+		// PERFER Més efectes?
+
+
+		bool avançar_torn = estat.té_etiqueta<AvançaTorn>(activar_objecte.objecte);
+
+		// eliminar objecte
+		assert(!estat.té_component<IAHostil>(activar_objecte.objecte));
+		Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
+		auto it = std::find(inventari.objectes.begin(), inventari.objectes.end(), activar_objecte.objecte);
+		assert(it != inventari.objectes.end());
+		inventari.objectes.erase(it);
+		estat.modificar_o_treure([](auto c) { return true; }, activar_objecte.objecte);
+
+		if (estat.obtenir_posició_inventari() > 0)
+			estat.desplaçar_inventari(-1);
+
+		if (avançar_torn)
+		{
+			estat.actualitzar_lógica();
+		}
+	}
+
+	void processar(Estat& estat, acció::ActivarObjecte const& activar_objecte)
+	{
+		IdEntitat jugador = estat.obtenir_id_jugador();
+		std::optional<IdEntitat> objectiu;
+
+		if (estat.té_etiqueta<ObjectiuJugador>(activar_objecte.objecte))
+		{
+			objectiu = jugador;
+		}
+		else if (auto objectiu_proper = estat.potser_obtenir_component<ObjectiuLluitadorProper>(activar_objecte.objecte))
+		{
+			// Trobar l'entitat (lluitadora) més propera
+			if (auto resultat_búsqueda = estat.buscar_entitat_lluitadora_més_propera(jugador))
 			{
-				Nom const& nom_objectiu = estat.obtenir_component<Nom>(resultat_búsqueda->entitat);
-				Lluitador& objectiu = estat.obtenir_component<Lluitador>(resultat_búsqueda->entitat);
-
-				char buffer[2048];
-				sprintf_s(buffer, 2048, "Un raig colpeja a %s, fent-li %d punts de dany", nom_objectiu.nom.c_str(), executar_encanteri_del_llamp.dany);
-
-				estat.afegir_missatge(
-					buffer,
-					iu::Paleta::AtacLlamp,
-					true);
-
-				if (executar_encanteri_del_llamp.dany >= objectiu.salut)
+				if (resultat_búsqueda->distància <= objectiu_proper.value().get().rang)
 				{
-					objectiu.salut = 0;
+					objectiu = resultat_búsqueda->entitat;
 				}
-				else
-				{
-					objectiu.salut -= executar_encanteri_del_llamp.dany;
-				}
-
-				return true;
 			}
 		}
+		else if (auto objectiu_cursor = estat.potser_obtenir_component<ObjectiuCursor>(activar_objecte.objecte))
+		{
+			estat.activa_cursor(activar_objecte, objectiu_cursor->get().rang);
+		}
 
-		return false;
+		if (objectiu)
+		{
+			processar(estat, *objectiu, activar_objecte);
+		}
 	}
 
 	// accions entitats -----------------------------------------------------------------------------
@@ -121,6 +203,20 @@ export namespace bretolesc
 		}
 	}
 
+	void processar(Estat& estat, acció_entitat::Batzegada const& batzegada)
+	{
+		Punt2D posició_següent = estat.obtenir_component<Localització>(batzegada.entitat).posició + batzegada.direcció;
+		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
+		{
+			// PERFER assegurar-se que l'enemic és Lluitador
+			processar(estat, acció_entitat::AtacCosACos{ batzegada.entitat , *enemic });
+		}
+		else
+		{
+			processar(estat, acció_entitat::Moure{ batzegada.entitat, batzegada.direcció });
+		}
+	}
+
 	// accions de l'usuari ----------------------------------------------------------------------
 
 	void processar(Estat& estat, acció_usuari::Finalitzar const &)
@@ -147,16 +243,7 @@ export namespace bretolesc
 
 	void processar(Estat& estat, acció_usuari::Batzegada const& batzegada)
 	{
-		Punt2D posició_següent = estat.obtenir_component<Localització>(estat.obtenir_id_jugador()).posició + batzegada.direcció;
-		if (auto enemic = estat.buscar_entitat_bloquejant(posició_següent))
-		{
-			// PERFER assegurar-se que l'enemic és Lluitador
-			processar(estat, acció_entitat::AtacCosACos{ estat.obtenir_id_jugador() , *enemic });
-		}
-		else
-		{
-			processar(estat, acció_entitat::Moure{ estat.obtenir_id_jugador(), batzegada.direcció });
-		}
+		processar(estat, acció_entitat::Batzegada{ estat.obtenir_id_jugador(), batzegada.direcció });
 
 		estat.actualitzar_lógica();
 	}
@@ -225,8 +312,6 @@ export namespace bretolesc
 
 	void processar(Estat& estat, acció_usuari::Consumir const& consumir)
 	{
-		bool avançar_torn = false;
-
 		IdEntitat jugador = estat.obtenir_id_jugador();
 		Inventari& inventari = estat.obtenir_component<Inventari>(jugador);
 		int posició_inventari = estat.obtenir_posició_inventari();
@@ -235,55 +320,8 @@ export namespace bretolesc
 			IdEntitat objecte = inventari.objectes[posició_inventari];
 			if (estat.té_etiqueta<Consumible>(objecte))
 			{
-				bool eliminem_objecte = true;
-				if (auto curador = estat.potser_obtenir_component<Curador>(objecte))
-				{
-					processar(estat, acció::RecuperarVida
-						{
-							jugador,
-							curador->get().vida
-						});
-				}
-				if (auto encanteri_de_confusió = estat.potser_obtenir_component<EncanteriDeConfusió>(objecte))
-				{
-					processar(estat, acció::ExecutarEncanteriDeConfusió
-						{
-							jugador,
-							encanteri_de_confusió->get().torns,
-							encanteri_de_confusió->get().rang
-						});
-				}
-				if (auto encanteri_del_llamp = estat.potser_obtenir_component<EncanteriDelLlamp>(objecte))
-				{
-					eliminem_objecte = processar(estat, acció::ExecutarEncanteriDelLlamp
-						{
-							jugador,
-							encanteri_del_llamp->get().dany,
-							encanteri_del_llamp->get().rang
-						});
-				}
-				// PERFER Més efectes?
-
-				
-				avançar_torn = estat.té_etiqueta<AvançaTorn>(objecte);
-
-				// eliminar objecte
-				if (eliminem_objecte)
-				{
-					assert(!estat.té_component<IAHostil>(objecte));
-					inventari.objectes.erase(inventari.objectes.begin() + posició_inventari);
-					estat.modificar_o_treure([](auto c) { return true; }, objecte);
-
-					if (posició_inventari > 0)
-						estat.desplaçar_inventari(-1);
-				}
+				processar(estat, acció::ActivarObjecte{ objecte });
 			}
-
-		}
-
-		if (avançar_torn)
-		{
-			estat.actualitzar_lógica();
 		}
 	}
 

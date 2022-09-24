@@ -74,6 +74,13 @@ export namespace bretolesc
 		return Punt2D{ p.x + v.x, p.y + v.y };
 	}
 
+	Punt2D& operator+=(Punt2D &p, Vector2D v)
+	{
+		p.x += v.x;
+		p.y += v.y;
+		return p;
+	}
+
 	Vector2D operator-(Punt2D p1, Punt2D p2)
 	{
 		return Vector2D{ p1.x - p2.x, p1.y - p2.y };
@@ -81,7 +88,7 @@ export namespace bretolesc
 
 	float norma(Vector2D v)
 	{
-		return std::sqrtf(v.x * v.x + v.y * v.y);
+		return std::sqrtf((float)(v.x * v.x + v.y * v.y));
 	}
 
 	int distància_manhattan(Punt2D a, Punt2D b)

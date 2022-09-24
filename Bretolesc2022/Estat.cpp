@@ -7,6 +7,7 @@
 #include <optional>
 #include <variant>
 #include <vector>
+#include <random>
 
 // 3rd party
 #include <libtcod.hpp>
@@ -30,8 +31,9 @@ static std::string MissatgeBenvinguda = "Aventurer, sigui benvingut a un altre c
 // --------------------------------------------------------------------------------------
 
 
-Estat::Estat(int _amplada, int _alçada, Generador const& generador)
-	: m_mapa(_amplada, _alçada)
+Estat::Estat(int _amplada, int _alçada, Generador const& generador, int llavor)
+	: rng(llavor)
+	, m_mapa(_amplada, _alçada)
 {
 	id_jugador = generador.generar(*this);
 	registre.afegir_missatge(MissatgeBenvinguda, iu::Paleta::TextBenvinguda);
@@ -110,24 +112,51 @@ void Estat::desplaçar_inventari(int quantitat)
 	}
 }
 
-void Estat::moure_cursor(Vector2D p)
+void Estat::activa_cursor(acció::ActivarObjecte _objecte_a_activar, int _rang_cursor)
 {
+	rang_cursor = _rang_cursor;
+	submode_joc = SubmodeJoc::Cursor;
+	objecte_a_activar = _objecte_a_activar;
+	cursor = obtenir_component<Localització>(id_jugador).posició;
+}
 
+void Estat::moure_cursor(Vector2D v)
+{
+	cursor += v;
 }
 
 void Estat::establir_cursor(Punt2D p)
 {
-
+	cursor = p;
 }
 
 void Estat::accepta_cursor()
 {
+	if (rang_cursor > 0)
+	{
+		float dist = distància_euclidiana(cursor, obtenir_component<Localització>(id_jugador).posició);
+		if (dist > rang_cursor)
+		{
+			cancela_cursor();
+			return;
+		}
+	}
 
+	for (IdEntitat id : buscar_entitats(cursor))
+	{
+		if (té_component<Lluitador>(id))
+		{
+			processar(*this, id , *objecte_a_activar);
+			cancela_cursor();
+			return;
+		}
+	}
 }
 
 void Estat::cancela_cursor()
 {
-
+	objecte_a_activar = std::nullopt;
+	submode_joc = SubmodeJoc::Normal;
 }
 
 bool Estat::jugador_és_viu() const
@@ -255,7 +284,60 @@ void Estat::actualitzar_ias_hostils()
 
 	for (auto [id_ia, loc_ia, ia_hostil] : col·leccions.per_cada<Localització, IAHostil>())
 	{
-		if (distància_manhattan(loc_jugador.posició, loc_ia.posició) == 1)
+		if (auto opt_confús = col·leccions.potser_obtenir_component<Confús>(id_ia))
+		{
+			Confús& confús = opt_confús->get();
+
+			Vector2D moviment = {};
+			switch (std::uniform_int_distribution<>(0, 7)(rng))
+			{
+			case 0:
+				moviment = { -1, 0 };
+				break;
+			case 1:
+				moviment = { +1, 0 };
+				break;
+			case 2:
+				moviment = { -1, -1 };
+				break;
+			case 3:
+				moviment = { +1, -1 };
+				break;
+			case 4:
+				moviment = { -1, +1 };
+				break;
+			case 5:
+				moviment = { -1, +1 };
+				break;
+			case 6:
+				moviment = { 0, -1 };
+				break;
+			case 7:
+				moviment = { 0, +1 };
+				break;
+			default:
+				assert(false);
+			}
+
+			accions.push_back(acció_entitat::Batzegada{ id_ia, moviment });
+
+			--confús.torns;
+			if (confús.torns == 0)
+			{
+				Nom const& nom_objectiu = obtenir_component<Nom>(id_ia);
+
+				char buffer[2048];
+				sprintf_s(buffer, 2048, "%s ja no esta confus!", nom_objectiu.nom.c_str());
+
+				afegir_missatge(
+					buffer,
+					iu::Paleta::Confusió,
+					true);
+
+				treure_component<Confús>(id_ia);
+			}
+		}
+		else if (distància_manhattan(loc_jugador.posició, loc_ia.posició) == 1)
 		{
 			accions.push_back( acció_entitat::AtacCosACos{id_ia, id_jugador} );
 		}
@@ -388,6 +470,12 @@ void Estat::pintar(tcod::Console& console) const
 		break;
 	case SubmodeJoc::Registre:
 		registre.pintar_sencer(console);
+		break;
+	case SubmodeJoc::Cursor:
+		if (m_mapa.és_dins_del_límit(cursor))
+		{
+			console[{cursor.x, cursor.y}].bg = iu::Paleta::Cursor;
+		}
 		break;
 	}
 }

@@ -35,17 +35,19 @@ import Motor;
 //     ✔️ Trobar l'entitat (lluitadora) més propera
 //     ✔️ "Un raig colpeja a {} i li fa {} de dany"
 //     ✔️ Modificar la generació per incloure els rotllos (70% poció, 30% llamp)
-//   - Afegir un mode "cursor"
-//     - Es mou amb fletxes
-//     - RETURN per "acceptar"
-//   - Afegir un nou estat per a la IA "confús"
-//     - Component + nº de torns que li queda de confús
-//     - Es mou (batzega) aleatóriament mentre duri
-//     - Missatge "{} ja no està confús" quan l'efecte acavi.
-//   - Rotllo d'Encanteri de confusió!
+//   ✔️ Afegir un mode "cursor"
+//     ✔️ Es mou amb fletxes
+//     ✔️ RETURN per "acceptar"
+//     ✔️ mostrar el cursor
+//     ✔️ forçar el límit de rang
+//   ✔️ Afegir un nou estat per a la IA "confús"
+//     ✔️ Component + nº de torns que li queda de confús
+//     ✔️ Es mou (batzega) aleatóriament mentre duri
+//     ✔️ Missatge "{} ja no està confús" quan l'efecte acavi.
+//   ✔️ Rotllo d'Encanteri de confusió!
 //     ✔️ Consumible + EncanteriDeConfusió
-//     - Bon moment per fer components sobre com escollir objectiu?
-//       - ObjectiuSiMateix, ObjectiuLluitadorProper, ObjectiuCursor
+//     ✔️ Bon moment per fer components sobre com escollir objectiu?
+//       ✔️ ObjectiuSiMateix, ObjectiuLluitadorProper, ObjectiuCursor
 //     ✔️ "~" 207 63 255, 10 torns, rang 5
 //   - Rotllo de bola de foc
 //     - "~" ff0000, dany 12, radi 3
@@ -115,7 +117,7 @@ int SDL_main(int argc, char* argv[])
 
     generador.establir_num_habitacions(5, 15);
 
-    bretolesc::Estat estat(map_width, map_height, generador);
+    bretolesc::Estat estat(map_width, map_height, generador, llavor);
 
     estat.actualitzar_visió();
 

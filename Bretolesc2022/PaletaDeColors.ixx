@@ -9,6 +9,7 @@ export namespace bretolesc::iu
 		static Color const AtacJugador;
 		static Color const AtacEnemic;
 		static Color const AtacLlamp;
+		static Color const Confusió;
 
 		static Color const MortJugador;
 		static Color const MortEnemic;
@@ -31,12 +32,15 @@ export namespace bretolesc::iu
 		static Color const SeleccióInventari;
 		static Color const TextSeleccióInventari;
 		static Color const TextObjecteInventari;
+
+		static Color const Cursor;
 	};
 }
 
 bretolesc::Color const bretolesc::iu::Paleta::AtacJugador = Color{ 0xE0, 0xE0, 0xE0 };
 bretolesc::Color const bretolesc::iu::Paleta::AtacEnemic = Color{ 0xFF, 0xC0, 0xC0 };
 bretolesc::Color const bretolesc::iu::Paleta::AtacLlamp = Color{ 0xFF, 0xFF, 0xC0 };
+bretolesc::Color const bretolesc::iu::Paleta::Confusió = Color{ 0x80, 0x33, 0x80 };
 
 bretolesc::Color const bretolesc::iu::Paleta::MortJugador = Color{ 0xFF, 0x30, 0x30 };
 bretolesc::Color const bretolesc::iu::Paleta::MortEnemic = Color{ 0xFF, 0xA0, 0x30 };
@@ -59,3 +63,5 @@ bretolesc::Color const bretolesc::iu::Paleta::FonsInventari = Color{ 0x30, 0x30,
 bretolesc::Color const bretolesc::iu::Paleta::SeleccióInventari = Color{ 0xAA, 0xAA, 0x44 };
 bretolesc::Color const bretolesc::iu::Paleta::TextSeleccióInventari = Color{ 0x70, 0x70, 0xFF };
 bretolesc::Color const bretolesc::iu::Paleta::TextObjecteInventari = Color{ 0x50, 0x50, 0xCF };
+
+bretolesc::Color const bretolesc::iu::Paleta::Cursor = Color{ 0x10, 0x10, 0x50 };

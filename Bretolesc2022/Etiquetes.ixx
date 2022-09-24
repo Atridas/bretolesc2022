@@ -11,4 +11,6 @@ export namespace bretolesc::etiqueta
 	struct Consumible;
 
 	struct AvançaTorn;
+
+	struct ObjectiuJugador;
 }

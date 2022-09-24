@@ -18,6 +18,7 @@ import :RegistreDeMissatges;
 import Comú;
 import Col·leccióComponents;
 import Entitats;
+import EstructuresAccions;
 import ModeEntrada;
 
 export namespace bretolesc
@@ -30,7 +31,7 @@ export namespace bretolesc
 	public:
 		static const int profunditat_de_visió = 8;
 
-		Estat(int _amplada, int _alçada, Generador const& generador);
+		Estat(int _amplada, int _alçada, Generador const& generador, int llavor);
 		~Estat();
 
 		Estat(Estat const&) = delete;
@@ -47,8 +48,8 @@ export namespace bretolesc
 		void alterna_inventari();
 		void desplaçar_inventari(int quantitat);
 		int obtenir_posició_inventari() const { return posició_inventari; }
-		void activa_cursor() { submode_joc = SubmodeJoc::Cursor; }
-		void moure_cursor(Vector2D p);
+		void activa_cursor(acció::ActivarObjecte _objecte_a_activar, int rang_cursor = 0);
+		void moure_cursor(Vector2D v);
 		void establir_cursor(Punt2D p);
 		void accepta_cursor();
 		void cancela_cursor();
@@ -121,6 +122,7 @@ export namespace bretolesc
 		void pintar(tcod::Console& console) const;
 
 	private:
+		RNG rng;
 		Mapa m_mapa;
 		RegistreDeMissatges registre;
 		bool tancar = false, reiniciar = false;// mostrar_registre = false, mostrar_inventari = false;
@@ -128,8 +130,10 @@ export namespace bretolesc
 		{
 			Normal, Registre, Inventari, Cursor
 		} submode_joc = SubmodeJoc::Normal;
+		std::optional<acció::ActivarObjecte> objecte_a_activar;
+		int rang_cursor = 0;
 		int posició_inventari = 0;
-		Punt2D ratolí;
+		Punt2D cursor, ratolí;
 
 		IdEntitat id_jugador;
 
@@ -138,10 +142,14 @@ export namespace bretolesc
 		// Col·leccions de components
 		Col·leccions<
 			Nom, Localització, Pintat, 
-			Lluitador, IAHostil, 
+			Lluitador, IAHostil, Confús,
 			Curador, EncanteriDelLlamp, EncanteriDeConfusió, 
+			ObjectiuLluitadorProper, ObjectiuCursor,
 			Inventari, EnInventari> col·leccions;
-		Etiquetes<BloquejaElPas, Objecte, Consumible, AvançaTorn> etiquetes;
+		Etiquetes<
+			BloquejaElPas,
+			Objecte, Consumible, AvançaTorn,
+			ObjectiuJugador> etiquetes;
 		// VIGILA!!! cal un destructor per eliminar-ho bé
 		// VIGILA si afegeixes més components, què cal fer-ne al morir? + reiniciar
 

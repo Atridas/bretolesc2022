@@ -71,7 +71,7 @@ export namespace bretolesc
 		}
 
 		template<typename C>
-		std::optional<std::reference_wrapper<C const>> potser_obtenir_component(IdEntitat id)
+		std::optional<std::reference_wrapper<C>> potser_obtenir_component(IdEntitat id)
 		{
 			return obtenir_col·lecció<C>().potser_obtenir(id);
 		}

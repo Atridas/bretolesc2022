@@ -102,11 +102,19 @@ export namespace bretolesc
 		{
 			IdEntitat entitat, objectiu;
 		};
+
+		// el jugador o bé es mou en una direcció o bé ataca cos a cos si hi ha algú
+		struct Batzegada
+		{
+			IdEntitat entitat;
+			Vector2D direcció;
+		};
 	}
 
 	using AccióEntitat = std::variant<
 		acció_entitat::Moure,
-		acció_entitat::AtacCosACos
+		acció_entitat::AtacCosACos,
+		acció_entitat::Batzegada
 	>;
 
 	namespace acció
@@ -121,14 +129,17 @@ export namespace bretolesc
 		{
 			IdEntitat entitat;
 			int dany;
-			int rang;
 		};
 
 		struct ExecutarEncanteriDeConfusió
 		{
 			IdEntitat entitat;
 			int torns;
-			int rang;
+		};
+
+		struct ActivarObjecte
+		{
+			IdEntitat objecte;
 		};
 	}
 }

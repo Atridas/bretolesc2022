@@ -129,6 +129,7 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 		estat.afegir_component(id, curador);
 		estat.afegir_etiqueta<Objecte>(id);
 		estat.afegir_etiqueta<Consumible>(id);
+		estat.afegir_etiqueta<ObjectiuJugador>(id);
 		return id;
 	}
 	case TipusEntitat::RotlloDelLlamp:
@@ -145,13 +146,15 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		EncanteriDelLlamp encanteri_del_llamp = {};
 		encanteri_del_llamp.dany = 20;
-		encanteri_del_llamp.rang = 5;
+
+		ObjectiuLluitadorProper objectiu = {};
+		objectiu.rang = 5;
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
-		estat.afegir_component(id, encanteri_del_llamp);
+		estat.afegir_component(id, objectiu);
 		estat.afegir_etiqueta<Objecte>(id);
 		estat.afegir_etiqueta<Consumible>(id);
 		estat.afegir_etiqueta<AvançaTorn>(id);
@@ -171,13 +174,16 @@ IdEntitat bretolesc::afegir_entitat(Estat& estat, TipusEntitat tipus, Punt2D pos
 
 		EncanteriDeConfusió encanteri_de_confusió = {};
 		encanteri_de_confusió.torns = 10;
-		encanteri_de_confusió.rang = 5;
+
+		ObjectiuCursor objectiu = {};
+		objectiu.rang = 5;
 
 		IdEntitat id = estat.crear_entitat();
 		estat.afegir_component(id, nom);
 		estat.afegir_component(id, localització);
 		estat.afegir_component(id, pintat);
 		estat.afegir_component(id, encanteri_de_confusió);
+		estat.afegir_component(id, objectiu);
 		estat.afegir_etiqueta<Objecte>(id);
 		estat.afegir_etiqueta<Consumible>(id);
 		estat.afegir_etiqueta<AvançaTorn>(id);

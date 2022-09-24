@@ -47,6 +47,21 @@ export namespace bretolesc::component
 		TCOD_path_t camí;
 	};
 
+	struct Confús
+	{
+		int torns;
+	};
+
+	struct ObjectiuLluitadorProper
+	{
+		int rang;
+	};
+
+	struct ObjectiuCursor
+	{
+		int rang;
+	};
+
 	struct Curador
 	{
 		int vida;
@@ -55,13 +70,11 @@ export namespace bretolesc::component
 	struct EncanteriDelLlamp
 	{
 		int dany;
-		int rang;
 	};
 
 	struct EncanteriDeConfusió
 	{
 		int torns;
-		int rang;
 	};
 
 	struct Inventari
